@@ -1,0 +1,21 @@
+== 1.1.0
+* fixed another bug fix related to the uri escaping required to download the file properly.
+== 1.0.0
+* fixed the (URI::InvalidURIError) issue
+== 0.2.0
+* added export options (file and image tag)
+* added support for all arguments to be passed as a string or an array
+
+== 0.1.0 2007-12-11
+* fixed the axis labels
+
+== 0.0.3 2007-12-11
+* added :chart_background alias and fixed a bug related to the background colors.
+
+== 0.0.2 2007-12-11
+* added support for more features and aliases
+
+== 0.0.1 2007-12-08
+
+* 1 major enhancement:
+  * Initial release

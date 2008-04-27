@@ -1,0 +1,601 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <link rel="stylesheet" href="stylesheets/screen.css" type="text/css" media="screen" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>
+      Googlecharts
+  </title>
+  <script src="javascripts/rounded_corners_lite.inc.js" type="text/javascript"></script>
+<style>
+
+</style>
+  <script type="text/javascript">
+    window.onload = function() {
+      settings = {
+          tl: { radius: 10 },
+          tr: { radius: 10 },
+          bl: { radius: 10 },
+          br: { radius: 10 },
+          antiAlias: true,
+          autoPad: true,
+          validTags: ["div"]
+      }
+      var versionBox = new curvyCorners(settings, document.getElementById("version"));
+      versionBox.applyCornersToAll();
+    }
+  </script>
+</head>
+<body>
+<div id="main">
+
+    <h1>Googlecharts</h1>
+    <div id="version" class="clickable" onclick='document.location = "http://rubyforge.org/projects/googlecharts"; return false'>
+      <p>Get Version</p>
+      <a href="http://rubyforge.org/projects/googlecharts" class="numbers">1.1.0</a>
+    </div>
+    <h2>&#x2192; &#8216;Sexy Charts using Google <span class="caps">API</span> &#38; Ruby&#8217;</h2>
+
+
+	<h2>What</h2>
+
+
+	<pre><code>A nice and simple wrapper for <a href="http://code.google.com/apis/chart/">Google Chart API</a></code></pre>
+
+
+	<h2>Installing</h2>
+
+
+	<p><pre class='syntax'><span class="ident">sudo</span> <span class="ident">gem</span> <span class="ident">install</span> <span class="ident">googlecharts</span></pre></p>
+
+
+	<h2>The basics</h2>
+
+
+	<p>This gem supports the following types of charts:</p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=lc&#38;chs=200x125&#38;chd=s:helloWorld&#38;chxt=x,y&#38;chxl=0:|Mar|Apr|May|June|July|1:||50+Kb" title="Line" alt="Line" /> Gchart.line()</p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=lxy&#38;chs=200x125&#38;chd=t:0,30,60,70,90,95,100|20,30,40,50,60,70,80|10,30,40,45,52|100,90,40,20,10|-1|5,33,50,55,7&#38;chco=3072F3,ff0000,00aaaa&#38;chls=2,4,1&#38;chm=s,FF0000,0,-1,5|s,0000ff,1,-1,5|s,00aa00,2,-1,5" title="line_xy" alt="line_xy" /> Gchart.line_xy()</p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=s&#38;chd=s:984sttvuvkQIBLKNCAIi,DEJPgq0uov17zwopQODS,AFLPTXaflptx159gsDrn&#38;chxt=x,y&#38;chxl=0:|0|2|3|4|5|6|7|8|9|10|1:|0|25|50|75|100&#38;chs=200x125" title="scatter" alt="scatter" /> Gchart.scatter()</p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=bvg&#38;chs=200x125&#38;chd=s:hello,world&#38;chco=cc0000,00aa00" title="bar" alt="bar" /> Gchart.bar()</p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=v&#38;chs=200x100&#38;chd=t:100,80,60,30,30,30,10" title="venn" alt="venn" /> Gchart.venn()</p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=p&#38;chd=s:world5&#38;chs=200x125&#38;chl=A|B|C|D|E|Fe" title="pie" alt="pie" /> Gchart.pie()</p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=p3&#38;chd=s:Uf9a&#38;chs=200x100&#38;chl=A|B|C|D" title="pie_3d" alt="pie_3d" /> Gchart.pie_3d()</p>
+
+
+	<h2>Demonstration of usage</h2>
+
+
+install:
+<code>sudo gem install googlecharts</code>
+
+	<p>require:
+<pre class='syntax'><span class="ident">require</span> <span class="punct">'</span><span class="string">gchart</span><span class="punct">'</span></pre></p>
+
+
+	<p><pre class='syntax'><span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span>  <span class="symbol">:size</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">200x300</span><span class="punct">',</span> 
+              <span class="symbol">:title</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">example title</span><span class="punct">&quot;,</span>
+              <span class="symbol">:bg</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">efefef</span><span class="punct">',</span>
+              <span class="symbol">:legend</span> <span class="punct">=&gt;</span> <span class="punct">['</span><span class="string">first data set label</span><span class="punct">',</span> <span class="punct">'</span><span class="string">second data set label</span><span class="punct">'],</span>
+              <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">10</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">120</span><span class="punct">,</span> <span class="number">45</span><span class="punct">,</span> <span class="number">72</span><span class="punct">])</span></pre></p>
+
+
+<hr />
+
+
+	<p><strong>simple line chart</strong>
+<pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">0</span><span class="punct">,</span> <span class="number">40</span><span class="punct">,</span> <span class="number">10</span><span class="punct">,</span> <span class="number">70</span><span class="punct">,</span> <span class="number">20</span><span class="punct">])</span>
+</pre></p>
+
+
+	<p>Generate the following url: http://chart.apis.google.com/chart?chs=300&#215;200&#38;chd=s:AiI9R&#38;cht=lc</p>
+
+
+	<p>Inserted in an image tag, it will look like that:</p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?chs=300x200&#38;chd=s:AiI9R&#38;cht=lc" title="simple line chart" alt="simple line chart" /></p>
+
+
+	<p><strong>multiple line charts</strong>
+<pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[[</span><span class="number">0</span><span class="punct">,</span> <span class="number">40</span><span class="punct">,</span> <span class="number">10</span><span class="punct">,</span> <span class="number">70</span><span class="punct">,</span> <span class="number">20</span><span class="punct">],[</span><span class="number">41</span><span class="punct">,</span> <span class="number">10</span><span class="punct">,</span> <span class="number">80</span><span class="punct">,</span> <span class="number">50</span><span class="punct">]])</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=lc&#38;chs=300x200&#38;chd=s:AeH1P,fH9m" title="multiple lines chart" alt="multiple lines chart" /></p>
+
+
+	<p><strong>set line colors</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[[</span><span class="number">0</span><span class="punct">,</span> <span class="number">40</span><span class="punct">,</span> <span class="number">10</span><span class="punct">,</span> <span class="number">70</span><span class="punct">,</span> <span class="number">20</span><span class="punct">],[</span><span class="number">41</span><span class="punct">,</span> <span class="number">10</span><span class="punct">,</span> <span class="number">80</span><span class="punct">,</span> <span class="number">50</span><span class="punct">]],</span> <span class="symbol">:line_colors</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">FF0000,00FF00</span><span class="punct">&quot;)</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=lc&#38;chs=300x200&#38;chd=s:AeH1P,fH9m&#38;chco=FF0000,00FF00" title="line colors" alt="line colors" /></p>
+
+
+	<p><a href="http://code.google.com/apis/chart/#chart_colors">more info about color settings</a></p>
+
+
+	<p><strong>bar chart</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">])</span>
+</pre>
+<img src="http://chart.apis.google.com/chart?cht=bvs&#38;chs=300x200&#38;chd=s:9UGo" title="bars" alt="bars" /></p>
+
+
+	<p><strong>set the bar chart orientation</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">],</span> <span class="symbol">:orientation</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">horizontal</span><span class="punct">')</span>
+</pre>
+<img src="http://chart.apis.google.com/chart?cht=bhs&#38;chs=300x200&#38;chd=s:9UGo" title="bars" alt="bars" /></p>
+
+
+	<p><strong>multiple bars chart</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">],</span> <span class="punct">[</span><span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">]])</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=bvs&#38;chs=300x200&#38;chd=s:9UGo,Uo9C" title="stacked multiple bars" alt="stacked multiple bars" /></p>
+
+
+	<p>The problem is that by default the bars are stacked, so we need to set the colors:</p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">],</span> <span class="punct">[</span><span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">]],</span> <span class="symbol">:bar_colors</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">FF0000,00FF00</span><span class="punct">')</span>
+</pre></p>
+
+
+	<p>If you prefer you can use this other syntax:</p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">],</span> <span class="punct">[</span><span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">]],</span> <span class="symbol">:bar_colors</span> <span class="punct">=&gt;</span> <span class="punct">['</span><span class="string">FF0000</span><span class="punct">',</span> <span class="punct">'</span><span class="string">00FF00</span><span class="punct">'])</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=bvs&#38;chs=300x200&#38;chd=s:9UGo,Uo9C&#38;chco=FF0000,00FF00" title="colors" alt="colors" /></p>
+
+
+	<p>The problem now, is that we can&#8217;t see the first value of the second dataset since it&#8217;s lower than the first value of the first dataset. Let&#8217;s unstack the bars:</p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span> <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">],</span> <span class="punct">[</span><span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">]],</span> 
+              <span class="symbol">:bar_colors</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">FF0000,00FF00</span><span class="punct">',</span>
+              <span class="symbol">:stacked</span> <span class="punct">=&gt;</span> <span class="constant">false</span> <span class="punct">)</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=bvg&#38;chs=300x200&#38;chd=s:9UGo,Uo9C&#38;chco=FF0000,00FF00" title="grouped bars" alt="grouped bars" /></p>
+
+
+	<p><strong>pie chart</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">pie</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">20</span><span class="punct">,</span> <span class="number">35</span><span class="punct">,</span> <span class="number">45</span><span class="punct">])</span>
+</pre>
+<img src="http://chart.apis.google.com/chart?cht=p&#38;chs=300x200&#38;chd=s:bv9" title="Pie Chart" alt="Pie Chart" /></p>
+
+
+	<p><strong>3D pie chart</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">pie_3d</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">20</span><span class="punct">,</span> <span class="number">35</span><span class="punct">,</span> <span class="number">45</span><span class="punct">])</span>
+</pre>
+<img src="http://chart.apis.google.com/chart?cht=p3&#38;chs=300x200&#38;chd=s:bv9" title="Pie Chart" alt="Pie Chart" /></p>
+
+
+	<p><strong>venn diagram</strong></p>
+
+
+	<p><a href="http://code.google.com/apis/chart/#venn">Google documentation</a></p>
+
+
+Data set:
+	<ul>
+	<li>the first three values specify the relative sizes of three circles, A, B, and C</li>
+		<li>the fourth value specifies the area of A intersecting B</li>
+		<li>the fifth value specifies the area of B intersecting C</li>
+		<li>the sixth value specifies the area of C intersecting A</li>
+		<li>the seventh value specifies the area of A intersecting B intersecting C</li>
+	</ul>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">venn</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">100</span><span class="punct">,</span> <span class="number">80</span><span class="punct">,</span> <span class="number">60</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">10</span><span class="punct">])</span>
+</pre>
+<img src="http://chart.apis.google.com/chart?cht=v&#38;chs=300x200&#38;chd=s:9wkSSSG" title="Venn" alt="Venn" /></p>
+
+
+	<p><strong>scatter plot</strong></p>
+
+
+	<p><a href="http://code.google.com/apis/chart/#scatter_plot">Google Documentation</a></p>
+
+
+	<p>Supply two data sets, the first data set specifies x coordinates, the second set specifies y coordinates, the third set the data point size.</p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">scatter</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[[</span><span class="number">1</span><span class="punct">,</span> <span class="number">2</span><span class="punct">,</span> <span class="number">3</span><span class="punct">,</span> <span class="number">4</span><span class="punct">,</span> <span class="number">5</span><span class="punct">],</span> <span class="punct">[</span><span class="number">1</span><span class="punct">,</span> <span class="number">2</span><span class="punct">,</span> <span class="number">3</span><span class="punct">,</span> <span class="number">4</span> <span class="punct">,</span><span class="number">5</span><span class="punct">],</span> <span class="punct">[</span><span class="number">5</span><span class="punct">,</span> <span class="number">4</span><span class="punct">,</span> <span class="number">3</span><span class="punct">,</span> <span class="number">2</span><span class="punct">,</span> <span class="number">1</span><span class="punct">]])</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=s&#38;chs=300x200&#38;chd=s:MYkw9,MYkw9,9wkYM" title="scatter" alt="scatter" /></p>
+
+
+<hr />
+
+
+	<p><strong>set a chart title</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span><span class="symbol">:title</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">Recent Chart Sexyness</span><span class="punct">&quot;,</span> <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">15</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">10</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">40</span><span class="punct">,</span> <span class="number">100</span><span class="punct">])</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=bvs&#38;chs=300x200&#38;chd=s:JSGM9MY9&#38;chtt=Recent+Chart+Sexyness" title="chart title" alt="chart title" /></p>
+
+
+	<p><strong>set the title size</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span><span class="symbol">:title</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">Recent Chart Sexyness</span><span class="punct">&quot;,</span> <span class="symbol">:title_size</span> <span class="punct">=&gt;</span> <span class="number">20</span><span class="punct">,</span> <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">15</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">10</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">40</span><span class="punct">,</span> <span class="number">100</span><span class="punct">])</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=bvs&#38;chs=300x200&#38;chd=s:JSGM9MY9&#38;chtt=Recent+Chart+Sexyness&#38;chts=454545,20" title="title size" alt="title size" /></p>
+
+
+	<p><strong>set the title color</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span><span class="symbol">:title</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">Recent Chart Sexyness</span><span class="punct">&quot;,</span> <span class="symbol">:title_color</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">FF0000</span><span class="punct">',</span> <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">15</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">10</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">40</span><span class="punct">,</span> <span class="number">100</span><span class="punct">])</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=bvs&#38;chs=300x200&#38;chd=s:JSGM9MY9&#38;chtt=Recent+Chart+Sexyness&#38;chts=FF0000" title="Title color" alt="Title color" /></p>
+
+
+	<p><strong>set the chart&#8217;s size</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span> <span class="symbol">:title</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">Recent Chart Sexyness</span><span class="punct">&quot;,</span> 
+              <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">15</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">10</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">40</span><span class="punct">,</span> <span class="number">100</span><span class="punct">],</span>
+              <span class="symbol">:size</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">600x400</span><span class="punct">')</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=bvs&#38;chs=600x400&#38;chd=s:JSGM9MY9&#38;chtt=Recent+Chart+Sexyness" title="size" alt="size" /></p>
+
+
+	<p><strong>set the image background color</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span> <span class="symbol">:title</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">Matt's Mojo</span><span class="punct">&quot;,</span> 
+              <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">15</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">10</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">40</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">90</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">80</span><span class="punct">],</span>
+              <span class="symbol">:background</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">FF9994</span><span class="punct">')</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?chf=bg,s,FF9994&#38;cht=bvs&#38;chs=300x200&#38;chd=s:JSGM9MY929w&#38;chtt=Matt's+Mojo" title="Background" alt="Background" /></p>
+
+
+	<p><strong>set the chart background color</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span> <span class="symbol">:title</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">Matt's Mojo</span><span class="punct">&quot;,</span> 
+              <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">15</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">10</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">40</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">90</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">80</span><span class="punct">],</span>
+              <span class="symbol">:background</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">FF9994</span><span class="punct">',</span> <span class="symbol">:chart_background</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">000000</span><span class="punct">')</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?chf=c,s,000000|bg,s,FF9994&#38;cht=bvs&#38;chs=300x200&#38;chd=s:JSGM9MY929w&#38;chtt=Matt's+Mojo" title="chart background" alt="chart background" /></p>
+
+
+	<p><strong>Set bar/line colors</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span> <span class="symbol">:title</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">Matt's Mojo</span><span class="punct">&quot;,</span> 
+              <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">15</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">10</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">40</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">90</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">80</span><span class="punct">],</span>
+              <span class="symbol">:bar_colors</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">76A4FB</span><span class="punct">',</span>
+              <span class="symbol">:background</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">EEEEEE</span><span class="punct">',</span> <span class="symbol">:chart_background</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">CCCCCC</span><span class="punct">')</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?chf=c,s,CCCCCC|bg,s,EEEEEE&#38;cht=bvs&#38;chs=300x200&#38;chd=s:JSGM9MY929w&#38;chco=76A4FB&#38;chtt=Matt's+Mojo" title="bar colors" alt="bar colors" /></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span> <span class="symbol">:title</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">Matt's Mojo</span><span class="punct">&quot;,</span> 
+              <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">15</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">10</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">40</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">90</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">80</span><span class="punct">],</span>
+              <span class="symbol">:line_colors</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">76A4FB</span><span class="punct">')</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=lc&#38;chs=300x200&#38;chd=s:JSGM9MY929w&#38;chco=76A4FB&#38;chtt=Matt's+Mojo" title="line colors" alt="line colors" /></p>
+
+
+	<p><strong>legend / labels</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span> <span class="symbol">:title</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">Matt vs Rob</span><span class="punct">&quot;,</span>
+              <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">],</span> <span class="punct">[</span><span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">]],</span> 
+              <span class="symbol">:bar_colors</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">FF0000,00FF00</span><span class="punct">',</span>
+              <span class="symbol">:stacked</span> <span class="punct">=&gt;</span> <span class="constant">false</span><span class="punct">,</span> <span class="symbol">:size</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">400x200</span><span class="punct">',</span>
+              <span class="symbol">:legend</span> <span class="punct">=&gt;</span> <span class="punct">[&quot;</span><span class="string">Matt's Mojo</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">Rob's Mojo</span><span class="punct">&quot;]</span> <span class="punct">)</span>
+</pre>
+<img src="http://chart.apis.google.com/chart?cht=bvg&#38;chdl=Matt's+Mojo|Rob's+Mojo&#38;chs=400x200&#38;chd=s:9UGo,Uo9C&#38;chco=FF0000,00FF00&#38;chtt=Matt+vs+Rob" title="legend" alt="legend" /></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span> <span class="symbol">:title</span> <span class="punct">=&gt;</span> <span class="punct">&quot;</span><span class="string">Matt vs Rob</span><span class="punct">&quot;,</span>
+              <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">],</span> <span class="punct">[</span><span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">]],</span> 
+              <span class="symbol">:bar_colors</span> <span class="punct">=&gt;</span> <span class="punct">['</span><span class="string">FF0000</span><span class="punct">','</span><span class="string">00FF00</span><span class="punct">'],</span>
+              <span class="symbol">:stacked</span> <span class="punct">=&gt;</span> <span class="constant">false</span><span class="punct">,</span> <span class="symbol">:size</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">400x200</span><span class="punct">',</span>
+              <span class="symbol">:legend</span> <span class="punct">=&gt;</span> <span class="punct">[&quot;</span><span class="string">Matt's Mojo</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">Rob's Mojo</span><span class="punct">&quot;]</span> <span class="punct">)</span>
+</pre>
+<img src="http://chart.apis.google.com/chart?cht=lc&#38;chdl=Matt's+Mojo|Rob's+Mojo&#38;chs=400x200&#38;chd=s:9UGo,Uo9C&#38;chco=FF0000,00FF00&#38;chtt=Matt+vs+Rob" title="line legend" alt="line legend" /></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">pie_3d</span><span class="punct">(</span>  <span class="symbol">:title</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">ruby_fu</span><span class="punct">',</span> <span class="symbol">:size</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">400x200</span><span class="punct">',</span>
+                  <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">10</span><span class="punct">,</span> <span class="number">45</span><span class="punct">,</span> <span class="number">45</span><span class="punct">],</span> <span class="symbol">:labels</span> <span class="punct">=&gt;</span> <span class="punct">[&quot;</span><span class="string">DHH</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">Rob</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">Matt</span><span class="punct">&quot;]</span> <span class="punct">)</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=p3&#38;chl=DHH|Rob|Matt&#38;chs=400x200&#38;chd=s:N99&#38;chtt=ruby_fu" title="labels" alt="labels" /></p>
+
+
+	<p><strong>Display axis labels</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span> <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">],</span> <span class="symbol">:axis_with_labels</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">x,y,r</span><span class="punct">')</span>
+</pre></p>
+
+
+	<p>or you can use the other syntax:</p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span> <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">],</span> <span class="symbol">:axis_with_labels</span> <span class="punct">=&gt;</span> <span class="punct">['</span><span class="string">x</span><span class="punct">','</span><span class="string">y</span><span class="punct">','</span><span class="string">r</span><span class="punct">'])</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=lc&#38;chs=300x200&#38;chxt=x,y,r&#38;chd=s:9UGoUo9C" title="axis with labels" alt="axis with labels" /></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span>  <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">],</span> <span class="symbol">:axis_with_labels</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">x</span><span class="punct">',</span>
+                <span class="symbol">:axis_labels</span> <span class="punct">=&gt;</span> <span class="punct">['</span><span class="string">Jan|July|Jan|July|Jan</span><span class="punct">'])</span>
+</pre></p>
+
+
+	<p>or you can use the other syntax:</p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span>  <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">],</span> <span class="symbol">:axis_with_labels</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">x</span><span class="punct">',</span>
+                <span class="symbol">:axis_labels</span> <span class="punct">=&gt;</span> <span class="punct">['</span><span class="string">Jan</span><span class="punct">','</span><span class="string">July</span><span class="punct">','</span><span class="string">Jan</span><span class="punct">','</span><span class="string">July</span><span class="punct">','</span><span class="string">Jan</span><span class="punct">'])</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=lc&#38;chxl=0:|Jan|July|Jan|July|Jan&#38;chs=300x200&#38;chxt=x&#38;chd=s:9UGoUo9C" title="x labels" alt="x labels" /></p>
+
+
+	<p><strong>multiple axis labels</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span>  <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">],</span> <span class="symbol">:axis_with_labels</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">x,r</span><span class="punct">',</span>
+                <span class="symbol">:axis_labels</span> <span class="punct">=&gt;</span> <span class="punct">['</span><span class="string">Jan|July|Jan|July|Jan</span><span class="punct">',</span> <span class="punct">'</span><span class="string">2005|2006|2007</span><span class="punct">'])</span>
+</pre></p>
+
+
+	<p>or</p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span>  <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">],</span> <span class="symbol">:axis_with_labels</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">x,r</span><span class="punct">',</span>
+                <span class="symbol">:axis_labels</span> <span class="punct">=&gt;</span> <span class="punct">[['</span><span class="string">Jan</span><span class="punct">','</span><span class="string">July</span><span class="punct">','</span><span class="string">Jan</span><span class="punct">','</span><span class="string">July</span><span class="punct">','</span><span class="string">Jan</span><span class="punct">'],</span> <span class="punct">['</span><span class="string">2005</span><span class="punct">','</span><span class="string">2006</span><span class="punct">','</span><span class="string">2007</span><span class="punct">']])</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=lc&#38;chxl=0:|Jan|July|Jan|July|Jan|1:|2005|2006|2007&#38;chs=300x200&#38;chxt=x,r&#38;chd=s:9UGoUo9C" title="multiple axis labels" alt="multiple axis labels" /></p>
+
+
+	<p>(This syntax will probably be improved in the future)</p>
+
+
+	<p><strong>custom params</strong></p>
+
+
+	<p>I certainly didn&#8217;t cover the entire <span class="caps">API</span>, if you want to add your own params:</p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span> <span class="ident">custom</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">chd=s:93zyvneTTOMJMLIJFHEAECFJGHDBFCFIERcgnpy45879,IJKNUWUWYdnswz047977315533zy1246872tnkgcaZQONHCECAAAAEII&amp;chls=3,6,3|1,1,0</span><span class="punct">')</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=lc&#38;chs=300x200&#38;chd=s:93zyvneTTOMJMLIJFHEAECFJGHDBFCFIERcgnpy45879,IJKNUWUWYdnswz047977315533zy1246872tnkgcaZQONHCECAAAAEII&#38;chls=3,6,3|1,1,0" title="Custom" alt="Custom" /></p>
+
+
+<hr />
+
+
+	<p><strong>Save the chart as a file</strong></p>
+
+
+	<p>You might prefer to save the chart instead of using the url, not a problem:</p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">0</span><span class="punct">,</span> <span class="number">26</span><span class="punct">],</span> <span class="symbol">:format</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">file</span><span class="punct">')</span>
+</pre></p>
+
+
+	<p>You might want to specify the path and/or the filename used to save your chart:</p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">0</span><span class="punct">,</span> <span class="number">26</span><span class="punct">],</span> <span class="symbol">:format</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">file</span><span class="punct">',</span> <span class="symbol">:filename</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">custom_filename.png</span><span class="punct">')</span>
+</pre></p>
+
+
+	<p><strong>Insert as an image tag</strong></p>
+
+
+	<p>Because, I&#8217;m lazy, I also added a custom format:</p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">0</span><span class="punct">,</span> <span class="number">26</span><span class="punct">],</span> <span class="symbol">:format</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">img_tag</span><span class="punct">')</span>
+</pre></p>
+
+
+	<p>&lt;img src=&#8217;http://chart.apis.google.com/chart?chs=300&#215;200&#38;chd=s:A9&#38;cht=lc&#8217;/&gt;</p>
+
+
+<hr />
+
+
+	<p><strong>Encoding</strong></p>
+
+
+	<p>Google Chart <span class="caps">API</span> offers <a href="http://code.google.com/apis/chart/#chart_data">3 types of data encoding</a></p>
+
+
+	<ul>
+	<li>simple</li>
+		<li>text</li>
+		<li>extended</li>
+	</ul>
+
+
+	<p>By default this library uses the simple encoding, if you need a different type of encoding, you can change it really easily:</p>
+
+
+	<p>default / simple: chd=s:9UGoUo9C
+<pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span> <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">]</span> <span class="punct">)</span>
+</pre></p>
+
+
+	<p>extended: chd=e:..VVGZqqVVqq..CI
+<pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span> <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">],</span> <span class="symbol">:encoding</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">extended</span><span class="punct">'</span> <span class="punct">)</span>
+</pre></p>
+
+
+	<p>text: chd=t:300,100,30,200,100,200,300,10
+<pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span> <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">],</span> <span class="symbol">:encoding</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">text</span><span class="punct">'</span> <span class="punct">)</span>
+</pre></p>
+
+
+	<p>(note that the text encoding doesn&#8217;t use a max value and therefore should be under 100)</p>
+
+
+	<p><strong>Max value</strong></p>
+
+
+	<p>Simple and extended encoding support the max value option.</p>
+
+
+	<p>The max value option is a simple way of scaling your graph. The data is converted in chart value with the highest chart value being the highest point on the graph. By default, the calculation is done for you. However you can specify your own maximum or not use a maximum at all.</p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span> <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">]</span> <span class="punct">)</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=lc&#38;chs=300x200&#38;chd=s:9UGoUo9C" title="Title" alt="Title" /></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span> <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">300</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">100</span><span class="punct">,</span> <span class="number">200</span><span class="punct">,</span> <span class="number">300</span><span class="punct">,</span> <span class="number">10</span><span class="punct">],</span> <span class="symbol">:max_value</span> <span class="punct">=&gt;</span> <span class="number">500</span> <span class="punct">)</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=lc&#38;chs=300x200&#38;chd=s:kMDYMYkB" title="max 500" alt="max 500" /></p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">line</span><span class="punct">(</span> <span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">100</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">20</span><span class="punct">,</span> <span class="number">10</span><span class="punct">,</span> <span class="number">14</span><span class="punct">,</span> <span class="number">30</span><span class="punct">,</span> <span class="number">10</span><span class="punct">],</span> <span class="symbol">:max_value</span> <span class="punct">=&gt;</span> <span class="constant">false</span> <span class="punct">)</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?cht=lc&#38;chs=300x200&#38;chd=s:_UeUKOeK" title="real size" alt="real size" /></p>
+
+
+	<h2>Repository</h2>
+
+
+	<p>The trunk repository is <code>svn://rubyforge.org/var/svn/googlecharts/trunk</code> for anonymous access.</p>
+
+
+	<h2>License</h2>
+
+
+	<p>This code is free to use under the terms of the <span class="caps">MIT</span> license.</p>
+
+
+	<h2>Contact</h2>
+
+
+	<p>Comments are welcome. Send an email to <a href="mailto:mattaimonetti@gmail.com">Matt Aimonetti</a></p>
+    <p class="coda">
+      <a href="mattaimonetti@gmail.com">Matt Aimonetti</a>, 25th February 2008<br>
+      Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
+    </p>
+</div>
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-179809-11";
+urchinTracker();
+</script>
+
+</body>
+</html>
