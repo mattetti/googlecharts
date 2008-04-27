@@ -9,7 +9,11 @@ h2. What
 
 h2. Installing
 
-<pre syntax="ruby">sudo gem install googlecharts</pre>
+This project is now hosted at "GitHub":http://github.com
+If you never added "GitHub":http://github.com as a gem source, you will need to do the following:
+<pre syntax="ruby">$ gem sources -a http://gems.github.com/</pre> (you only need to do this once)
+
+<pre syntax="ruby">$ sudo gem install matta-googlecharts</pre>
 
 h2. The basics
 
@@ -33,7 +37,7 @@ This gem supports the following types of charts:
 h2. Demonstration of usage
 
 install:
-<code>sudo gem install googlecharts</code>
+<code>sudo gem install matta-googlecharts</code>
 
 require:
 <pre syntax="ruby">require 'gchart'</pre>
@@ -405,7 +409,7 @@ The max value option is a simple way of scaling your graph. The data is converte
 
 h2. Repository
 
-The trunk repository is <code>svn://rubyforge.org/var/svn/googlecharts/trunk</code> for anonymous access.
+The trunk repository is <code>http://github.com/matta/googlecharts/</code> for anonymous access.
 
 h2. License
 
