@@ -8,7 +8,7 @@ class Gchart
   include GchartInfo
   
   @@url = "http://chart.apis.google.com/chart?"  
-  @@types = ['line', 'line_xy', 'scatter', 'bar', 'venn', 'pie', 'pie_3d', 'jstize']
+  @@types = ['line', 'line_xy', 'scatter', 'bar', 'venn', 'pie', 'pie_3d', 'jstize', 'sparkline']
   @@simple_chars = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a
   @@chars = @@simple_chars + ['-', '.']
   @@ext_pairs = @@chars.map { |char_1| @@chars.map { |char_2| char_1 + char_2 } }.flatten
@@ -247,6 +247,8 @@ class Gchart
         "cht=v"
       when :scatter
         "cht=s"
+      when :sparkline
+        "cht=ls"
       end
   end
   
