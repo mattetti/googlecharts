@@ -14,6 +14,7 @@ This gem supports the following types of charts:
   
   * line, 
   * line_xy
+  * sparkline
   * scatter
   * bar
   * venn
