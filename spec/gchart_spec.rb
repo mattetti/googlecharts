@@ -206,7 +206,11 @@ describe "a line chart" do
   
   it "should be able to have different line colors" do
     Gchart.line(:line_colors => 'efefef|00ffff').include?(Gchart.jstize('chco=efefef|00ffff')).should be_true
-     Gchart.line(:line_color => 'efefef|00ffff').include?(Gchart.jstize('chco=efefef|00ffff')).should be_true
+    Gchart.line(:line_color => 'efefef|00ffff').include?(Gchart.jstize('chco=efefef|00ffff')).should be_true
+  end
+  
+  it "should be able to render a graph where all the data values are 0" do
+    Gchart.line(:data => [0, 0, 0]).should == "http://chart.apis.google.com/chart?cht=lc&chs=300x200&chd=s:AAA"
   end
   
 end
