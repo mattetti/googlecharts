@@ -84,6 +84,11 @@ describe "generating different type of charts" do
     Gchart.line.include?('cht=lc').should be_true
   end
   
+  it "should be able to generate a sparkline chart" do
+    Gchart.sparkline.should be_an_instance_of(String)
+    Gchart.sparkline.include?('cht=ls').should be_true
+  end
+  
   it "should be able to generate a line xy chart" do
     Gchart.line_xy.should be_an_instance_of(String)
     Gchart.line_xy.include?('cht=lxy').should be_true
@@ -107,6 +112,11 @@ describe "generating different type of charts" do
   it "should be able to generate a Pie Chart" do
     Gchart.pie.should be_an_instance_of(String)
     Gchart.pie.include?('cht=p').should be_true
+  end
+  
+  it "should be able to generate a Google-O-Meter" do
+    Gchart.meter.should be_an_instance_of(String)
+    Gchart.meter.include?('cht=gom').should be_true
   end
   
   it "should not support other types" do
@@ -215,7 +225,7 @@ describe "a line chart" do
   
 end
 
-describe "a pie chart" do
+describe "a sparkline chart" do
   
   before(:each) do
     @title = 'Chart Title'
@@ -279,7 +289,7 @@ describe "a pie chart" do
   
 end
 
-describe "a sparkline chart" do
+describe "a 3d pie chart" do
   
   before(:each) do
     @title = 'Chart Title'
@@ -301,6 +311,26 @@ describe "a sparkline chart" do
     Gchart.pie_3d(:title => @title, :legend => @legend, :data => @data).include?("chl=#{@jstized_legend}").should be_true
     Gchart.pie_3d(:title => @title, :labels => @legend, :data => @data).include?("chl=#{@jstized_legend}").should be_true
     Gchart.pie_3d(:title => @title, :labels => @legend, :data => @data).should == Gchart.pie_3d(:title => @title, :legend => @legend, :data => @data)
+  end
+  
+end
+
+describe "a google-o-meter" do
+
+  before(:each) do
+    @data = [70]
+    @legend = ['arrow points here']
+    @jstized_legend = Gchart.jstize(@legend.join('|'))
+    @chart = Gchart.meter(:data => @data)
+  end
+  
+  it "should greate a meter" do
+    @chart.include?('cht=gom').should be_true
+  end
+  
+  it "should be able to set a solid background fill" do
+    Gchart.meter(:bg => 'efefef').include?("chf=bg,s,efefef").should be_true
+    Gchart.meter(:bg => {:color => 'efefef', :type => 'solid'}).include?("chf=bg,s,efefef").should be_true
   end
   
 end
