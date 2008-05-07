@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
   s.name = %q{googlecharts}
-  s.version = "1.1.0"
+  s.version = "1.3.0"
 
   s.specification_version = 2 if s.respond_to? :specification_version=
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matt Aimonetti"]
-  s.date = %q{2008-04-26}
+  s.date = %q{2008-05-07}
   s.description = %q{Sexy Charts using Google API & Ruby}
   s.email = %q{mattaimonetti@gmail.com}
   s.extra_rdoc_files = ["History.txt", "License.txt", "Manifest.txt", "README.txt", "website/index.txt"]
@@ -16,6 +16,6 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--main", "README.txt"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{googlecharts}
-  s.rubygems_version = %q{1.1.0}
+  s.rubygems_version = %q{1.3.0}
   s.summary = %q{Sexy Charts using Google API & Ruby}
 end

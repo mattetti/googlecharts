@@ -15,6 +15,8 @@ If you never added "GitHub":http://github.com as a gem source, you will need to 
 
 <pre syntax="ruby">$ sudo gem install matta-googlecharts</pre>
 
+or <pre syntax="ruby">$ sudo gem install googlecharts</pre>
+
 h2. The basics
 
 This gem supports the following types of charts:
@@ -40,7 +42,12 @@ This gem supports the following types of charts:
 h2. Demonstration of usage
 
 install:
+
 <code>sudo gem install matta-googlecharts</code>
+
+or use rubyforge:
+
+<code>sudo gem install googlecharts</code>
 
 require:
 <pre syntax="ruby">require 'gchart'</pre>
