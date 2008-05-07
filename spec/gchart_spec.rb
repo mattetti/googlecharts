@@ -227,6 +227,70 @@ describe "a pie chart" do
     @title = 'Chart Title'
     @legend = ['first data set label', 'n data set label']
     @jstized_legend = Gchart.jstize(@legend.join('|'))
+    @data = [27,25,25,25,25,27,100,31,25,36,25,25,39,25,31,25,25,25,26,26,25,25,28,25,25,100,28,27,31,25,27,27,29,25,27,26,26,25,26,26,35,33,34,25,26,25,36,25,26,37,33,33,37,37,39,25,25,25,25]
+    @chart = Gchart.sparkline(:title => @title, :data => @data, :legend => @legend)
+  end
+  
+  it "should create a sparkline" do
+    @chart.include?('cht=ls').should be_true
+  end
+  
+  it 'should be able have a chart title' do
+    @chart.include?("chtt=Chart+Title").should be_true
+  end
+  
+  it "should be able to a custom color and size title" do
+     Gchart.sparkline(:title => @title, :title_color => 'FF0000').include?('chts=FF0000').should be_true
+     Gchart.sparkline(:title => @title, :title_size => '20').include?('chts=454545,20').should be_true
+  end
+  
+  it "should be able to have multiple legends" do
+    @chart.include?(Gchart.jstize("chdl=first+data+set+label|n+data+set+label")).should be_true
+  end
+  
+  it "should be able to have one legend" do
+    chart = Gchart.sparkline(:legend => 'legend label')
+    chart.include?("chdl=legend+label").should be_true
+  end
+  
+  it "should be able to set the background fill" do
+    Gchart.sparkline(:bg => 'efefef').include?("chf=bg,s,efefef").should be_true
+    Gchart.sparkline(:bg => {:color => 'efefef', :type => 'solid'}).include?("chf=bg,s,efefef").should be_true
+           
+    Gchart.sparkline(:bg => {:color => 'efefef', :type => 'gradient'}).include?("chf=bg,lg,0,efefef,0,ffffff,1").should be_true
+    Gchart.sparkline(:bg => {:color => 'efefef,0,ffffff,1', :type => 'gradient'}).include?("chf=bg,lg,0,efefef,0,ffffff,1").should be_true
+    Gchart.sparkline(:bg => {:color => 'efefef', :type => 'gradient', :angle => 90}).include?("chf=bg,lg,90,efefef,0,ffffff,1").should be_true
+          
+    Gchart.sparkline(:bg => {:color => 'efefef', :type => 'stripes'}).include?("chf=bg,ls,90,efefef,0.2,ffffff,0.2").should be_true
+  end
+  
+  it "should be able to set a graph fill" do
+    Gchart.sparkline(:graph_bg => 'efefef').include?("chf=c,s,efefef").should be_true
+    Gchart.sparkline(:graph_bg => {:color => 'efefef', :type => 'solid'}).include?("chf=c,s,efefef").should be_true
+    Gchart.sparkline(:graph_bg => {:color => 'efefef', :type => 'gradient'}).include?("chf=c,lg,0,efefef,0,ffffff,1").should be_true
+    Gchart.sparkline(:graph_bg => {:color => 'efefef,0,ffffff,1', :type => 'gradient'}).include?("chf=c,lg,0,efefef,0,ffffff,1").should be_true
+    Gchart.sparkline(:graph_bg => {:color => 'efefef', :type => 'gradient', :angle => 90}).include?("chf=c,lg,90,efefef,0,ffffff,1").should be_true
+  end
+  
+  it "should be able to set both a graph and a background fill" do
+    Gchart.sparkline(:bg => 'efefef', :graph_bg => '76A4FB').include?("bg,s,efefef").should be_true
+    Gchart.sparkline(:bg => 'efefef', :graph_bg => '76A4FB').include?("c,s,76A4FB").should be_true
+    Gchart.sparkline(:bg => 'efefef', :graph_bg => '76A4FB').include?(Gchart.jstize("chf=c,s,76A4FB|bg,s,efefef")).should be_true
+  end
+  
+  it "should be able to have different line colors" do
+    Gchart.sparkline(:line_colors => 'efefef|00ffff').include?(Gchart.jstize('chco=efefef|00ffff')).should be_true
+    Gchart.sparkline(:line_color => 'efefef|00ffff').include?(Gchart.jstize('chco=efefef|00ffff')).should be_true
+  end
+  
+end
+
+describe "a sparkline chart" do
+  
+  before(:each) do
+    @title = 'Chart Title'
+    @legend = ['first data set label', 'n data set label']
+    @jstized_legend = Gchart.jstize(@legend.join('|'))
     @data = [12,8,40,15,5]
     @chart = Gchart.pie(:title => @title, :legend => @legend, :data => @data)
   end

@@ -32,6 +32,8 @@ This gem supports the following types of charts:
 !http://chart.apis.google.com/chart?cht=p&chd=s:world5&chs=200x125&chl=A|B|C|D|E|Fe(pie)! Gchart.pie()
 
 !http://chart.apis.google.com/chart?cht=p3&chd=s:Uf9a&chs=200x100&chl=A|B|C|D(pie_3d)! Gchart.pie_3d()
+
+!http://chart.apis.google.com/chart?chs=100x20&cht=ls&chco=0077CC&chm=B,E6F2FA,0,0,0&chls=1,0,0&chd=t:27,25,25,25,25,27,100,31,25,36,25,25,39,25,31,25,25,25,26,26,25,25,28,25,25,100,28,27,31,25,27,27,29,25,27,26,26,25,26,26,35,33,34,25,26,25,36,25,26,37,33,33,37,37,39,25,25,25,25(sparkline)!Gchart.sparkline()
               
 
 h2. Demonstration of usage
@@ -77,6 +79,17 @@ Inserted in an image tag, it will look like that:
 !http://chart.apis.google.com/chart?cht=lc&chs=300x200&chd=s:AeH1P,fH9m&chco=FF0000,00FF00(line colors)!
 
 "more info about color settings":http://code.google.com/apis/chart/#chart_colors
+
+*sparkline chart*
+
+<pre syntax="ruby">
+  data = [27,25,25,25,25,27,100,31,25,36,25,25,39,25,31,25,25,25,26,26,25,25,28,25,25,100,28,27,31,25,27,27,29,25,27,26,26,25,26,26,35,33,34,25,26,25,36,25,26,37,33,33,37,37,39,25,25,25,25]
+  Gchart.sparkline(:data => data, :size => '120x40', :line_colors => '0077CC')
+</pre>
+
+!http://chart.apis.google.com/chart?chd=s:QPPPPQ9SPVPPXPSPPPPPPPRPP9RQSPQQRPQPPPPPVUUPPPVPPWUUWWXPPPP&chco=0077CC&chs=120x40&cht=ls(sparline)!
+
+A sparkline chart has exactly the same parameters as a line chart. The only difference is that the axes lines are not drawn for sparklines by default.
 
 *bar chart*
 

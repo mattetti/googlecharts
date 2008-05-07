@@ -164,6 +164,10 @@ To set labels, you can use one of these two options:
     Gchart.pie_3d(:title => @title, :labels => @legend, :data => @data, :size => '400x200')
     Gchart.pie_3d(:title => @title, :legend => @legend, :data => @data, :size => '400x200')
   
+
+==Sparklines:
+
+A sparkline chart has exactly the same parameters as a line chart. The only difference is that the axes lines are not drawn for sparklines by default.
   
   
 === try yourself

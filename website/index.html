@@ -33,7 +33,7 @@
     <h1>Googlecharts</h1>
     <div id="version" class="clickable" onclick='document.location = "http://rubyforge.org/projects/googlecharts"; return false'>
       <p>Get Version</p>
-      <a href="http://rubyforge.org/projects/googlecharts" class="numbers">1.1.0</a>
+      <a href="http://rubyforge.org/projects/googlecharts" class="numbers">1.2.0</a>
     </div>
     <h2>&#x2192; &#8216;Sexy Charts using Google <span class="caps">API</span> &#38; Ruby&#8217;</h2>
 
@@ -47,7 +47,12 @@
 	<h2>Installing</h2>
 
 
-	<p><pre class='syntax'><span class="ident">sudo</span> <span class="ident">gem</span> <span class="ident">install</span> <span class="ident">googlecharts</span></pre></p>
+	<p>This project is now hosted at <a href="http://github.com">GitHub</a>
+If you never added <a href="http://github.com">GitHub</a> as a gem source, you will need to do the following:
+<pre class='syntax'><span class="global">$ </span><span class="ident">gem</span> <span class="ident">sources</span> <span class="punct">-</span><span class="ident">a</span> <span class="ident">http</span><span class="punct">:/</span><span class="regex"></span><span class="punct">/</span><span class="ident">gems</span><span class="punct">.</span><span class="ident">github</span><span class="punct">.</span><span class="ident">com</span><span class="punct">/</span></pre> (you only need to do this once)</p>
+
+
+	<p><pre class='syntax'><span class="global">$ </span><span class="ident">sudo</span> <span class="ident">gem</span> <span class="ident">install</span> <span class="ident">matta</span><span class="punct">-</span><span class="ident">googlecharts</span></pre></p>
 
 
 	<h2>The basics</h2>
@@ -57,8 +62,6 @@
 
 
 	<p><img src="http://chart.apis.google.com/chart?cht=lc&#38;chs=200x125&#38;chd=s:helloWorld&#38;chxt=x,y&#38;chxl=0:|Mar|Apr|May|June|July|1:||50+Kb" title="Line" alt="Line" /> Gchart.line()</p>
-	
-		<p><img src="http://chart.apis.google.com/chart?cht=ls&#38;chs=200x125&#38;chd=s:helloWorld&#38;chxt=x,y&#38;chxl=0:|Mar|Apr|May|June|July|1:||50+Kb" title="Line" alt="Sparkline" /> Gchart.sparkline()</p>
 
 
 	<p><img src="http://chart.apis.google.com/chart?cht=lxy&#38;chs=200x125&#38;chd=t:0,30,60,70,90,95,100|20,30,40,50,60,70,80|10,30,40,45,52|100,90,40,20,10|-1|5,33,50,55,7&#38;chco=3072F3,ff0000,00aaaa&#38;chls=2,4,1&#38;chm=s,FF0000,0,-1,5|s,0000ff,1,-1,5|s,00aa00,2,-1,5" title="line_xy" alt="line_xy" /> Gchart.line_xy()</p>
@@ -79,11 +82,14 @@
 	<p><img src="http://chart.apis.google.com/chart?cht=p3&#38;chd=s:Uf9a&#38;chs=200x100&#38;chl=A|B|C|D" title="pie_3d" alt="pie_3d" /> Gchart.pie_3d()</p>
 
 
+	<p><img src="http://chart.apis.google.com/chart?chs=100x20&#38;cht=ls&#38;chco=0077CC&#38;chm=B,E6F2FA,0,0,0&#38;chls=1,0,0&#38;chd=t:27,25,25,25,25,27,100,31,25,36,25,25,39,25,31,25,25,25,26,26,25,25,28,25,25,100,28,27,31,25,27,27,29,25,27,26,26,25,26,26,35,33,34,25,26,25,36,25,26,37,33,33,37,37,39,25,25,25,25" title="sparkline" alt="sparkline" />Gchart.sparkline()</p>
+
+
 	<h2>Demonstration of usage</h2>
 
 
 install:
-<code>sudo gem install googlecharts</code>
+<code>sudo gem install matta-googlecharts</code>
 
 	<p>require:
 <pre class='syntax'><span class="ident">require</span> <span class="punct">'</span><span class="string">gchart</span><span class="punct">'</span></pre></p>
@@ -135,6 +141,21 @@ install:
 
 
 	<p><a href="http://code.google.com/apis/chart/#chart_colors">more info about color settings</a></p>
+
+
+	<p><strong>sparkline chart</strong></p>
+
+
+	<p><pre class='syntax'>
+  <span class="ident">data</span> <span class="punct">=</span> <span class="punct">[</span><span class="number">27</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">27</span><span class="punct">,</span><span class="number">100</span><span class="punct">,</span><span class="number">31</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">36</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">39</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">31</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">26</span><span class="punct">,</span><span class="number">26</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">28</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">100</span><span class="punct">,</span><span class="number">28</span><span class="punct">,</span><span class="number">27</span><span class="punct">,</span><span class="number">31</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">27</span><span class="punct">,</span><span class="number">27</span><span class="punct">,</span><span class="number">29</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">27</span><span class="punct">,</span><span class="number">26</span><span class="punct">,</span><span class="number">26</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">26</span><span class="punct">,</span><span class="number">26</span><span class="punct">,</span><span class="number">35</span><span class="punct">,</span><span class="number">33</span><span class="punct">,</span><span class="number">34</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">26</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">36</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">26</span><span class="punct">,</span><span class="number">37</span><span class="punct">,</span><span class="number">33</span><span class="punct">,</span><span class="number">33</span><span class="punct">,</span><span class="number">37</span><span class="punct">,</span><span class="number">37</span><span class="punct">,</span><span class="number">39</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">25</span><span class="punct">,</span><span class="number">25</span><span class="punct">]</span>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">sparkline</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="ident">data</span><span class="punct">,</span> <span class="symbol">:size</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">120x40</span><span class="punct">',</span> <span class="symbol">:line_colors</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">0077CC</span><span class="punct">')</span>
+</pre></p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?chd=s:QPPPPQ9SPVPPXPSPPPPPPPRPP9RQSPQQRPQPPPPPVUUPPPVPPWUUWWXPPPP&#38;chco=0077CC&#38;chs=120x40&#38;cht=ls" title="sparline" alt="sparline" /></p>
+
+
+	<p>A sparkline chart has exactly the same parameters as a line chart. The only difference is that the axes lines are not drawn for sparklines by default.</p>
 
 
 	<p><strong>bar chart</strong></p>
@@ -573,7 +594,7 @@ Data set:
 	<h2>Repository</h2>
 
 
-	<p>The trunk repository is <code>svn://rubyforge.org/var/svn/googlecharts/trunk</code> for anonymous access.</p>
+	<p>The trunk repository is <code>http://github.com/matta/googlecharts/</code> for anonymous access.</p>
 
 
 	<h2>License</h2>
@@ -587,7 +608,7 @@ Data set:
 
 	<p>Comments are welcome. Send an email to <a href="mailto:mattaimonetti@gmail.com">Matt Aimonetti</a></p>
     <p class="coda">
-      <a href="mattaimonetti@gmail.com">Matt Aimonetti</a>, 25th February 2008<br>
+      <a href="mattaimonetti@gmail.com">Matt Aimonetti</a>, 7th May 2008<br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
     </p>
 </div>
