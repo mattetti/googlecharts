@@ -35,6 +35,7 @@ This gem supports the following types of charts:
 
 !http://chart.apis.google.com/chart?chs=100x20&cht=ls&chco=0077CC&chm=B,E6F2FA,0,0,0&chls=1,0,0&chd=t:27,25,25,25,25,27,100,31,25,36,25,25,39,25,31,25,25,25,26,26,25,25,28,25,25,100,28,27,31,25,27,27,29,25,27,26,26,25,26,26,35,33,34,25,26,25,36,25,26,37,33,33,37,37,39,25,25,25,25(sparkline)!Gchart.sparkline()
               
+!http://chart.apis.google.com/chart?chs=225x125&cht=gom&chd=t:70&chl=Flavor(google-o-meter)! Gchart.meter()
 
 h2. Demonstration of usage
 
@@ -179,6 +180,16 @@ Supply two data sets, the first data set specifies x coordinates, the second set
 </pre>
 
 !http://chart.apis.google.com/chart?cht=s&chs=300x200&chd=s:MYkw9,MYkw9,9wkYM(scatter)!
+
+*google-o-meter*
+
+"Google Documentation":http://code.google.com/apis/chart/#gom
+
+Supply a single label that will be what the arrow points to. It only supports a solid fill for the background.
+
+<pre syntax="ruby">
+ Gchart.meter(:data => [70], :label => ['Flavor'])
+</pre>
 
 ---
 

@@ -169,7 +169,11 @@ To set labels, you can use one of these two options:
 
 A sparkline chart has exactly the same parameters as a line chart. The only difference is that the axes lines are not drawn for sparklines by default.
   
-  
+
+==Google-o-meter
+
+A Google-o-meter has a few restrictions. It may only use a solid filled background and it may only have one label.
+
 === try yourself
 
 Gchart.bar( :data => [[1,2,4,67,100,41,234],[45,23,67,12,67,300, 250]], 

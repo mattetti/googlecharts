@@ -221,7 +221,7 @@ describe "a line chart" do
   
 end
 
-describe "a pie chart" do
+describe "a sparkline chart" do
   
   before(:each) do
     @title = 'Chart Title'
@@ -285,7 +285,7 @@ describe "a pie chart" do
   
 end
 
-describe "a sparkline chart" do
+describe "a 3d pie chart" do
   
   before(:each) do
     @title = 'Chart Title'
@@ -324,10 +324,9 @@ describe "a google-o-meter" do
     @chart.include?('cht=gom').should be_true
   end
   
-  it "should be able to set labels by using the legend or labesl accessor" do
-#    Gchart.meter(:title => @title, :legend => @legend, :data => @data).include?("chl=#{@jstized_legend}").should be_true
-#    Gchart.meter(:title => @title, :labels => @legend, :data => @data).include?("chl=#{@jstized_legend}").should be_true
-    Gchart.meter(:title => @title, :labels => @legend, :data => @data).should == Gchart.meter(:title => @title, :legend => @legend, :data => @data)
+  it "should be able to set a solid background fill" do
+    Gchart.meter(:bg => 'efefef').include?("chf=bg,s,efefef").should be_true
+    Gchart.meter(:bg => {:color => 'efefef', :type => 'solid'}).include?("chf=bg,s,efefef").should be_true
   end
   
 end
