@@ -1,7 +1,12 @@
+== 1.2.0
+* added support for sparklines
+
 == 1.1.0
 * fixed another bug fix related to the uri escaping required to download the file properly.
+
 == 1.0.0
 * fixed the (URI::InvalidURIError) issue
+
 == 0.2.0
 * added export options (file and image tag)
 * added support for all arguments to be passed as a string or an array
