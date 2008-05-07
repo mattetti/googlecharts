@@ -33,7 +33,7 @@
     <h1>Googlecharts</h1>
     <div id="version" class="clickable" onclick='document.location = "http://rubyforge.org/projects/googlecharts"; return false'>
       <p>Get Version</p>
-      <a href="http://rubyforge.org/projects/googlecharts" class="numbers">1.2.0</a>
+      <a href="http://rubyforge.org/projects/googlecharts" class="numbers">1.3.0</a>
     </div>
     <h2>&#x2192; &#8216;Sexy Charts using Google <span class="caps">API</span> &#38; Ruby&#8217;</h2>
 
@@ -83,6 +83,9 @@ If you never added <a href="http://github.com">GitHub</a> as a gem source, you w
 
 
 	<p><img src="http://chart.apis.google.com/chart?chs=100x20&#38;cht=ls&#38;chco=0077CC&#38;chm=B,E6F2FA,0,0,0&#38;chls=1,0,0&#38;chd=t:27,25,25,25,25,27,100,31,25,36,25,25,39,25,31,25,25,25,26,26,25,25,28,25,25,100,28,27,31,25,27,27,29,25,27,26,26,25,26,26,35,33,34,25,26,25,36,25,26,37,33,33,37,37,39,25,25,25,25" title="sparkline" alt="sparkline" />Gchart.sparkline()</p>
+
+
+	<p><img src="http://chart.apis.google.com/chart?chs=225x125&#38;cht=gom&#38;chd=t:70&#38;chl=Flavor" title="google-o-meter" alt="google-o-meter" /> Gchart.meter()</p>
 
 
 	<h2>Demonstration of usage</h2>
@@ -274,6 +277,20 @@ Data set:
 
 
 	<p><img src="http://chart.apis.google.com/chart?cht=s&#38;chs=300x200&#38;chd=s:MYkw9,MYkw9,9wkYM" title="scatter" alt="scatter" /></p>
+
+
+	<p><strong>google-o-meter</strong></p>
+
+
+	<p><a href="http://code.google.com/apis/chart/#gom">Google Documentation</a></p>
+
+
+	<p>Supply a single label that will be what the arrow points to. It only supports a solid fill for the background.</p>
+
+
+	<p><pre class='syntax'>
+ <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">meter</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">70</span><span class="punct">],</span> <span class="symbol">:label</span> <span class="punct">=&gt;</span> <span class="punct">['</span><span class="string">Flavor</span><span class="punct">'])</span>
+</pre></p>
 
 
 <hr />
@@ -607,6 +624,12 @@ Data set:
 
 
 	<p>Comments are welcome. Send an email to <a href="mailto:mattaimonetti@gmail.com">Matt Aimonetti</a></p>
+
+
+	<h3>Contributors</h3>
+
+
+	<p><a href="http://github.com/dbgrandi">David Grandinetti</a></p>
     <p class="coda">
       <a href="mattaimonetti@gmail.com">Matt Aimonetti</a>, 7th May 2008<br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>

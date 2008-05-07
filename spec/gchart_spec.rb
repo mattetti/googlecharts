@@ -220,7 +220,7 @@ describe "a line chart" do
   end
   
   it "should be able to render a graph where all the data values are 0" do
-    Gchart.line(:data => [0, 0, 0]).should == "http://chart.apis.google.com/chart?cht=lc&chs=300x200&chd=s:AAA"
+    Gchart.line(:data => [0, 0, 0]).include?("chd=s:AAA").should be true
   end
   
 end

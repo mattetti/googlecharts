@@ -443,3 +443,6 @@ h2. Contact
 
 Comments are welcome. Send an email to "Matt Aimonetti":mailto:mattaimonetti@gmail.com
 
+h3. Contributors
+
+"David Grandinetti":http://github.com/dbgrandi
