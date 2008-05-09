@@ -232,6 +232,32 @@ If you never added <a href="http://github.com">GitHub</a> as a gem source, you w
 	<p><img src="http://chart.apis.google.com/chart?cht=bvg&#38;chs=300x200&#38;chd=s:9UGo,Uo9C&#38;chco=FF0000,00FF00" title="grouped bars" alt="grouped bars" /></p>
 
 
+	<p><strong>bar chart width and spacing</strong></p>
+
+
+	<p>A bar chart can accept options to set the width of the bars, spacing between bars and spacing between bar groups. To set these, you can either provide a string, array or hash.</p>
+
+
+	<p>The Google <span class="caps">API</span> sets these options in the order of width, spacing, and group spacing, with both spacing values being optional. So, if you provide a string or array, provide them in that order:</p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="attribute">@data</span><span class="punct">,</span> <span class="symbol">:bar_width_and_spacing</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">25,6</span><span class="punct">')</span> <span class="comment"># width of 25, spacing of 6</span>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="attribute">@data</span><span class="punct">,</span> <span class="symbol">:bar_width_and_spacing</span> <span class="punct">=&gt;</span> <span class="punct">'</span><span class="string">25,6,12</span><span class="punct">')</span> <span class="comment"># width of 25, spacing of 6, group spacing of 12</span>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="attribute">@data</span><span class="punct">,</span> <span class="symbol">:bar_width_and_spacing</span> <span class="punct">=&gt;</span> <span class="punct">[</span><span class="number">25</span><span class="punct">,</span><span class="number">6</span><span class="punct">])</span> <span class="comment"># width of 25, spacing of 6</span>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="attribute">@data</span><span class="punct">,</span> <span class="symbol">:bar_width_and_spacing</span> <span class="punct">=&gt;</span> <span class="number">25</span><span class="punct">)</span> <span class="comment"># width of 25</span>
+</pre></p>
+
+
+	<p>The hash lets you set these values directly, with the Google default values set for any options you don&#8217;t include:</p>
+
+
+	<p><pre class='syntax'>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="attribute">@data</span><span class="punct">,</span> <span class="symbol">:bar_width_and_spacing</span> <span class="punct">=&gt;</span> <span class="punct">{</span><span class="symbol">:width</span> <span class="punct">=&gt;</span> <span class="number">19</span><span class="punct">})</span>
+  <span class="constant">Gchart</span><span class="punct">.</span><span class="ident">bar</span><span class="punct">(</span><span class="symbol">:data</span> <span class="punct">=&gt;</span> <span class="attribute">@data</span><span class="punct">,</span> <span class="symbol">:bar_width_and_spacing</span> <span class="punct">=&gt;</span> <span class="punct">{</span><span class="symbol">:spacing</span> <span class="punct">=&gt;</span> <span class="number">10</span><span class="punct">,</span> <span class="symbol">:group_spacing</span> <span class="punct">=&gt;</span> <span class="number">12</span><span class="punct">})</span>
+</pre></p>
+
+
 	<p><strong>pie chart</strong></p>
 
 
@@ -639,9 +665,10 @@ Data set:
 	<h3>Contributors</h3>
 
 
-	<p><a href="http://github.com/dbgrandi">David Grandinetti</a></p>
+	<p><a href="http://github.com/dbgrandi">David Grandinetti</a>
+<a href="http://github.com/takeo">Toby Sterrett</a></p>
     <p class="coda">
-      <a href="mattaimonetti@gmail.com">Matt Aimonetti</a>, 7th May 2008<br>
+      <a href="mattaimonetti@gmail.com">Matt Aimonetti</a>, 8th May 2008<br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
     </p>
 </div>
