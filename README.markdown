@@ -164,6 +164,21 @@ To set labels, you can use one of these two options:
     Gchart.pie_3d(:title => @title, :labels => @legend, :data => @data, :size => '400x200')
     Gchart.pie_3d(:title => @title, :legend => @legend, :data => @data, :size => '400x200')
   
+==Bars:
+
+A bar chart can accept options to set the width of the bars, spacing between bars and spacing between bar groups. To set these, you can either provide a string, array or hash.
+
+The Google API sets these options in the order of width, spacing, and group spacing, with both spacing values being optional. So, if you provide a string or array, provide them in that order:
+
+  Gchart.bar(:data => @data, :bar_width_and_spacing => '25,6') # width of 25, spacing of 6
+  Gchart.bar(:data => @data, :bar_width_and_spacing => '25,6,12') # width of 25, spacing of 6, group spacing of 12
+  Gchart.bar(:data => @data, :bar_width_and_spacing => [25,6]) # width of 25, spacing of 6
+  Gchart.bar(:data => @data, :bar_width_and_spacing => 25) # width of 25
+  
+The hash lets you set these values directly, with the Google default values set for any options you don't include:
+
+  Gchart.bar(:data => @data, :bar_width_and_spacing => {:width => 19})
+  Gchart.bar(:data => @data, :bar_width_and_spacing => {:spacing => 10, :group_spacing => 12})
 
 ==Sparklines:
 
