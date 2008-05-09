@@ -161,6 +161,42 @@ describe "a bar graph" do
     Gchart.bar(:bar_colors => ['efefef','00ffff']).include?('chco=efefef,00ffff').should be_true
   end
   
+  it 'should be able to accept a string of width and spacing options' do
+    Gchart.bar(:bar_width_and_spacing => '25,6').include?('chbh=25,6').should be_true
+  end
+  
+  it 'should be able to accept a single fixnum width and spacing option to set the bar width' do
+    Gchart.bar(:bar_width_and_spacing => 25).include?('chbh=25').should be_true
+  end
+  
+  it 'should be able to accept an array of width and spacing options' do
+    Gchart.bar(:bar_width_and_spacing => [25,6,12]).include?('chbh=25,6,12').should be_true
+    Gchart.bar(:bar_width_and_spacing => [25,6]).include?('chbh=25,6').should be_true
+    Gchart.bar(:bar_width_and_spacing => [25]).include?('chbh=25').should be_true
+  end
+  
+  describe "with a hash of width and spacing options" do
+    
+    before(:each) do
+      @default_width         = 23
+      @default_spacing       = 4
+      @default_group_spacing = 8
+    end
+    
+    it 'should be able to have a custom bar width' do
+      Gchart.bar(:bar_width_and_spacing => {:width => 19}).include?("chbh=19,#{@default_spacing},#{@default_group_spacing}").should be_true
+    end
+    
+    it 'should be able to have custom spacing' do
+      Gchart.bar(:bar_width_and_spacing => {:spacing => 19}).include?("chbh=#{@default_width},19,#{@default_group_spacing}").should be_true
+    end
+    
+    it 'should be able to have custom group spacing' do
+      Gchart.bar(:bar_width_and_spacing => {:group_spacing => 19}).include?("chbh=#{@default_width},#{@default_spacing},19").should be_true
+    end
+    
+  end
+  
 end
 
 describe "a line chart" do
@@ -220,7 +256,7 @@ describe "a line chart" do
   end
   
   it "should be able to render a graph where all the data values are 0" do
-    Gchart.line(:data => [0, 0, 0]).include?("chd=s:AAA").should be true
+    Gchart.line(:data => [0, 0, 0]).include?("chd=s:AAA").should be_true
   end
   
 end
@@ -324,7 +360,7 @@ describe "a google-o-meter" do
     @chart = Gchart.meter(:data => @data)
   end
   
-  it "should greate a meter" do
+  it "should create a meter" do
     @chart.include?('cht=gom').should be_true
   end
   

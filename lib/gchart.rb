@@ -15,7 +15,7 @@ class Gchart
   @@file_name = 'chart.png'
   
   attr_accessor :title, :type, :width, :height, :horizontal, :grouped, :legend, :data, :encoding, :max_value, :bar_colors,
-                :title_color, :title_size, :custom, :axis_with_labels, :axis_labels
+                :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing
     
   class << self
     # Support for Gchart.line(:title => 'my title', :size => '400x600')
@@ -172,6 +172,28 @@ class Gchart
   def set_bar_colors
     @bar_colors = @bar_colors.join(',') if @bar_colors.is_a?(Array)
     "chco=#{@bar_colors}"
+  end
+  
+  # set bar spacing
+  # chbh=
+  # <bar width in pixels>,
+  # <optional space between bars in a group>,
+  # <optional space between groups>
+  def set_bar_width_and_spacing
+    width_and_spacing_values = case @bar_width_and_spacing
+    when String
+      @bar_width_and_spacing
+    when Array
+      @bar_width_and_spacing.join(',')
+    when Hash
+      width = @bar_width_and_spacing[:width] || 23
+      spacing = @bar_width_and_spacing[:spacing] || 4
+      group_spacing = @bar_width_and_spacing[:group_spacing] || 8
+      [width,spacing,group_spacing].join(',')
+    else
+      @bar_width_and_spacing.to_s
+    end
+    "chbh=#{width_and_spacing_values}"
   end
   
   def fill_for(type=nil, color='', angle=nil)
@@ -353,6 +375,8 @@ class Gchart
         set_data unless @data == []
       when '@bar_colors'
         set_bar_colors
+      when '@bar_width_and_spacing'
+        set_bar_width_and_spacing
       when '@axis_with_labels'
         set_axis_with_labels
       when '@axis_labels'
