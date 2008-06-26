@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = %q{googlecharts}
-  s.version = "1.3.2"
+  s.version = "1.3.3"
 
   s.specification_version = 2 if s.respond_to? :specification_version=
 
@@ -16,6 +16,6 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--main", "README.txt"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{googlecharts}
-  s.rubygems_version = %q{1.1.1}
+  s.rubygems_version = %q{1.2.0}
   s.summary = %q{Sexy Charts using Google API & Ruby}
 end
