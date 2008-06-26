@@ -5,7 +5,7 @@ h2. &#x2192; 'Sexy Charts using Google API & Ruby'
 
 h2. What
   
-  A nice and simple wrapper for "Google Chart API":http://code.google.com/apis/chart/
+A nice and simple wrapper for "Google Chart API":http://code.google.com/apis/chart/
 
 h2. Installing
 
@@ -52,17 +52,18 @@ or use rubyforge:
 require:
 <pre syntax="ruby">require 'gchart'</pre>
 
-<pre syntax="ruby">Gchart.line(  :size => '200x300', 
-              :title => "example title",
-              :bg => 'efefef',
-              :legend => ['first data set label', 'second data set label'],
-              :data => [10, 30, 120, 45, 72])</pre>
+<pre syntax="ruby">
+Gchart.line(:size => '200x300', 
+            :title => "example title",
+            :bg => 'efefef',
+            :legend => ['first data set label', 'second data set label'],
+            :data => [10, 30, 120, 45, 72])</pre>
 
 ---
 
 *simple line chart*
 <pre syntax="ruby">
-  Gchart.line(:data => [0, 40, 10, 70, 20])
+Gchart.line(:data => [0, 40, 10, 70, 20])
 </pre>
 
 Generate the following url: http://chart.apis.google.com/chart?chs=300x200&chd=s:AiI9R&cht=lc
@@ -73,7 +74,7 @@ Inserted in an image tag, it will look like that:
 
 *multiple line charts*
 <pre syntax="ruby">
-  Gchart.line(:data => [[0, 40, 10, 70, 20],[41, 10, 80, 50]])
+Gchart.line(:data => [[0, 40, 10, 70, 20],[41, 10, 80, 50]])
 </pre>
 
 !http://chart.apis.google.com/chart?cht=lc&chs=300x200&chd=s:AeH1P,fH9m(multiple lines chart)!
@@ -81,7 +82,7 @@ Inserted in an image tag, it will look like that:
 *set line colors*
 
 <pre syntax="ruby">
-  Gchart.line(:data => [[0, 40, 10, 70, 20],[41, 10, 80, 50]], :line_colors => "FF0000,00FF00")
+Gchart.line(:data => [[0, 40, 10, 70, 20],[41, 10, 80, 50]], :line_colors => "FF0000,00FF00")
 </pre>
 
 !http://chart.apis.google.com/chart?cht=lc&chs=300x200&chd=s:AeH1P,fH9m&chco=FF0000,00FF00(line colors)!
@@ -91,8 +92,8 @@ Inserted in an image tag, it will look like that:
 *sparkline chart*
 
 <pre syntax="ruby">
-  data = [27,25,25,25,25,27,100,31,25,36,25,25,39,25,31,25,25,25,26,26,25,25,28,25,25,100,28,27,31,25,27,27,29,25,27,26,26,25,26,26,35,33,34,25,26,25,36,25,26,37,33,33,37,37,39,25,25,25,25]
-  Gchart.sparkline(:data => data, :size => '120x40', :line_colors => '0077CC')
+data = [27,25,25,25,25,27,100,31,25,36,25,25,39,25,31,25,25,25,26,26,25,25,28,25,25,100,28,27,31,25,27,27,29,25,27,26,26,25,26,26,35,33,34,25,26,25,36,25,26,37,33,33,37,37,39,25,25,25,25]
+Gchart.sparkline(:data => data, :size => '120x40', :line_colors => '0077CC')
 </pre>
 
 !http://chart.apis.google.com/chart?chd=s:QPPPPQ9SPVPPXPSPPPPPPPRPP9RQSPQQRPQPPPPPVUUPPPVPPWUUWWXPPPP&chco=0077CC&chs=120x40&cht=ls(sparline)!
@@ -102,21 +103,21 @@ A sparkline chart has exactly the same parameters as a line chart. The only diff
 *bar chart*
 
 <pre syntax="ruby">
-  Gchart.bar(:data => [300, 100, 30, 200])
+Gchart.bar(:data => [300, 100, 30, 200])
 </pre>
 !http://chart.apis.google.com/chart?cht=bvs&chs=300x200&chd=s:9UGo(bars)!
 
 *set the bar chart orientation*
 
 <pre syntax="ruby">
-  Gchart.bar(:data => [300, 100, 30, 200], :orientation => 'horizontal')
+Gchart.bar(:data => [300, 100, 30, 200], :orientation => 'horizontal')
 </pre>
 !http://chart.apis.google.com/chart?cht=bhs&chs=300x200&chd=s:9UGo(bars)!
 
 *multiple bars chart*
 
 <pre syntax="ruby">
-  Gchart.bar(:data => [[300, 100, 30, 200], [100, 200, 300, 10]])
+Gchart.bar(:data => [[300, 100, 30, 200], [100, 200, 300, 10]])
 </pre>
 
 !http://chart.apis.google.com/chart?cht=bvs&chs=300x200&chd=s:9UGo,Uo9C(stacked multiple bars)!
@@ -124,13 +125,13 @@ A sparkline chart has exactly the same parameters as a line chart. The only diff
 The problem is that by default the bars are stacked, so we need to set the colors:
 
 <pre syntax="ruby">
-  Gchart.bar(:data => [[300, 100, 30, 200], [100, 200, 300, 10]], :bar_colors => 'FF0000,00FF00')
+Gchart.bar(:data => [[300, 100, 30, 200], [100, 200, 300, 10]], :bar_colors => 'FF0000,00FF00')
 </pre>
 
 If you prefer you can use this other syntax:
 
 <pre syntax="ruby">
-  Gchart.bar(:data => [[300, 100, 30, 200], [100, 200, 300, 10]], :bar_colors => ['FF0000', '00FF00'])
+Gchart.bar(:data => [[300, 100, 30, 200], [100, 200, 300, 10]], :bar_colors => ['FF0000', '00FF00'])
 </pre>
 
 !http://chart.apis.google.com/chart?cht=bvs&chs=300x200&chd=s:9UGo,Uo9C&chco=FF0000,00FF00(colors)!
@@ -138,9 +139,9 @@ If you prefer you can use this other syntax:
 The problem now, is that we can't see the first value of the second dataset since it's lower than the first value of the first dataset. Let's unstack the bars:
 
 <pre syntax="ruby">
-  Gchart.bar( :data => [[300, 100, 30, 200], [100, 200, 300, 10]], 
-              :bar_colors => 'FF0000,00FF00',
-              :stacked => false )
+Gchart.bar(:data => [[300, 100, 30, 200], [100, 200, 300, 10]], 
+           :bar_colors => 'FF0000,00FF00',
+           :stacked => false )
 </pre>
 
 !http://chart.apis.google.com/chart?cht=bvg&chs=300x200&chd=s:9UGo,Uo9C&chco=FF0000,00FF00(grouped bars)!
@@ -152,31 +153,31 @@ A bar chart can accept options to set the width of the bars, spacing between bar
 The Google API sets these options in the order of width, spacing, and group spacing, with both spacing values being optional. So, if you provide a string or array, provide them in that order:
 
 <pre syntax="ruby">
-  Gchart.bar(:data => @data, :bar_width_and_spacing => '25,6') # width of 25, spacing of 6
-  Gchart.bar(:data => @data, :bar_width_and_spacing => '25,6,12') # width of 25, spacing of 6, group spacing of 12
-  Gchart.bar(:data => @data, :bar_width_and_spacing => [25,6]) # width of 25, spacing of 6
-  Gchart.bar(:data => @data, :bar_width_and_spacing => 25) # width of 25
+Gchart.bar(:data => @data, :bar_width_and_spacing => '25,6') # width of 25, spacing of 6
+Gchart.bar(:data => @data, :bar_width_and_spacing => '25,6,12') # width of 25, spacing of 6, group spacing of 12
+Gchart.bar(:data => @data, :bar_width_and_spacing => [25,6]) # width of 25, spacing of 6
+Gchart.bar(:data => @data, :bar_width_and_spacing => 25) # width of 25
 </pre>
   
 The hash lets you set these values directly, with the Google default values set for any options you don't include:
 
 <pre syntax="ruby">
-  Gchart.bar(:data => @data, :bar_width_and_spacing => {:width => 19})
-  Gchart.bar(:data => @data, :bar_width_and_spacing => {:spacing => 10, :group_spacing => 12})
+Gchart.bar(:data => @data, :bar_width_and_spacing => {:width => 19})
+Gchart.bar(:data => @data, :bar_width_and_spacing => {:spacing => 10, :group_spacing => 12})
 </pre>
 
 
 *pie chart*
 
 <pre syntax="ruby">
-  Gchart.pie(:data => [20, 35, 45])
+Gchart.pie(:data => [20, 35, 45])
 </pre>
 !http://chart.apis.google.com/chart?cht=p&chs=300x200&chd=s:bv9(Pie Chart)!
 
 *3D pie chart*
 
 <pre syntax="ruby">
-  Gchart.pie_3d(:data => [20, 35, 45])
+Gchart.pie_3d(:data => [20, 35, 45])
 </pre>
 !http://chart.apis.google.com/chart?cht=p3&chs=300x200&chd=s:bv9(Pie Chart)!
 
@@ -192,7 +193,7 @@ Data set:
 * the seventh value specifies the area of A intersecting B intersecting C
 
 <pre syntax="ruby">
-  Gchart.venn(:data => [100, 80, 60, 30, 30, 30, 10])
+Gchart.venn(:data => [100, 80, 60, 30, 30, 30, 10])
 </pre>
 !http://chart.apis.google.com/chart?cht=v&chs=300x200&chd=s:9wkSSSG(Venn)!
 
@@ -203,7 +204,7 @@ Data set:
 Supply two data sets, the first data set specifies x coordinates, the second set specifies y coordinates, the third set the data point size.
 
 <pre syntax="ruby">
-  Gchart.scatter(:data => [[1, 2, 3, 4, 5], [1, 2, 3, 4 ,5], [5, 4, 3, 2, 1]])
+Gchart.scatter(:data => [[1, 2, 3, 4, 5], [1, 2, 3, 4 ,5], [5, 4, 3, 2, 1]])
 </pre>
 
 !http://chart.apis.google.com/chart?cht=s&chs=300x200&chd=s:MYkw9,MYkw9,9wkYM(scatter)!
@@ -215,7 +216,7 @@ Supply two data sets, the first data set specifies x coordinates, the second set
 Supply a single label that will be what the arrow points to. It only supports a solid fill for the background.
 
 <pre syntax="ruby">
- Gchart.meter(:data => [70], :label => ['Flavor'])
+Gchart.meter(:data => [70], :label => ['Flavor'])
 </pre>
 
 ---
@@ -223,7 +224,7 @@ Supply a single label that will be what the arrow points to. It only supports a 
 *set a chart title*
 
 <pre syntax="ruby">
-  Gchart.bar(:title => "Recent Chart Sexyness", :data => [15, 30, 10, 20, 100, 20, 40, 100])
+Gchart.bar(:title => "Recent Chart Sexyness", :data => [15, 30, 10, 20, 100, 20, 40, 100])
 </pre>
 
 !http://chart.apis.google.com/chart?cht=bvs&chs=300x200&chd=s:JSGM9MY9&chtt=Recent+Chart+Sexyness(chart title)!
@@ -231,7 +232,7 @@ Supply a single label that will be what the arrow points to. It only supports a 
 *set the title size*
 
 <pre syntax="ruby">
-  Gchart.bar(:title => "Recent Chart Sexyness", :title_size => 20, :data => [15, 30, 10, 20, 100, 20, 40, 100])
+Gchart.bar(:title => "Recent Chart Sexyness", :title_size => 20, :data => [15, 30, 10, 20, 100, 20, 40, 100])
 </pre>
 
 !http://chart.apis.google.com/chart?cht=bvs&chs=300x200&chd=s:JSGM9MY9&chtt=Recent+Chart+Sexyness&chts=454545,20(title size)!
@@ -239,7 +240,7 @@ Supply a single label that will be what the arrow points to. It only supports a 
 *set the title color*
 
 <pre syntax="ruby">
-  Gchart.bar(:title => "Recent Chart Sexyness", :title_color => 'FF0000', :data => [15, 30, 10, 20, 100, 20, 40, 100])
+Gchart.bar(:title => "Recent Chart Sexyness", :title_color => 'FF0000', :data => [15, 30, 10, 20, 100, 20, 40, 100])
 </pre>
 
 !http://chart.apis.google.com/chart?cht=bvs&chs=300x200&chd=s:JSGM9MY9&chtt=Recent+Chart+Sexyness&chts=FF0000(Title color)!
@@ -247,9 +248,9 @@ Supply a single label that will be what the arrow points to. It only supports a 
 *set the chart's size*
 
 <pre syntax="ruby">
-  Gchart.bar( :title => "Recent Chart Sexyness", 
-              :data => [15, 30, 10, 20, 100, 20, 40, 100],
-              :size => '600x400')
+Gchart.bar(:title => "Recent Chart Sexyness", 
+           :data => [15, 30, 10, 20, 100, 20, 40, 100],
+           :size => '600x400')
 </pre>
 
 !http://chart.apis.google.com/chart?cht=bvs&chs=600x400&chd=s:JSGM9MY9&chtt=Recent+Chart+Sexyness(size)!
@@ -257,9 +258,9 @@ Supply a single label that will be what the arrow points to. It only supports a 
 *set the image background color*
 
 <pre syntax="ruby">
-  Gchart.bar( :title => "Matt's Mojo", 
-              :data => [15, 30, 10, 20, 100, 20, 40, 100, 90, 100, 80],
-              :background => 'FF9994')
+Gchart.bar(:title => "Matt's Mojo", 
+           :data => [15, 30, 10, 20, 100, 20, 40, 100, 90, 100, 80],
+           :background => 'FF9994')
 </pre>
 
 !http://chart.apis.google.com/chart?chf=bg,s,FF9994&cht=bvs&chs=300x200&chd=s:JSGM9MY929w&chtt=Matt's+Mojo(Background)!
@@ -267,9 +268,9 @@ Supply a single label that will be what the arrow points to. It only supports a 
 *set the chart background color*
 
 <pre syntax="ruby">
-  Gchart.bar( :title => "Matt's Mojo", 
-              :data => [15, 30, 10, 20, 100, 20, 40, 100, 90, 100, 80],
-              :background => 'FF9994', :chart_background => '000000')
+Gchart.bar(:title => "Matt's Mojo", 
+           :data => [15, 30, 10, 20, 100, 20, 40, 100, 90, 100, 80],
+           :background => 'FF9994', :chart_background => '000000')
 </pre>
 
 !http://chart.apis.google.com/chart?chf=c,s,000000|bg,s,FF9994&cht=bvs&chs=300x200&chd=s:JSGM9MY929w&chtt=Matt's+Mojo(chart background)!
@@ -277,18 +278,18 @@ Supply a single label that will be what the arrow points to. It only supports a 
 *Set bar/line colors*
 
 <pre syntax="ruby">
-  Gchart.bar( :title => "Matt's Mojo", 
-              :data => [15, 30, 10, 20, 100, 20, 40, 100, 90, 100, 80],
-              :bar_colors => '76A4FB',
-              :background => 'EEEEEE', :chart_background => 'CCCCCC')
+Gchart.bar(:title => "Matt's Mojo", 
+           :data => [15, 30, 10, 20, 100, 20, 40, 100, 90, 100, 80],
+           :bar_colors => '76A4FB',
+           :background => 'EEEEEE', :chart_background => 'CCCCCC')
 </pre>
 
 !http://chart.apis.google.com/chart?chf=c,s,CCCCCC|bg,s,EEEEEE&cht=bvs&chs=300x200&chd=s:JSGM9MY929w&chco=76A4FB&chtt=Matt's+Mojo(bar colors)!
 
 <pre syntax="ruby">
-  Gchart.line( :title => "Matt's Mojo", 
-              :data => [15, 30, 10, 20, 100, 20, 40, 100, 90, 100, 80],
-              :line_colors => '76A4FB')
+Gchart.line(:title => "Matt's Mojo", 
+            :data => [15, 30, 10, 20, 100, 20, 40, 100, 90, 100, 80],
+            :line_colors => '76A4FB')
 </pre>
 
 !http://chart.apis.google.com/chart?cht=lc&chs=300x200&chd=s:JSGM9MY929w&chco=76A4FB&chtt=Matt's+Mojo(line colors)!
@@ -296,27 +297,27 @@ Supply a single label that will be what the arrow points to. It only supports a 
 *legend / labels*
 
 <pre syntax="ruby">
-  Gchart.bar( :title => "Matt vs Rob",
-              :data => [[300, 100, 30, 200], [100, 200, 300, 10]], 
-              :bar_colors => 'FF0000,00FF00',
-              :stacked => false, :size => '400x200',
-              :legend => ["Matt's Mojo", "Rob's Mojo"] )
+Gchart.bar(:title => "Matt vs Rob",
+           :data => [[300, 100, 30, 200], [100, 200, 300, 10]], 
+           :bar_colors => 'FF0000,00FF00',
+           :stacked => false, :size => '400x200',
+           :legend => ["Matt's Mojo", "Rob's Mojo"] )
 </pre>
 !http://chart.apis.google.com/chart?cht=bvg&chdl=Matt's+Mojo|Rob's+Mojo&chs=400x200&chd=s:9UGo,Uo9C&chco=FF0000,00FF00&chtt=Matt+vs+Rob(legend)!
 
 <pre syntax="ruby">
-  Gchart.line( :title => "Matt vs Rob",
-              :data => [[300, 100, 30, 200], [100, 200, 300, 10]], 
-              :bar_colors => ['FF0000','00FF00'],
-              :stacked => false, :size => '400x200',
-              :legend => ["Matt's Mojo", "Rob's Mojo"] )
+Gchart.line(:title => "Matt vs Rob",
+            :data => [[300, 100, 30, 200], [100, 200, 300, 10]], 
+            :bar_colors => ['FF0000','00FF00'],
+            :stacked => false, :size => '400x200',
+            :legend => ["Matt's Mojo", "Rob's Mojo"] )
 </pre>
 !http://chart.apis.google.com/chart?cht=lc&chdl=Matt's+Mojo|Rob's+Mojo&chs=400x200&chd=s:9UGo,Uo9C&chco=FF0000,00FF00&chtt=Matt+vs+Rob(line legend)!
 
 
 <pre syntax="ruby">
-  Gchart.pie_3d(  :title => 'ruby_fu', :size => '400x200',
-                  :data => [10, 45, 45], :labels => ["DHH", "Rob", "Matt"] )
+Gchart.pie_3d(:title => 'ruby_fu', :size => '400x200',
+              :data => [10, 45, 45], :labels => ["DHH", "Rob", "Matt"] )
 </pre>
 
 !http://chart.apis.google.com/chart?cht=p3&chl=DHH|Rob|Matt&chs=400x200&chd=s:N99&chtt=ruby_fu(labels)!
@@ -324,27 +325,27 @@ Supply a single label that will be what the arrow points to. It only supports a 
 *Display axis labels*
 
 <pre syntax="ruby">
-  Gchart.line( :data => [300, 100, 30, 200, 100, 200, 300, 10], :axis_with_labels => 'x,y,r')
+Gchart.line(:data => [300, 100, 30, 200, 100, 200, 300, 10], :axis_with_labels => 'x,y,r')
 </pre>
 
 or you can use the other syntax:
 
 <pre syntax="ruby">
-  Gchart.line( :data => [300, 100, 30, 200, 100, 200, 300, 10], :axis_with_labels => ['x','y','r'])
+Gchart.line(:data => [300, 100, 30, 200, 100, 200, 300, 10], :axis_with_labels => ['x','y','r'])
 </pre>
 
 !http://chart.apis.google.com/chart?cht=lc&chs=300x200&chxt=x,y,r&chd=s:9UGoUo9C(axis with labels)!
 
 <pre syntax="ruby">
-  Gchart.line(  :data => [300, 100, 30, 200, 100, 200, 300, 10], :axis_with_labels => 'x',
-                :axis_labels => ['Jan|July|Jan|July|Jan'])
+Gchart.line(:data => [300, 100, 30, 200, 100, 200, 300, 10], :axis_with_labels => 'x',
+            :axis_labels => ['Jan|July|Jan|July|Jan'])
 </pre>
 
 or you can use the other syntax:
 
 <pre syntax="ruby">
-  Gchart.line(  :data => [300, 100, 30, 200, 100, 200, 300, 10], :axis_with_labels => 'x',
-                :axis_labels => ['Jan','July','Jan','July','Jan'])
+Gchart.line(:data => [300, 100, 30, 200, 100, 200, 300, 10], :axis_with_labels => 'x',
+            :axis_labels => ['Jan','July','Jan','July','Jan'])
 </pre>
 
 !http://chart.apis.google.com/chart?cht=lc&chxl=0:|Jan|July|Jan|July|Jan&chs=300x200&chxt=x&chd=s:9UGoUo9C(x labels)!
@@ -352,15 +353,15 @@ or you can use the other syntax:
 *multiple axis labels*
 
 <pre syntax="ruby">
-  Gchart.line(  :data => [300, 100, 30, 200, 100, 200, 300, 10], :axis_with_labels => 'x,r',
-                :axis_labels => ['Jan|July|Jan|July|Jan', '2005|2006|2007'])
+Gchart.line(:data => [300, 100, 30, 200, 100, 200, 300, 10], :axis_with_labels => 'x,r',
+            :axis_labels => ['Jan|July|Jan|July|Jan', '2005|2006|2007'])
 </pre>
 
 or 
 
 <pre syntax="ruby">
-  Gchart.line(  :data => [300, 100, 30, 200, 100, 200, 300, 10], :axis_with_labels => 'x,r',
-                :axis_labels => [['Jan','July','Jan','July','Jan'], ['2005','2006','2007']])
+Gchart.line(:data => [300, 100, 30, 200, 100, 200, 300, 10], :axis_with_labels => 'x,r',
+            :axis_labels => [['Jan','July','Jan','July','Jan'], ['2005','2006','2007']])
 </pre>
 
 !http://chart.apis.google.com/chart?cht=lc&chxl=0:|Jan|July|Jan|July|Jan|1:|2005|2006|2007&chs=300x200&chxt=x,r&chd=s:9UGoUo9C(multiple axis labels)!
@@ -372,7 +373,7 @@ or
 I certainly didn't cover the entire API, if you want to add your own params:
 
 <pre syntax="ruby">
-  Gchart.line( :custom => 'chd=s:93zyvneTTOMJMLIJFHEAECFJGHDBFCFIERcgnpy45879,IJKNUWUWYdnswz047977315533zy1246872tnkgcaZQONHCECAAAAEII&chls=3,6,3|1,1,0')
+Gchart.line(:custom => 'chd=s:93zyvneTTOMJMLIJFHEAECFJGHDBFCFIERcgnpy45879,IJKNUWUWYdnswz047977315533zy1246872tnkgcaZQONHCECAAAAEII&chls=3,6,3|1,1,0')
 </pre>
 
 !http://chart.apis.google.com/chart?cht=lc&chs=300x200&chd=s:93zyvneTTOMJMLIJFHEAECFJGHDBFCFIERcgnpy45879,IJKNUWUWYdnswz047977315533zy1246872tnkgcaZQONHCECAAAAEII&chls=3,6,3|1,1,0(Custom)!
@@ -384,24 +385,38 @@ I certainly didn't cover the entire API, if you want to add your own params:
 You might prefer to save the chart instead of using the url, not a problem:
 
 <pre syntax="ruby">
-  Gchart.line(:data => [0, 26], :format => 'file')
+Gchart.line(:data => [0, 26], :format => 'file')
 </pre>
 
 You might want to specify the path and/or the filename used to save your chart: 
 
 <pre syntax="ruby">
-  Gchart.line(:data => [0, 26], :format => 'file', :filename => 'custom_filename.png')
+Gchart.line(:data => [0, 26], :format => 'file', :filename => 'custom_filename.png')
 </pre>
 
 *Insert as an image tag*
 
-Because, I'm lazy, I also added a custom format:
+Because, I'm lazy, you can generate a full image tag, with support for the standard html options.
 
 <pre syntax="ruby">
-  Gchart.line(:data => [0, 26], :format => 'img_tag')
+Gchart.line(:data => [0, 26], :format => 'image_tag')
 </pre>
 
-&lt;img src='http://chart.apis.google.com/chart?chs=300x200&chd=s:A9&cht=lc'/&gt;
+<pre syntax="ruby">
+<img src="http://chart.apis.google.com/chart?chs=300x200&chd=s:A9&cht=lc" width="300" height="200" alt="Google Chart" />
+</pre>
+
+Here are a few more examples:
+
+<pre syntax="ruby">
+Gchart.line(:data => [0, 26], :format => 'image_tag')
+Gchart.line(:data => [0, 26], :format => 'image_tag', :id => "sexy")
+Gchart.line(:data => [0, 26], :format => 'image_tag', :class => "chart")
+Gchart.line(:data => [0, 26], :format => 'image_tag', :alt => "Sexy Chart")
+Gchart.line(:data => [0, 26], :format => 'image_tag', :title => "Sexy Chart")
+</pre>
+
+Image dimensions will be automatically set based on your chart's size.
 
 ---
 
@@ -417,17 +432,17 @@ By default this library uses the simple encoding, if you need a different type o
 
 default / simple: chd=s:9UGoUo9C
 <pre syntax="ruby">
-  Gchart.line( :data => [300, 100, 30, 200, 100, 200, 300, 10] )
+  Gchart.line(:data => [300, 100, 30, 200, 100, 200, 300, 10] )
 </pre>
 
 extended: chd=e:..VVGZqqVVqq..CI
 <pre syntax="ruby">
-  Gchart.line( :data => [300, 100, 30, 200, 100, 200, 300, 10], :encoding => 'extended' )
+Gchart.line(:data => [300, 100, 30, 200, 100, 200, 300, 10], :encoding => 'extended' )
 </pre>
 
 text: chd=t:300,100,30,200,100,200,300,10
 <pre syntax="ruby">
-  Gchart.line( :data => [300, 100, 30, 200, 100, 200, 300, 10], :encoding => 'text' )
+Gchart.line(:data => [300, 100, 30, 200, 100, 200, 300, 10], :encoding => 'text' )
 </pre> 
 
 (note that the text encoding doesn't use a max value and therefore should be under 100)
@@ -439,19 +454,19 @@ Simple and extended encoding support the max value option.
 The max value option is a simple way of scaling your graph. The data is converted in chart value with the highest chart value being the highest point on the graph. By default, the calculation is done for you. However you can specify your own maximum or not use a maximum at all.
 
 <pre syntax="ruby">
-  Gchart.line( :data => [300, 100, 30, 200, 100, 200, 300, 10] )
+Gchart.line(:data => [300, 100, 30, 200, 100, 200, 300, 10] )
 </pre>
 
 !http://chart.apis.google.com/chart?cht=lc&chs=300x200&chd=s:9UGoUo9C(Title)!
 
 <pre syntax="ruby">
-  Gchart.line( :data => [300, 100, 30, 200, 100, 200, 300, 10], :max_value => 500 )
+Gchart.line(:data => [300, 100, 30, 200, 100, 200, 300, 10], :max_value => 500 )
 </pre>
 
 !http://chart.apis.google.com/chart?cht=lc&chs=300x200&chd=s:kMDYMYkB(max 500)!
 
 <pre syntax="ruby">
-  Gchart.line( :data => [100, 20, 30, 20, 10, 14, 30, 10], :max_value => false )
+Gchart.line(:data => [100, 20, 30, 20, 10, 14, 30, 10], :max_value => false )
 </pre>
 
 !http://chart.apis.google.com/chart?cht=lc&chs=300x200&chd=s:_UeUKOeK(real size)!
@@ -474,3 +489,4 @@ h3. Contributors
 
 "David Grandinetti":http://github.com/dbgrandi
 "Toby Sterrett":http://github.com/takeo
+"Patrick Crowley":http://github.com/mokolabs

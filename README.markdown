@@ -192,7 +192,7 @@ A Google-o-meter has a few restrictions. It may only use a solid filled backgrou
 === try yourself
 
 Gchart.bar( :data => [[1,2,4,67,100,41,234],[45,23,67,12,67,300, 250]], 
-            :title => 'SDRuby Fu level', 
+            :title => 'SD Ruby Fu level', 
             :legend => ['matt','patrick'], 
             :bg => {:color => '76A4FB', :type => 'gradient'}, 
             :bar_colors => 'ff0000,00ff00')

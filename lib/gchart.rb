@@ -47,6 +47,9 @@ class Gchart
       @grouped = false
       @encoding = 'simple'
       @max_value = 'auto'
+      @alt = 'Google Chart'
+      @id = false
+      @class = false
 
       # set the options value if definable
       options.each do |attribute, value| 
@@ -66,6 +69,33 @@ class Gchart
   
   def size
     "#{@width}x#{@height}"
+  end
+  
+  # Sets the alt tag when chart is exported as image tag
+  def alt=(alt='Google Chart')
+    @alt = alt
+  end
+  
+  def alt
+    @alt
+  end
+  
+  # Sets the CSS id selector when chart is exported as image tag
+  def id=(id=false)
+    @id = id
+  end
+  
+  def id
+    @id
+  end
+  
+  # Sets the CSS class selector when chart is exported as image tag
+  def class=(klass=false)
+    @class = klass
+  end
+  
+  def class
+    @class
   end
   
   # Sets the orientation of a bar graph
@@ -123,9 +153,19 @@ class Gchart
   
   # Format
   
-  def img_tag
-    "<img src='#{query_builder}'/>"
+  def image_tag
+    image = "<img"
+    image += " id=\"#{@id}\"" if @id  
+    image += " class=\"#{@class}\"" if @class      
+    image += " src=\"#{query_builder}\""
+    image += " width=\"#{@width}\""
+    image += " height=\"#{@height}\""
+    image += " alt=\"#{@alt}\""
+    image += " title=\"#{@title}\"" if @title
+    image += " />"
   end
+  
+  alias_method :img_tag, :image_tag
   
   def url
     query_builder

@@ -377,10 +377,34 @@ describe 'exporting a chart' do
     Gchart.line(:data => [0, 26], :format => 'url').should == Gchart.line(:data => [0, 26])
   end
   
-  it "should be available as the img tag" do
-    Gchart.line(:data => [0, 26], :format => 'img_tag').should match(/<img src=(.*)\/>/)
+  it "should be available as an image tag" do
+    Gchart.line(:data => [0, 26], :format => 'image_tag').should match(/<img src=(.*) width="300" height="200" alt="Google Chart" \/>/)
   end
   
+  it "should be available as an image tag using img_tag alias" do
+    Gchart.line(:data => [0, 26], :format => 'img_tag').should match(/<img src=(.*) width="300" height="200" alt="Google Chart" \/>/)
+  end
+  
+  it "should be available as an image tag using custom dimensions" do
+    Gchart.line(:data => [0, 26], :format => 'image_tag', :size => '400x400').should match(/<img src=(.*) width="400" height="400" alt="Google Chart" \/>/)
+  end
+ 
+  it "should be available as an image tag using custom alt text" do
+    Gchart.line(:data => [0, 26], :format => 'image_tag', :alt => 'Sexy chart').should match(/<img src=(.*) width="300" height="200" alt="Sexy chart" \/>/)
+  end
+  
+  it "should be available as an image tag using custom title text" do
+    Gchart.line(:data => [0, 26], :format => 'image_tag', :title => 'Sexy chart').should match(/<img src=(.*) width="300" height="200" alt="Google Chart" title="Sexy chart" \/>/)
+  end
+  
+  it "should be available as an image tag using custom css id selector" do
+    Gchart.line(:data => [0, 26], :format => 'image_tag', :id => 'chart').should match(/<img id="chart" src=(.*) width="300" height="200" alt="Google Chart" \/>/)
+  end
+  
+  it "should be available as an image tag using custom css class selector" do
+    Gchart.line(:data => [0, 26], :format => 'image_tag', :class => 'chart').should match(/<img class="chart" src=(.*) width="300" height="200" alt="Google Chart" \/>/)
+  end
+   
   it "should be available as a file" do
     File.delete('chart.png') if File.exist?('chart.png')
     Gchart.line(:data => [0, 26], :format => 'file')
