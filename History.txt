@@ -1,3 +1,10 @@
+== 1.3.4
+* updated documentation and cleaned it up (mokolabs)
+* added support for custom class, id and alt tags when using the image_tag format (i.e Gchart.line(:data => [0, 26], :format => 'image_tag')) (mokolabs)
+
+== 1.3.2 - 1.3.3
+* changes required by github
+
 == 1.3.1
 * added width and spacing options
 

@@ -15,27 +15,24 @@ class Gchart
   @@file_name = 'chart.png'
   
   attr_accessor :title, :type, :width, :height, :horizontal, :grouped, :legend, :data, :encoding, :max_value, :bar_colors,
-                :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing
+                :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :class
     
-  class << self
-    # Support for Gchart.line(:title => 'my title', :size => '400x600')
-    def method_missing(m, options={})
-      # Extract the format and optional filename, then clean the hash
-      format = options[:format] || 'url'
-      @@file_name = options[:filename] unless options[:filename].nil?
-      options.delete(:format)
-      options.delete(:filename)
-      # create the chart and return it in the format asked for
-      if @@types.include?(m.to_s)  
-        chart = new(options.merge!({:type => m}))
-        chart.send(format)
-      elsif m.to_s == 'version' 
-        Gchart::VERSION::STRING
-      else
-        "#{m} is not a supported chart format, please use one of the following: #{supported_types}."
-      end  
-    end
-
+  # Support for Gchart.line(:title => 'my title', :size => '400x600')
+  def self.method_missing(m, options={})
+    # Extract the format and optional filename, then clean the hash
+    format = options[:format] || 'url'
+    @@file_name = options[:filename] unless options[:filename].nil?
+    options.delete(:format)
+    options.delete(:filename)
+    # create the chart and return it in the format asked for
+    if @@types.include?(m.to_s)  
+      chart = new(options.merge!({:type => m}))
+      chart.send(format)
+    elsif m.to_s == 'version' 
+      Gchart::VERSION::STRING
+    else
+      "#{m} is not a supported chart format, please use one of the following: #{supported_types}."
+    end  
   end
   
   def initialize(options={})
@@ -47,8 +44,11 @@ class Gchart
       @grouped = false
       @encoding = 'simple'
       @max_value = 'auto'
+      # Sets the alt tag when chart is exported as image tag
       @alt = 'Google Chart'
+      # Sets the CSS id selector when chart is exported as image tag
       @id = false
+      # Sets the CSS class selector when chart is exported as image tag
       @class = false
 
       # set the options value if definable
@@ -69,33 +69,6 @@ class Gchart
   
   def size
     "#{@width}x#{@height}"
-  end
-  
-  # Sets the alt tag when chart is exported as image tag
-  def alt=(alt='Google Chart')
-    @alt = alt
-  end
-  
-  def alt
-    @alt
-  end
-  
-  # Sets the CSS id selector when chart is exported as image tag
-  def id=(id=false)
-    @id = id
-  end
-  
-  def id
-    @id
-  end
-  
-  # Sets the CSS class selector when chart is exported as image tag
-  def class=(klass=false)
-    @class = klass
-  end
-  
-  def class
-    @class
   end
   
   # Sets the orientation of a bar graph

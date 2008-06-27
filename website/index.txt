@@ -6,6 +6,7 @@ h2. &#x2192; 'Sexy Charts using Google API & Ruby'
 h2. What
   
 A nice and simple wrapper for "Google Chart API":http://code.google.com/apis/chart/
+(Fully tested using RSpec, check the specs for more usage examples)
 
 h2. Installing
 
@@ -472,10 +473,38 @@ Gchart.line(:data => [100, 20, 30, 20, 10, 14, 30, 10], :max_value => false )
 !http://chart.apis.google.com/chart?cht=lc&chs=300x200&chd=s:_UeUKOeK(real size)!
 
 
-
 h2. Repository
 
 The trunk repository is <code>http://github.com/mattetti/googlecharts/</code> for anonymous access.
+
+h2. People reported using this gem
+
+
+  <div>
+    <img  src="http://img.skitch.com/20080627-r14subqdx2ye3w13qefbx974gc.png" alt="github"/><br/>
+    <li><a href="http://github.com">http://github.com</a></li><br/>
+  </div>
+  
+  <div>
+    <img  src="http://stafftool.com/images/masthead_screen.gif" alt="stafftool"/><br/>
+    <li><a href="http://stafftool.com/">Takeo(contributor)</a></li><br/>
+  </div>
+  
+  <div>
+    <img  src="http://img.skitch.com/20080627-g2pp89h7gdbh15m1rr8hx48jep.jpg" alt="graffletopia"/><br/>
+    <li><a href="http://graffletopia.com"> http://graffletopia.com  Mokolabs(contributor)</a></li><br/>
+  </div>
+  
+  <div>
+    <img  src="http://img.skitch.com/20080627-kc1weqsbkmxeqhwiyriq3n6g8k.jpg" alt="gumgum"/><br/>
+    <li><a href="http://gumgum.com"> http://gumgum.com  Mattetti(contributor)</a></li><br/>
+  </div>
+  
+  <div>
+    <img  src="http://img.skitch.com/20080627-n48j8pb2r7irsewfeh4yp3da12.jpg" alt="gumgum"/><br/>
+    <li><a href="http://feedflix.com/"> http://feedflix.com/</a></li><br/>
+  </div>
+
 
 h2. License
 
