@@ -8,6 +8,10 @@ describe "generating a default Gchart" do
     Chart::Theme::THEME_FILES.should include("#{File.dirname(__FILE__)}/fixtures/another_test_theme.yml")
   end
   
+  it 'should be able to load themes from the additional theme files' do
+    lambda { Chart::Theme.load(:test_two) }.should_not raise_error
+  end
+  
   it 'should raise ThemeNotFound if theme does not exist' do
     lambda { Chart::Theme.load(:nonexistent) }.should raise_error(Chart::Theme::ThemeNotFound, "Could not locate nonexistent theme ...")
   end
