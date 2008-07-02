@@ -130,7 +130,7 @@ class Gchart
     image = "<img"
     image += " id=\"#{@id}\"" if @id  
     image += " class=\"#{@class}\"" if @class      
-    image += " src=\"#{query_builder}\""
+    image += " src=\"#{query_builder(:html)}\""
     image += " width=\"#{@width}\""
     image += " height=\"#{@height}\""
     image += " alt=\"#{@alt}\""
@@ -368,7 +368,7 @@ class Gchart
   end
   
   
-  def query_builder
+  def query_builder(options="")
     query_params = instance_variables.map do |var|
       case var
       # Set the graph size  
@@ -399,7 +399,15 @@ class Gchart
       end
     end.compact
     
-    jstize(@@url + query_params.join('&'))
+    # Use ampersand as default delimiter
+    unless options == :html
+      delimiter = '&'
+    # Escape ampersand for html image tags
+    else
+      delimiter = '&amp;'
+    end
+    
+    jstize(@@url + query_params.join(delimiter))
   end
   
 end

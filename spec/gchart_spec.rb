@@ -404,6 +404,15 @@ describe 'exporting a chart' do
   it "should be available as an image tag using custom css class selector" do
     Gchart.line(:data => [0, 26], :format => 'image_tag', :class => 'chart').should match(/<img class="chart" src=(.*) width="300" height="200" alt="Google Chart" \/>/)
   end
+
+  it "should use ampersands to separate key/value pairs in URLs by default" do
+    Gchart.line(:data => [0, 26]).should satisfy {|chart| chart.include? "&" }
+    Gchart.line(:data => [0, 26]).should_not satisfy {|chart| chart.include? "&amp;" }
+  end
+  
+  it "should escape ampersands in URLs when used as an image tag" do
+    Gchart.line(:data => [0, 26], :format => 'image_tag', :class => 'chart').should satisfy {|chart| chart.include? "&amp;" }
+  end
    
   it "should be available as a file" do
     File.delete('chart.png') if File.exist?('chart.png')
