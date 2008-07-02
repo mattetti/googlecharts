@@ -1,0 +1,8 @@
+:test_two:
+  :colors:
+    - &blue 6886B4
+    - &yellow FDD84E
+    - &grey 333333
+  :bar_colors: [ *blue, *yellow ]
+  :background: *grey
+  :chart_background: *grey

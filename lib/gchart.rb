@@ -1,5 +1,6 @@
 $:.unshift File.dirname(__FILE__)
 require 'gchart/version'
+require 'gchart/theme'
 require "open-uri"
 require "uri"
 
@@ -19,6 +20,9 @@ class Gchart
     
   # Support for Gchart.line(:title => 'my title', :size => '400x600')
   def self.method_missing(m, options={})
+    # Start with theme defaults if a theme is set
+    theme = options[:theme]
+    options = theme ? Chart::Theme.load(theme).to_options.merge(options) : options 
     # Extract the format and optional filename, then clean the hash
     format = options[:format] || 'url'
     @@file_name = options[:filename] unless options[:filename].nil?

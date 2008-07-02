@@ -1,6 +1,8 @@
 require File.dirname(__FILE__) + '/spec_helper.rb'
 require File.dirname(__FILE__) + '/../lib/gchart'
 
+Chart::Theme.add_theme_file("#{File.dirname(__FILE__)}/fixtures/test_theme.yml")
+
 # Time to add your specs!
 # http://rspec.rubyforge.org/
 describe "generating a default Gchart" do
@@ -24,6 +26,11 @@ describe "generating a default Gchart" do
   
   it "should have a type" do
     @chart.include?('cht=lc').should be_true
+  end
+  
+  it 'should use theme defaults if theme is set' do
+    Gchart.line(:theme=>:test).include?('chco=6886B4,FDD84E').should be_true
+    Gchart.line(:theme=>:test).include?(Gchart.jstize('chf=c,s,FFFFFF|bg,s,FFFFFF')).should be_true
   end
   
   it "should use the simple encoding by default with auto max value" do
