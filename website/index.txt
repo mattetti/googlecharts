@@ -217,8 +217,53 @@ Gchart.scatter(:data => [[1, 2, 3, 4, 5], [1, 2, 3, 4 ,5], [5, 4, 3, 2, 1]])
 Supply a single label that will be what the arrow points to. It only supports a solid fill for the background.
 
 <pre syntax="ruby">
-Gchart.meter(:data => [70], :label => ['Flavor'])
+  Gchart.meter(:data => [70], :label => ['Flavor'])
 </pre>
+
+
+*Chart themes*
+
+Googlecharts comes with 4 themes: keynote, thirty7signals, pastel and greyscale. (ganked from "Gruff": http://github.com/topfunky/gruff/tree/master )
+
+<pre syntax="ruby">
+  Gchart.line(
+              :theme => :keynote, 
+              :data => [[0,40,10,70,20],[41,10,80,50,40],[20,60,30,60,80],[5,23,35,10,56],[80,90,5,30,60]], 
+              :title => 'keynote'
+              )
+</pre>
+
+* keynote
+
+!http://chart.apis.google.com/chart?chtt=keynote&chco=6886B4,FDD84E,72AE6E,D1695E,8A6EAF,EFAA43&chs=300x200&cht=lc&chd=s:AbGvN,bG2hb,NoUo2,DPXGl,29DUo&chf=c,s,FFFFFF|bg,s,000000!
+
+* thirty7signals
+
+!http://chart.apis.google.com/chart?chtt=thirty7signals&chco=FFF804,336699,339933,ff0000,cc99cc,cf5910&chs=300x200&cht=lc&chd=s:AbGvN,bG2hb,NoUo2,DPXGl,29DUo&chf=bg,s,FFFFFF!
+
+* pastel
+
+!http://chart.apis.google.com/chart?chtt=pastel&chco=a9dada,aedaa9,daaea9,dadaa9,a9a9da&chs=300x200&cht=lc&chd=s:AbGvN,bG2hb,NoUo2,DPXGl,29DUo!
+
+* greyscale
+
+!http://chart.apis.google.com/chart?chtt=greyscale&chco=282828,383838,686868,989898,c8c8c8,e8e8e8&chs=300x200&cht=lc&chd=s:AbGvN,bG2hb,NoUo2,DPXGl,29DUo!
+
+
+You can also use your own theme. Create a yml file using the same format as the themes located in lib/themes.yml
+
+Load your theme(s):
+
+<pre syntax="ruby">
+  Chart::Theme.add_theme_file("#{File.dirname(__FILE__)}/fixtures/another_test_theme.yml")
+</pre>
+
+And use the standard method signature to use your own theme:
+
+<pre syntax="ruby">
+  Gchart.line(:theme => :custom_theme, :data => [[0, 40, 10, 70, 20],[41, 10, 80, 50]], :title => 'greyscale')
+</pre>
+
 
 ---
 
@@ -501,8 +546,12 @@ h2. People reported using this gem
   </div>
   
   <div>
-    <img  src="http://img.skitch.com/20080627-n48j8pb2r7irsewfeh4yp3da12.jpg" alt="gumgum"/><br/>
+    <img  src="http://img.skitch.com/20080627-n48j8pb2r7irsewfeh4yp3da12.jpg" alt="feedflix"/><br/>
     <li><a href="http://feedflix.com/"> http://feedflix.com/</a></li><br/>
+  </div>
+  
+  <div>
+    <li><a href="http://www.csuchico.edu/"> California State University, Chico</a></li><br/>
   </div>
 
 

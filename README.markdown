@@ -27,6 +27,8 @@ This gem supports the following types of charts:
   * pie
   * pie_3d
   * google meter
+  
+Googlecharts also supports graphical themes and you can easily load your own.
 
 To create a chart, simply require Gchart and call any of the existing type:
 
@@ -107,6 +109,47 @@ Another type of fill is stripes http://code.google.com/apis/chart/#linear_stripe
     Gchart.line(:bg => {:color => 'efefef', :type => 'stripes'})
     
 You can customize the amount of stripes, colors and width by changing the color value.
+
+
+Themes
+--------
+
+  Googlecharts comes with 4 themes: keynote, thirty7signals, pastel and greyscale. (ganked from [Gruff](http://github.com/topfunky/gruff/tree/master)
+
+
+    Gchart.line(
+                :theme => :keynote, 
+                :data => [[0,40,10,70,20],[41,10,80,50,40],[20,60,30,60,80],[5,23,35,10,56],[80,90,5,30,60]], 
+                :title => 'keynote'
+                )
+
+  * keynote
+
+    ![keynote](http://chart.apis.google.com/chart?chtt=keynote&chco=6886B4,FDD84E,72AE6E,D1695E,8A6EAF,EFAA43&chs=300x200&cht=lc&chd=s:AbGvN,bG2hb,NoUo2,DPXGl,29DUo&chf=c,s,FFFFFF|bg,s,000000)
+
+  * thirty7signals
+
+    ![37signals](http://chart.apis.google.com/chart?chtt=thirty7signals&chco=FFF804,336699,339933,ff0000,cc99cc,cf5910&chs=300x200&cht=lc&chd=s:AbGvN,bG2hb,NoUo2,DPXGl,29DUo&chf=bg,s,FFFFFF)
+
+  * pastel
+
+    ![pastel](http://chart.apis.google.com/chart?chtt=pastel&chco=a9dada,aedaa9,daaea9,dadaa9,a9a9da&chs=300x200&cht=lc&chd=s:AbGvN,bG2hb,NoUo2,DPXGl,29DUo)
+
+  * greyscale
+
+    ![greyscale](http://chart.apis.google.com/chart?chtt=greyscale&chco=282828,383838,686868,989898,c8c8c8,e8e8e8&chs=300x200&cht=lc&chd=s:AbGvN,bG2hb,NoUo2,DPXGl,29DUo)
+
+
+You can also use your own theme. Create a yml file using the same format as the themes located in lib/themes.yml
+
+Load your theme(s):
+
+      Chart::Theme.add_theme_file("#{File.dirname(__FILE__)}/fixtures/another_test_theme.yml")
+
+And use the standard method signature to use your own theme:
+
+      Gchart.line(:theme => :custom_theme, :data => [[0, 40, 10, 70, 20],[41, 10, 80, 50]], :title => 'greyscale')
+
     
     
 Legend & Labels
@@ -243,3 +286,5 @@ People reported using this gem:
 ![http://img.skitch.com/20080627-n48j8pb2r7irsewfeh4yp3da12.jpg]
 
 * [http://feedflix.com/](http://feedflix.com/) [lifehacker article](http://lifehacker.com/395610/feedflix-creates-detailed-charts-from-your-netflix-use)
+
+* [California State University, Chico](http://www.csuchico.edu/)

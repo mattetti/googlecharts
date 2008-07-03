@@ -1,5 +1,6 @@
 == 1.3.X
 * added code to properly escape image tag URLs (mokolabs)
+* added themes support + 4 default themes (keynote, thirty7signals, pastel, greyscale) chart.line(:theme=>:keynote) (jakehow)
 
 == 1.3.4
 * updated documentation and cleaned it up (mokolabs)
