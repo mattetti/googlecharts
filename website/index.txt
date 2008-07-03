@@ -397,14 +397,14 @@ Gchart.line(:data => [0, 26], :format => 'file', :filename => 'custom_filename.p
 
 *Insert as an image tag*
 
-Because, I'm lazy, you can generate a full image tag, with support for the standard html options.
+Because, I'm lazy, you can generate a full image tag, with support for standard html options.
 
 <pre syntax="ruby">
 Gchart.line(:data => [0, 26], :format => 'image_tag')
 </pre>
 
 <pre syntax="ruby">
-<img src="http://chart.apis.google.com/chart?chs=300x200&chd=s:A9&cht=lc" width="300" height="200" alt="Google Chart" />
+<img src="http://chart.apis.google.com/chart?chs=300x200&amp;chd=s:A9&amp;cht=lc" width="300" height="200" alt="Google Chart" />
 </pre>
 
 Here are a few more examples:

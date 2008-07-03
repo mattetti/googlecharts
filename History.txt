@@ -1,3 +1,6 @@
+== 1.3.X
+* added code to properly escape image tag URLs (mokolabs)
+
 == 1.3.4
 * updated documentation and cleaned it up (mokolabs)
 * added support for custom class, id and alt tags when using the image_tag format (i.e Gchart.line(:data => [0, 26], :format => 'image_tag')) (mokolabs)
