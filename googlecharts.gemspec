@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.description = %q{Sexy Charts using Google API & Ruby}
   s.email = %q{mattaimonetti@gmail.com}
   s.extra_rdoc_files = ["History.txt", "License.txt", "Manifest.txt", "README.txt", "website/index.txt"]
-  s.files = %w(History.txt License.txt Manifest.txt README.txt Rakefile config/hoe.rb config/requirements.rb lib/gchart.rb lib/gchart/aliases.rb lib/gchart/version.rb setup.rb spec/gchart_spec.rb spec/spec.opts spec/spec_helper.rb tasks/environment.rake tasks/rspec.rake)
+  s.files = %w(History.txt License.txt Manifest.txt README.txt Rakefile config/hoe.rb config/requirements.rb lib/gchart.rb lib/gchart/aliases.rb lib/gchart/theme.rb lib/themes.yml lib/gchart/version.rb setup.rb spec/gchart_spec.rb spec/spec.opts spec/spec_helper.rb tasks/environment.rake tasks/rspec.rake)
   s.has_rdoc = true
   s.homepage = %q{http://googlecharts.rubyforge.org}
   s.rdoc_options = ["--main", "README.txt"]
