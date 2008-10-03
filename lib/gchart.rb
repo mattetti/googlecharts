@@ -235,7 +235,7 @@ class Gchart
   # or
   # Gchart.line(:legend => ['first label', 'last label'])
   def set_legend
-    return set_labels if @type == :pie || @type == :pie_3d
+    return set_labels if @type == :pie || @type == :pie_3d || @type == :meter
     
     if @legend.is_a?(Array)
       "chdl=#{@legend.map{|label| "#{label}"}.join('|')}"
