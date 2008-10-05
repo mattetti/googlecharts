@@ -325,12 +325,12 @@ class Gchart
   # to about 300 pixels. Simple encoding is suitable for all other types of chart regardless of size.
   def simple_encoding(dataset=[])
     dataset = prepare_dataset(dataset)
-    @max_value = dataset.map{|ds| ds.max}.max if @max_value == 'auto'
+    @max_value = dataset.compact.map{|ds| ds.compact.max}.max if @max_value == 'auto'
     
     if @max_value == false || @max_value == 'false' || @max_value == :false || @max_value == 0
-      "s:" + dataset.map { |ds| ds.map { |number| convert_to_simple_value(number) }.join }.join(',')
+      "s:" + dataset.map { |ds| ds.map { |number| number.nil? ? '_' : convert_to_simple_value(number) }.join }.join(',')
     else
-      "s:" + dataset.map { |ds| ds.map { |number| convert_to_simple_value( (@@simple_chars.size - 1) * number / @max_value) }.join }.join(',')
+      "s:" + dataset.map { |ds| ds.map { |number| number.nil? ? '_' : convert_to_simple_value( (@@simple_chars.size - 1) * number / @max_value) }.join }.join(',')
     end
     
   end
@@ -361,12 +361,12 @@ class Gchart
   def extended_encoding(dataset=[])
     
     dataset = prepare_dataset(dataset)
-    @max_value = dataset.map{|ds| ds.max}.max if @max_value == 'auto'
+    @max_value = dataset.compact.map{|ds| ds.compact.max}.max if @max_value == 'auto'
     
     if @max_value == false || @max_value == 'false' || @max_value == :false
-      "e:" +  dataset.map { |ds| ds.map { |number| convert_to_extended_value(number)}.join }.join(',')
+      "e:" +  dataset.map { |ds| ds.map { |number| number.nil? ? '__' : convert_to_extended_value(number)}.join }.join(',')
     else
-      "e:" + dataset.map { |ds| ds.map { |number| convert_to_extended_value( (@@ext_pairs.size - 1) * number / @max_value) }.join }.join(',')
+      "e:" + dataset.map { |ds| ds.map { |number| number.nil? ? '__' : convert_to_extended_value( (@@ext_pairs.size - 1) * number / @max_value) }.join }.join(',')
     end
     
   end
