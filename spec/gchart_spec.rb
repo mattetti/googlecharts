@@ -81,6 +81,7 @@ describe "generating a default Gchart" do
    Gchart.line(:axis_labels => [['Jan','July','Jan','July','Jan']]).include?(Gchart.jstize('chxl=0:|Jan|July|Jan|July|Jan')).should be_true
    Gchart.line(:axis_labels => [['Jan','July','Jan','July','Jan'], ['0','100'], ['A','B','C'], ['2005','2006','2007']]).include?(Gchart.jstize('chxl=0:|Jan|July|Jan|July|Jan|1:|0|100|2:|A|B|C|3:|2005|2006|2007')).should be_true
   end
+
   
 end
 
@@ -126,11 +127,63 @@ describe "generating different type of charts" do
     Gchart.meter.include?('cht=gom').should be_true
   end
   
+  it "should be able to generate a map chart" do
+    Gchart.map.should be_an_instance_of(String)
+    Gchart.map.include?('cht=t').should be_true
+  end
+  
   it "should not support other types" do
     Gchart.sexy.should == "sexy is not a supported chart format, please use one of the following: #{Gchart.supported_types}."
   end
   
 end
+
+
+describe "range markers" do
+
+  it "should be able to generate given a hash of range-marker options" do
+    Gchart.line(:range_markers => {:start_position => 0.59, :stop_position => 0.61, :color => 'ff0000'}).include?('chm=r,ff0000,0,0.59,0.61').should be_true
+  end
+  
+  it "should be able to generate given an array of range-marker hash options" do
+    Gchart.line(:range_markers => [
+          {:start_position => 0.59, :stop_position => 0.61, :color => 'ff0000'}, 
+          {:start_position => 0, :stop_position => 0.6, :color => '666666'}, 
+          {:color => 'cccccc', :start_position => 0.6, :stop_position => 1}
+        ]).include?(Gchart.jstize('r,ff0000,0,0.59,0.61|r,666666,0,0,0.6|r,cccccc,0,0.6,1')).should be_true
+  end
+  
+  it "should allow a :overlaid? to be set" do
+    Gchart.line(:range_markers => {:start_position => 0.59, :stop_position => 0.61, :color => 'ffffff', :overlaid? => true}).include?('chm=r,ffffff,0,0.59,0.61,1').should be_true
+    Gchart.line(:range_markers => {:start_position => 0.59, :stop_position => 0.61, :color => 'ffffff', :overlaid? => false}).include?('chm=r,ffffff,0,0.59,0.61').should be_true
+  end
+  
+  describe "when setting the orientation option" do
+    before(:each) do
+      options = {:start_position => 0.59, :stop_position => 0.61, :color => 'ff0000'}
+    end
+    
+    it "to vertical (R) if given a valid option" do
+      Gchart.line(:range_markers => options.merge(:orientation => 'v')).include?('chm=R').should be_true
+      Gchart.line(:range_markers => options.merge(:orientation => 'V')).include?('chm=R').should be_true
+      Gchart.line(:range_markers => options.merge(:orientation => 'R')).include?('chm=R').should be_true
+      Gchart.line(:range_markers => options.merge(:orientation => 'vertical')).include?('chm=R').should be_true
+      Gchart.line(:range_markers => options.merge(:orientation => 'Vertical')).include?('chm=R').should be_true
+    end
+    
+    it "to horizontal (r) if given a valid option (actually anything other than the vertical options)" do
+      Gchart.line(:range_markers => options.merge(:orientation => 'horizontal')).include?('chm=r').should be_true
+      Gchart.line(:range_markers => options.merge(:orientation => 'h')).include?('chm=r').should be_true
+      Gchart.line(:range_markers => options.merge(:orientation => 'etc')).include?('chm=r').should be_true
+    end
+
+    it "if left blank defaults to horizontal (r)" do    
+      Gchart.line(:range_markers => options).include?('chm=r').should be_true
+    end
+  end
+
+end
+
 
 describe "a bar graph" do
   
@@ -381,6 +434,40 @@ describe "a google-o-meter" do
   it "should be able to set a solid background fill" do
     Gchart.meter(:bg => 'efefef').include?("chf=bg,s,efefef").should be_true
     Gchart.meter(:bg => {:color => 'efefef', :type => 'solid'}).include?("chf=bg,s,efefef").should be_true
+  end
+  
+end
+
+describe "a map chart" do
+  
+  before(:each) do
+    @data = [0,100,50,32]
+    @geographical_area = 'usa'
+    @map_colors = ['FFFFFF', 'FF0000', 'FFFF00', '00FF00']
+    @country_codes = ['MT', 'WY', "ID", 'SD']
+    @chart = Gchart.map(:data => @data, :encoding => 'text', :size => '400x300', 
+      :geographical_area => @geographical_area, :map_colors => @map_colors,
+      :country_codes => @country_codes)
+  end
+  
+  it "should create a map" do
+    @chart.include?('cht=t').should be_true
+  end
+  
+  it "should set the geographical area" do
+    @chart.include?('chtm=usa').should be_true
+  end
+  
+  it "should set the map colors" do
+    @chart.include?('chco=FFFFFF,FF0000,FFFF00,00FF00').should be_true
+  end
+  
+  it "should set the country/state codes" do
+    @chart.include?('chld=MTWYIDSD').should be_true
+  end
+  
+  it "should set the chart data" do
+    @chart.include?('chd=t:0,100,50,32').should be_true
   end
   
 end

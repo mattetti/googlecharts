@@ -10,14 +10,15 @@ class Gchart
   include GchartInfo
   
   @@url = "http://chart.apis.google.com/chart?"  
-  @@types = ['line', 'line_xy', 'scatter', 'bar', 'venn', 'pie', 'pie_3d', 'jstize', 'sparkline', 'meter']
+  @@types = ['line', 'line_xy', 'scatter', 'bar', 'venn', 'pie', 'pie_3d', 'jstize', 'sparkline', 'meter', 'map']
   @@simple_chars = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a
   @@chars = @@simple_chars + ['-', '.']
   @@ext_pairs = @@chars.map { |char_1| @@chars.map { |char_2| char_1 + char_2 } }.flatten
   @@file_name = 'chart.png'
   
   attr_accessor :title, :type, :width, :height, :horizontal, :grouped, :legend, :data, :encoding, :max_value, :bar_colors,
-                :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :class
+                :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :class,
+                :range_markers, :geographical_area, :map_colors, :country_codes
     
   # Support for Gchart.line(:title => 'my title', :size => '400x600')
   def self.method_missing(m, options={})
@@ -29,6 +30,8 @@ class Gchart
     @@file_name = options[:filename] unless options[:filename].nil?
     options.delete(:format)
     options.delete(:filename)
+    #update map_colors to be bar_colors
+    options.update(:bar_colors => options[:map_colors]) if options.has_key?(:map_colors)
     # create the chart and return it in the format asked for
     if @@types.include?(m.to_s)  
       chart = new(options.merge!({:type => m}))
@@ -192,6 +195,11 @@ class Gchart
     "chco=#{@bar_colors}"
   end
   
+  def set_country_codes
+    @country_codes = @country_codes.join() if @country_codes.is_a?(Array)
+    "chld=#{@country_codes}"
+  end
+  
   # set bar spacing
   # chbh=
   # <bar width in pixels>,
@@ -212,6 +220,21 @@ class Gchart
       @bar_width_and_spacing.to_s
     end
     "chbh=#{width_and_spacing_values}"
+  end
+  
+  def set_range_markers
+    markers = case @range_markers
+    when Hash
+      set_range_marker(@range_markers)
+    when Array
+      range_markers.collect{|marker| set_range_marker(marker)}.join('|')
+    end
+    "chm=#{markers}"
+  end
+  
+  def set_range_marker(options)
+    orientation = ['vertical', 'Vertical', 'V', 'v', 'R'].include?(options[:orientation]) ? 'R' : 'r'
+    "#{orientation},#{options[:color]},0,#{options[:start_position]},#{options[:stop_position]}#{',1' if options[:overlaid?]}"  
   end
   
   def fill_for(type=nil, color='', angle=nil)
@@ -271,6 +294,10 @@ class Gchart
     "chxl=#{labels_arr.join('|')}"
   end
   
+  def set_geographical_area
+    "chtm=#{@geographical_area}"
+  end
+  
   def set_type
     case @type
       when :line
@@ -291,6 +318,8 @@ class Gchart
         "cht=ls"
       when :meter
         "cht=gom"
+      when :map
+        "cht=t"
       end
   end
   
@@ -399,6 +428,12 @@ class Gchart
         set_axis_with_labels
       when '@axis_labels'
         set_axis_labels
+      when '@range_markers'
+        set_range_markers
+      when '@geographical_area'
+        set_geographical_area
+      when '@country_codes'
+        set_country_codes
       when '@custom'
         @custom
       end
