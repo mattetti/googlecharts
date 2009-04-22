@@ -227,6 +227,13 @@ describe "a line chart" do
     @chart.include?(Gchart.jstize("chdl=first+data+set+label|n+data+set+label")).should be_true
   end
   
+  it "should escape text values in url" do
+    title = 'Chart & Title'
+    legend = ['first data & set label', 'n data set label']
+    chart = Gchart.line(:title => title, :legend => legend)
+    chart.include?(Gchart.jstize("chdl=first+data+%26+set+label|n+data+set+label")).should be_true
+  end  
+  
   it "should be able to have one legend" do
     chart = Gchart.line(:legend => 'legend label')
     chart.include?("chdl=legend+label").should be_true

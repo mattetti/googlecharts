@@ -3,6 +3,7 @@ require 'gchart/version'
 require 'gchart/theme'
 require "open-uri"
 require "uri"
+require "cgi"
 
 class Gchart
 
@@ -238,7 +239,7 @@ class Gchart
     return set_labels if @type == :pie || @type == :pie_3d || @type == :meter
     
     if @legend.is_a?(Array)
-      "chdl=#{@legend.map{|label| "#{label}"}.join('|')}"
+      "chdl=#{@legend.map{|label| "#{CGI::escape(label)}"}.join('|')}"
     else
       "chdl=#{@legend}"
     end
