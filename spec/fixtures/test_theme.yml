@@ -1,8 +1,0 @@
-:test:
-  :colors:
-    - &blue 6886B4
-    - &yellow FDD84E
-    - &white FFFFFF
-  :bar_colors: [ *blue, *yellow ]
-  :background: *white
-  :chart_background: *white
