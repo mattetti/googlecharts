@@ -4,6 +4,7 @@ require 'gchart/theme'
 require "open-uri"
 require "uri"
 require "cgi"
+require 'enumerator'
 
 class Gchart
 
@@ -16,9 +17,9 @@ class Gchart
   @@ext_pairs = @@chars.map { |char_1| @@chars.map { |char_2| char_1 + char_2 } }.flatten
   @@file_name = 'chart.png'
   
-  attr_accessor :title, :type, :width, :height, :horizontal, :grouped, :legend, :data, :encoding, :max_value, :bar_colors,
+  attr_accessor :title, :type, :width, :height, :horizontal, :grouped, :legend, :data, :encoding, :min_value, :max_value, :bar_colors,
                 :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :class,
-                :range_markers, :geographical_area, :map_colors, :country_codes
+                :range_markers, :geographical_area, :map_colors, :country_codes, :axis_range
     
   # Support for Gchart.line(:title => 'my title', :size => '400x600')
   def self.method_missing(m, options={})
@@ -113,6 +114,26 @@ class Gchart
     end
   end
   
+  # returns the full data range as an array
+  # it also sets the data range if not defined
+  def full_data_range(ds)
+    return [@min, @max] unless (@min.nil? || @max.nil?)
+    @max = (max_value.nil? || max_value == 'auto') ? ds.compact.map{|mds| mds.compact.max}.max : max_value
+    if (min_value.nil? || min_value == 'auto') 
+      min_ds_value = ds.compact.map{|mds| mds.compact.min}.min || 0
+      @min = (min_ds_value < 0) ? min_ds_value : 0
+    else
+      @min = min_value  
+    end 
+    @axis_range = [[@min,@max]]
+  end
+  
+  def dataset
+    @dataset ||= prepare_dataset(data)
+    full_data_range(@dataset) unless @axis_range
+    @dataset
+  end
+  
   def self.jstize(string)
     string.gsub(' ', '+').gsub(/\[|\{|\}|\||\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s(16).upcase}"}
   end    
@@ -159,7 +180,7 @@ class Gchart
   #
   def jstize(string)
     Gchart.jstize(string)
-  end
+  end 
   
   private
   
@@ -178,7 +199,7 @@ class Gchart
   end
   
   def set_data
-    data = send("#{@encoding}_encoding", @data)
+    data = send("#{@encoding}_encoding")
     "chd=#{data}"
   end
   
@@ -294,6 +315,20 @@ class Gchart
     "chxl=#{labels_arr.join('|')}"
   end
   
+  # http://code.google.com/apis/chart/labels.html#axis_range
+  # Specify a range for axis labels
+  def set_axis_range
+    # a passed axis_range should look like:
+    # [[10,100]] or [[10,100,4]] or [[10,100], [20,300]]
+    # in the second example, 4 is the interval 
+    dataset # just making sure we processed the data before
+    if axis_range && axis_range.respond_to?(:each) && axis_range.first.respond_to?(:each)
+     'chxr=' + axis_range.enum_for(:each_with_index).map{|range, index| [index, range[0], range[1], range[2]].compact.join(',')}.join("|")
+    else
+      nil
+    end
+  end
+  
   def set_geographical_area
     "chtm=#{@geographical_area}"
   end
@@ -353,8 +388,7 @@ class Gchart
   # Simple encoding has a resolution of 62 different values. 
   # Allowing five pixels per data point, this is sufficient for line and bar charts up
   # to about 300 pixels. Simple encoding is suitable for all other types of chart regardless of size.
-  def simple_encoding(dataset=[])
-    dataset = prepare_dataset(dataset)
+  def simple_encoding
     @max_value = dataset.compact.map{|ds| ds.compact.max}.max if @max_value == 'auto'
     
     if @max_value == false || @max_value == 'false' || @max_value == :false || @max_value == 0
@@ -366,14 +400,19 @@ class Gchart
   end
   
   # http://code.google.com/apis/chart/#text
-  # Text encoding has a resolution of 1,000 different values, 
-  # using floating point numbers between 0.0 and 100.0. Allowing five pixels per data point, 
-  # integers (1.0, 2.0, and so on) are sufficient for line and bar charts up to about 500 pixels. 
-  # Include a single decimal place (35.7 for example) if you require higher resolution. 
-  # Text encoding is suitable for all other types of chart regardless of size.
-  def text_encoding(dataset=[])
-    dataset = prepare_dataset(dataset)
-    "t:" + dataset.map{ |ds| ds.join(',') }.join('|')
+  # Text encoding with data scaling lets you specify arbitrary positive or
+  # negative floating point numbers, in combination with a scaling parameter
+  # that lets you specify a custom range for your chart. This chart is useful
+  # when you don't want to worry about limiting your data to a specific range,
+  # or do the calculations to scale your data down or up to fit nicely inside
+  # a chart.
+  #
+  # Valid values range from (+/-)9.999e(+/-)100, and only four non-zero digits are supported (that is, 123400, 1234, 12.34, and 0.1234 are valid, but 12345, 123.45 and 123400.5 are not).
+  #
+  # This encoding is not available for maps.
+  #
+  def text_encoding
+    "t:" + dataset.map{ |ds| ds.join(',') }.join('|') + "&chds=#{@min},#{@max}"
   end
   
   def convert_to_extended_value(number)
@@ -384,13 +423,12 @@ class Gchart
       value.nil? ? "__" : value
     end
   end
+
   
   # http://code.google.com/apis/chart/#extended
   # Extended encoding has a resolution of 4,096 different values 
   # and is best used for large charts where a large data range is required.
-  def extended_encoding(dataset=[])
-    
-    dataset = prepare_dataset(dataset)
+  def extended_encoding
     @max_value = dataset.compact.map{|ds| ds.compact.max}.max if @max_value == 'auto'
     
     if @max_value == false || @max_value == 'false' || @max_value == :false
@@ -403,8 +441,11 @@ class Gchart
   
   
   def query_builder(options="")
+    dataset 
     query_params = instance_variables.map do |var|
       case var
+      when '@data'
+        set_data unless @data == []  
       # Set the graph size  
       when '@width'
         set_size unless @width.nil? || @height.nil?
@@ -418,14 +459,14 @@ class Gchart
         set_colors
       when '@chart_color'
         set_colors if @bg_color.nil?
-      when '@data'
-        set_data unless @data == []
       when '@bar_colors'
         set_bar_colors
       when '@bar_width_and_spacing'
         set_bar_width_and_spacing
       when '@axis_with_labels'
         set_axis_with_labels
+      when '@axis_range'
+        set_axis_range if dataset
       when '@axis_labels'
         set_axis_labels
       when '@range_markers'

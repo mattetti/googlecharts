@@ -60,6 +60,28 @@ describe "generating a default Gchart" do
   
   it "should be able to have data with text encoding" do
     Gchart.line(:data => [10, 5.2, 4, 45, 78], :encoding => 'text').include?('chd=t:10,5.2,4,45,78').should be_true
+  end  
+  
+  it "should handle max and min values with text encoding" do
+    Gchart.line(:data => [10, 5.2, 4, 45, 78], :encoding => 'text').include?('chds=0,78').should be_true
+  end
+  
+  it "should automatically handle negative values with proper max/min limits when using text encoding" do
+    Gchart.line(:data => [-10, 5.2, 4, 45, 78], :encoding => 'text').include?('chds=-10,78').should be_true
+  end
+  
+  it "should handle negative values with manual max/min limits when using text encoding" do  
+   Gchart.line(:data => [-10, 5.2, 4, 45, 78], :encoding => 'text', :min_value => -20, :max_value => 100).include?('chds=-20,100').should be_true
+  end
+  
+  it "should set the proper axis values when using text encoding and negative values" do
+    Gchart.bar( :data       => [[-10], [100]],
+                :encoding   => 'text',
+                :horizontal => true,
+                :min_value  => -20,
+                :max_value  => 100,
+                :axis_with_labels => 'x',
+                :bar_colors => ['FD9A3B', '4BC7DC']).should include("chxr=0,-20,100")
   end
   
   it "should be able to have muliple set of data with text encoding" do
