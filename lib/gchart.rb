@@ -431,7 +431,7 @@ class Gchart
   def extended_encoding
     @max_value = dataset.compact.map{|ds| ds.compact.max}.max if @max_value == 'auto'
     
-    if @max_value == false || @max_value == 'false' || @max_value == :false
+    if @max_value == false || @max_value == 'false' || @max_value == :false || @max_value == 0
       "e:" +  dataset.map { |ds| ds.map { |number| number.nil? ? '__' : convert_to_extended_value(number)}.join }.join(',')
     else
       "e:" + dataset.map { |ds| ds.map { |number| number.nil? ? '__' : convert_to_extended_value( (@@ext_pairs.size - 1) * number / @max_value) }.join }.join(',')
