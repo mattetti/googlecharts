@@ -24,6 +24,10 @@ describe "generating a default Gchart" do
     Gchart.line(:width => 400, :height => 600).include?('chs=400x600').should be_true
   end
 
+  it "should have query parameters in predictable order" do
+    Gchart.line(:axis_with_labels => 'x,y,r', :size => '400x600').should match(/chxr=.+chxt=.+cht=.+chs=/)
+  end
+
   it "should have a type" do
     @chart.include?('cht=lc').should be_true
   end

@@ -442,7 +442,7 @@ class Gchart
   
   def query_builder(options="")
     dataset 
-    query_params = instance_variables.map do |var|
+    query_params = instance_variables.sort.map do |var|
       case var
       when '@data'
         set_data unless @data == []  
