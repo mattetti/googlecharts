@@ -347,7 +347,7 @@ DYNCLASSMETH
     # in the second example, 4 is the interval 
     dataset # just making sure we processed the data before
     if axis_range && axis_range.respond_to?(:each) && axis_range.first.respond_to?(:each)
-     'chxr=' + axis_range.enum_for(:each_with_index).map{|range, index| [index, range[0], range[1], range[2]].compact.join(',')}.join("|")
+     'chxr=' + axis_range.enum_for(:each_with_index).map{|range, index| [index+1, range[0], range[1], range[2]].compact.join(',')}.join("|")
     else
       nil
     end
