@@ -135,12 +135,10 @@ class Gchart
   end
   
   def self.jstize(string)
-    string.gsub(' ', '+').gsub(/\[|\{|\}|\||\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s(16).upcase}"}
+    string.gsub(' ', '+').gsub(/\[|\{|\}|\||\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s.upcase}"}
   end    
   # load all the custom aliases
   require 'gchart/aliases'
-  
-  protected
   
   # Returns the chart's generated PNG as a blob. (borrowed from John's gchart.rubyforge.org)
   def fetch
@@ -443,7 +441,7 @@ class Gchart
   def query_builder(options="")
     dataset 
     query_params = instance_variables.sort.map do |var|
-      case var
+      case var.to_s
       when '@data'
         set_data unless @data == []  
       # Set the graph size  
