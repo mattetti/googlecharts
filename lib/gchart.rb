@@ -160,7 +160,7 @@ DYNCLASSMETH
   end
   
   def self.jstize(string)
-    string.gsub(' ', '+').gsub(/\[|\{|\}|\||\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s.upcase}"}
+    string.gsub(' ', '+').gsub(/\[|\{|\}|\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s.upcase}"}
   end    
   # load all the custom aliases
   require 'gchart/aliases'
