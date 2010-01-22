@@ -8,39 +8,41 @@ require 'enumerator'
 
 class Gchart
   include GchartInfo
-  
+
   def self.url
     "http://chart.apis.google.com/chart?" 
   end
-  
+
   def self.types
     @types ||= ['line', 'line_xy', 'scatter', 'bar', 'venn', 'pie', 'pie_3d', 'jstize', 'sparkline', 'meter', 'map']
   end
-  
+
   def self.simple_chars
     @simple_chars ||= ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a
   end 
-  
+
   def self.chars
     @chars ||= simple_chars + ['-', '.']
   end
-  
+
   def self.ext_pairs
     @ext_pairs ||= chars.map { |char_1| chars.map { |char_2| char_1 + char_2 } }.flatten
   end
-  
+
   def self.default_filename
     'chart.png'
   end
-  
-  attr_accessor :title, :type, :width, :height, :horizontal, :grouped, :legend, :data, :encoding, :min_value, :max_value, :bar_colors,
-                :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :klass,
-                :range_markers, :geographical_area, :map_colors, :country_codes, :axis_range, :filename, :min, :max, :colors
-  
+
+  attr_accessor :title, :type, :width, :height, :horizontal, :grouped, :legend, :data, :encoding, :bar_colors,
+  :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :klass,
+  :range_markers, :geographical_area, :map_colors, :country_codes, :axis_range, :filename, :min, :max, :colors
+
   attr_accessor :bg_type, :bg_color, :bg_angle, :chart_type, :chart_color, :chart_angle, :axis_range
+
+  attr_accessor :min_value, :max_value
   
   types.each do |type|
-    instance_eval <<DYNCLASSMETH
+    instance_eval <<-DYNCLASSMETH
     def #{type}(options = {})
       # Start with theme defaults if a theme is set
       theme = options[:theme]
@@ -54,17 +56,17 @@ class Gchart
       chart = new(options.merge!({:type => "#{type}"}))
       chart.send(format)
     end
-DYNCLASSMETH
+    DYNCLASSMETH
   end
-  
+
   def version
     Gchart::VERSION::STRING
   end
-    
+
   def self.method_missing(m, options={})
     raise NoMethodError, "#{m} is not a supported chart format, please use one of the following: #{supported_types}."
   end
-  
+
   def initialize(options={})
     @type = options[:type] || 'line'
     @data = []
@@ -73,7 +75,7 @@ DYNCLASSMETH
     @horizontal = false
     @grouped = false
     @encoding = 'simple'
-    @max_value = 'auto'
+    # @max_value = 'auto'
     # @min_value defaults to nil meaning zero
     @filename = options[:filename]
     # Sets the alt tag when chart is exported as image tag
@@ -84,24 +86,29 @@ DYNCLASSMETH
     @klass = options[:class] || false
     # set the options value if definable
     options.each do |attribute, value| 
-      send("#{attribute.to_s}=", value) if self.respond_to?("#{attribute}=")
+      send("#{attribute}=", value) if self.respond_to?("#{attribute}=")
     end
   end
-  
+
   def self.supported_types
     Gchart.types.join(' ')
   end
-  
+
   # Defines the Graph size using the following format:
   # width X height
   def size=(size='300x200')
     @width, @height = size.split("x").map { |dimension| dimension.to_i }
   end
-  
+
   def size
     "#{width}x#{height}"
   end
   
+  def dimensions
+    # TODO: maybe others?
+    [:line_xy, :scatter].include?(type) ? 2 : 1
+  end
+
   # Sets the orientation of a bar graph
   def orientation=(orientation='h')
     if orientation == 'h' || orientation == 'horizontal'
@@ -110,12 +117,12 @@ DYNCLASSMETH
       self.horizontal = false
     end
   end
-  
+
   # Sets the bar graph presentation (stacked or grouped)
   def stacked=(option=true)
-   @grouped = option ? false : true
+    @grouped = option ? false : true
   end
-  
+
   def bg=(options)
     if options.is_a?(String)
       @bg_color = options
@@ -125,7 +132,7 @@ DYNCLASSMETH
       @bg_angle = options[:angle]
     end
   end
-  
+
   def graph_bg=(options)
     if options.is_a?(String)
       @chart_color = options
@@ -136,27 +143,87 @@ DYNCLASSMETH
     end
   end
   
+  def max_value=(max_v)
+    if max_v =~ /false/
+      @max_value = false
+    else
+      @max_value = max_v
+    end
+  end
+
+  def min_value=(min_v)
+    if min_v =~ /false/
+      @min_value = false
+    else
+      @min_value = min_v
+    end
+  end
+
   # returns the full data range as an array
   # it also sets the data range if not defined
   def full_data_range(ds)
-    return [min, max] unless (min.nil? || max.nil?)
-    @max = (max_value.nil? || max_value == 'auto') ? ds.compact.map{|mds| mds.compact.max}.max : max_value
-     
-    if min_value.nil? 
-      min_ds_value = ds.compact.map{|mds| mds.compact.min}.min || 0
-      @min = (min_ds_value < 0) ? min_ds_value : 0
-    else
-      @min = min_value == 'auto' ? ds.compact.map{|mds| mds.compact.min}.min || 0 : min_value      
+    return if max_value == false
+
+    ds.each_with_index do |mds, mds_index|
+      mds[:min_value] ||= min_value
+      mds[:max_value] ||= max_value
+      
+      if mds_index == 0 && type.to_s == 'bar'
+        # TODO: unless you specify a zero line (using chp or chds),
+        #       the min_value of a bar chart is always 0.
+        #mds[:min_value] ||= mds[:data].first.to_a.compact.min
+        mds[:min_value] ||= 0
+      end
+      if (mds_index == 0 && type.to_s == 'bar' && 
+        !grouped && mds[:data].first.is_a?(Array))
+        totals = []
+        mds[:data].each do |l|
+          l.each_with_index do |v, index|
+            next if v.nil?
+            totals[index] ||= 0
+            totals[index] += v
+          end
+        end
+        mds[:max_value] ||= totals.compact.max
+      else
+        all = mds[:data].flatten.compact
+        # default min value should be 0 unless set to auto
+        if mds[:min_value] == 'auto'
+          mds[:min_value] = all.min
+        else
+          min = all.min
+          mds[:min_value] ||=  (min < 0 ? min : 0)
+        end
+        mds[:max_value] ||= all.max
+      end
     end
-    @axis_range = [[min,max]]
+
+    unless axis_range
+      @axis_range = ds.map{|mds| [mds[:min_value], mds[:max_value]]}
+      if dimensions == 1 && (type.to_s != 'bar' || horizontal)
+        tmp = axis_range.fetch(0, [])
+        @axis_range[0] = axis_range.fetch(1, [])
+        @axis_range[1] = tmp
+      end
+    end
+    # return [min, max] unless (min.nil? || max.nil?)
+    # @max = (max_value.nil? || max_value == 'auto') ? ds.compact.map{|mds| mds.compact.max}.max : max_value
+    # 
+    # if min_value.nil? 
+    #   min_ds_value = ds.compact.map{|mds| mds.compact.min}.min || 0
+    #   @min = (min_ds_value < 0) ? min_ds_value : 0
+    # else
+    #   @min = min_value == 'auto' ? ds.compact.map{|mds| mds.compact.min}.min || 0 : min_value      
+    # end
+    # @axis_range = [[min,max]]
   end
-  
+
   def dataset
     if @dataset
-     @dataset 
+      @dataset 
     else
-      @dataset = prepare_dataset(data)
-      full_data_range(dataset) unless axis_range
+      @dataset = convert_dataset(data || [])
+      full_data_range(@dataset)   # unless axis_range
       @dataset
     end
   end
@@ -166,7 +233,7 @@ DYNCLASSMETH
   end    
   # load all the custom aliases
   require 'gchart/aliases'
-  
+
   # Returns the chart's generated PNG as a blob. (borrowed from John's gchart.rubyforge.org)
   def fetch
     open(query_builder) { |io| io.read }
@@ -178,9 +245,9 @@ DYNCLASSMETH
     return io_or_file.write(fetch) if io_or_file.respond_to?(:write)
     open(io_or_file, "w+") { |io| io.write(fetch) }
   end
-  
+
   # Format
-  
+
   def image_tag
     image = "<img"
     image += " id=\"#{id}\"" if id  
@@ -192,24 +259,24 @@ DYNCLASSMETH
     image += " title=\"#{title}\"" if title
     image += " />"
   end
-  
+
   alias_method :img_tag, :image_tag
-  
+
   def url
     query_builder
   end
-  
+
   def file
     write
   end
-  
+
   #
   def jstize(string)
     Gchart.jstize(string)
   end 
-  
+
   private
-  
+
   # The title size cannot be set without specifying a color.
   # A dark key will be used for the title color if no color is specified 
   def set_title
@@ -219,34 +286,34 @@ DYNCLASSMETH
     end
     title_params
   end
-  
+
   def set_size
     "chs=#{size}"
   end
-  
+
   def set_data
     data = send("#{@encoding}_encoding")
     "chd=#{data}"
   end
-  
+
   def set_colors
     @bg_type = fill_type(bg_type) || 's' if bg_color
     @chart_type = fill_type(chart_type) || 's' if chart_color
-    
+
     "chf=" + {'bg' => fill_for(bg_type, bg_color, bg_angle), 'c' => fill_for(chart_type, chart_color, chart_angle)}.map{|k,v| "#{k},#{v}" unless v.nil?}.compact.join('|')      
   end
-  
+
   # set bar, line colors
   def set_bar_colors
     @bar_colors = bar_colors.join(',') if bar_colors.is_a?(Array)
     "chco=#{bar_colors}"
   end
-  
+
   def set_country_codes
     @country_codes = country_codes.join() if country_codes.is_a?(Array)
     "chld=#{country_codes}"
   end
-  
+
   # set bar spacing
   # chbh=
   # <bar width in pixels>,
@@ -268,7 +335,7 @@ DYNCLASSMETH
     end
     "chbh=#{width_and_spacing_values}"
   end
-  
+
   def set_range_markers
     markers = case range_markers
     when Hash
@@ -278,112 +345,115 @@ DYNCLASSMETH
     end
     "chm=#{markers}"
   end
-  
+
   def set_range_marker(options)
     orientation = ['vertical', 'Vertical', 'V', 'v', 'R'].include?(options[:orientation]) ? 'R' : 'r'
     "#{orientation},#{options[:color]},0,#{options[:start_position]},#{options[:stop_position]}#{',1' if options[:overlaid?]}"  
   end
-  
+
   def fill_for(type=nil, color='', angle=nil)
     unless type.nil? 
       case type
-        when 'lg'
-          angle ||= 0
-          color = "#{color},0,ffffff,1" if color.split(',').size == 1
-          "#{type},#{angle},#{color}"
-        when 'ls'
-          angle ||= 90
-          color = "#{color},0.2,ffffff,0.2" if color.split(',').size == 1
-          "#{type},#{angle},#{color}"
-        else
-          "#{type},#{color}"
-        end
+      when 'lg'
+        angle ||= 0
+        color = "#{color},0,ffffff,1" if color.split(',').size == 1
+        "#{type},#{angle},#{color}"
+      when 'ls'
+        angle ||= 90
+        color = "#{color},0.2,ffffff,0.2" if color.split(',').size == 1
+        "#{type},#{angle},#{color}"
+      else
+        "#{type},#{color}"
+      end
     end
   end
-  
+
   # A chart can have one or many legends. 
   # Gchart.line(:legend => 'label')
   # or
   # Gchart.line(:legend => ['first label', 'last label'])
   def set_legend
     return set_labels if type.to_s =~ /pie|pie_3d|meter/
-    
+
     if legend.is_a?(Array)
-      "chdl=#{legend.map{|label| "#{CGI::escape(label)}"}.join('|')}"
+      "chdl=#{@legend.map{|label| "#{CGI::escape(label.to_s)}"}.join('|')}"
     else
       "chdl=#{legend}"
     end
-    
+
   end
-  
+
   def set_labels
-     if legend.is_a?(Array)
-        "chl=#{legend.map{|label| "#{label}"}.join('|')}"
-      else
-        "chl=#{legend}"
-      end
+    if legend.is_a?(Array)
+      "chl=#{@legend.map{|label| "#{CGI::escape(label.to_s)}"}.join('|')}"
+    else
+      "chl=#{@legend}"
+    end
   end
-  
+
   def set_axis_with_labels
     @axis_with_labels = axis_with_labels.join(',') if @axis_with_labels.is_a?(Array)
     "chxt=#{axis_with_labels}"
   end
-  
+
   def set_axis_labels
-    labels_arr = []
-    axis_labels.each_with_index do |labels,index| 
+    if axis_labels.is_a?(Array)
+      labels_arr = axis_labels.enum_with_index.map{|labels,index| [index,labels]}
+    elsif axis_labels.is_a?(Hash)
+      labels_arr = axis_labels.to_a
+    end
+    labels_arr.map! do |index,labels|
       if labels.is_a?(Array)
-        labels_arr << "#{index}:|#{labels.join('|')}"
+        "#{index}:|#{labels.map{|label| "#{CGI::escape(label.to_s)}"}.join('|')}"
       else
-        labels_arr << "#{index}:|#{labels}"
+        "#{index}:|#{labels}"
       end
     end
     "chxl=#{labels_arr.join('|')}"
   end
-  
+
   # http://code.google.com/apis/chart/labels.html#axis_range
   # Specify a range for axis labels
   def set_axis_range
     # a passed axis_range should look like:
     # [[10,100]] or [[10,100,4]] or [[10,100], [20,300]]
     # in the second example, 4 is the interval 
-    dataset # just making sure we processed the data before
-    if axis_range && axis_range.respond_to?(:each) && axis_range.first.respond_to?(:each)
-     'chxr=' + axis_range.enum_for(:each_with_index).map{|range, index| [index, range[0], range[1], range[2]].compact.join(',')}.join("|")
+    if dataset && dataset.respond_to?(:each) && dataset.first.respond_to?(:each)
+      'chxr=' + dataset.enum_for(:each_with_index).map{|range, index| [index+1, range[0], range[1], range[2]].compact.join(',')}.join("|")
     else
       nil
     end
   end
-  
+
   def set_geographical_area
     "chtm=#{geographical_area}"
   end
-  
+
   def set_type
     case type.to_s
-      when 'line'
-        "cht=lc"
-      when 'line_xy'
-        "cht=lxy"
-      when 'bar'
-        "cht=b" + (horizontal? ? "h" : "v") + (grouped? ? "g" : "s")
-      when 'pie_3d'
-        "cht=p3"
-      when 'pie'
-        "cht=p"
-      when 'venn'
-        "cht=v"
-      when 'scatter'
-        "cht=s"
-      when 'sparkline'
-        "cht=ls"
-      when 'meter'
-        "cht=gom"
-      when 'map'
-        "cht=t"
-      end
+    when 'line'
+      "cht=lc"
+    when 'line_xy'
+      "cht=lxy"
+    when 'bar'
+      "cht=b" + (horizontal? ? "h" : "v") + (grouped? ? "g" : "s")
+    when 'pie_3d'
+      "cht=p3"
+    when 'pie'
+      "cht=p"
+    when 'venn'
+      "cht=v"
+    when 'scatter'
+      "cht=s"
+    when 'sparkline'
+      "cht=ls"
+    when 'meter'
+      "cht=gom"
+    when 'map'
+      "cht=t"
+    end
   end
-  
+
   def fill_type(type)
     case type
     when 'solid'
@@ -395,12 +465,65 @@ DYNCLASSMETH
     end
   end
   
-  # Wraps a single dataset inside another array to support more datasets
-  def prepare_dataset(ds)
-    ds = [ds] unless ds.first.is_a?(Array)
+  def number_visible
+    n = 0
+    dataset.each do |mds|
+      return n.to_s if mds[:invisible] == true
+      if mds[:data].first.is_a?(Array)
+        n += mds[:data].length
+      else
+        n += 1
+      end
+    end
+    ""
+  end
+  
+  # Turns input into an array of axis hashes, dependent on the chart type
+  def convert_dataset(ds)
+    if dimensions == 2
+      # valid inputs include:
+      # an array of >=2 arrays, or an array of >=2 hashes
+      ds = ds.map do |d|
+        d.is_a?(Hash) ? d : {:data => d}
+      end
+    elsif dimensions == 1
+      # valid inputs include:
+      # a hash, an array of data, an array of >=1 array, or an array of >=1 hash
+      if ds.is_a?(Hash)
+        ds = [ds]
+      elsif not ds.first.is_a?(Hash)
+        ds = [{:data => ds}]
+      end
+    end
     ds
   end
   
+  # just an alias
+  def axis_set
+    dataset
+  end
+  
+  # Sets of data to handle multiple sets
+  def datasets
+    datasets = []
+    dataset.each do |d|
+      if d[:data].first.is_a?(Array)
+        datasets += d[:data]
+      else
+        datasets << d[:data]
+      end
+    end
+    datasets
+  end
+  
+  # 
+  # # Wraps a single dataset inside another array to support more datasets
+  # def prepare_dataset(ds)
+  #   @prepared_ds ||= full_data_range convert_dataset(data || [])
+  #   # ds = [ds] unless ds.first.is_a?(Array)
+  #   # ds
+  # end
+
   def convert_to_simple_value(number)
     if number.nil?
       "_"
@@ -410,22 +533,73 @@ DYNCLASSMETH
     end
   end
   
+  def convert_to_extended_value(number)
+    if number.nil?
+      '__'
+    else
+      value = Gchart.ext_pairs[number.to_i]
+      value.nil? ? "__" : value
+    end
+  end
+  
+  def encode_scaled_dataset(chars, nil_char)
+    dsets = []
+    dataset.each do |ds|
+      if max_value != false
+        range = ds[:max_value] - ds[:min_value]
+        range = 1 if range == 0
+      end
+      unless ds[:data].first.is_a?(Array)
+        ldatasets = [ds[:data]]
+      else
+        ldatasets = ds[:data]
+      end
+      ldatasets.each do |l|
+        dsets << l.map do |number|
+          if number.nil?
+            nil_char
+          else
+            unless range.nil? || range.zero?
+              number = chars.size * (number - ds[:min_value]) / range.to_f
+              number = [number, chars.size - 1].min
+            end
+            chars[number.to_i]
+          end
+        end.join
+      end
+    end
+    dsets.join(',')
+    
+    # @max_value = dataset.compact.map{|ds| ds.compact.max}.max if (max_value == 'auto' || max_value == nil)
+    # @min_value = dataset.compact.map{|ds| ds.compact.min}.min if (min_value == 'auto' || min_value == nil)
+    # 
+    # unless (max_value == false || max_value.to_s == 'false')
+    #   range = max_value - min_value
+    #   last_char = chars.size - 1
+    # end
+    # 
+    # dataset.map do |ds|
+    #   ds.map do |number|
+    #     if number.nil?
+    #       nil_char
+    #     else
+    #       unless range.nil? || range.zero?
+    #         number = (last_char * (number - min_value) / range).round
+    #       end
+    #       chars[number.to_i]
+    #     end
+    #   end.join
+    # end.join(',')
+  end
+
   # http://code.google.com/apis/chart/#simple
   # Simple encoding has a resolution of 62 different values. 
   # Allowing five pixels per data point, this is sufficient for line and bar charts up
   # to about 300 pixels. Simple encoding is suitable for all other types of chart regardless of size.
   def simple_encoding
-    @max_value = dataset.compact.map{|ds| ds.compact.max}.max if max_value == 'auto'
-    
-    # if max_value == false || max_value == 'false' || max_value == :false || max_value == 0
-    #   "s:" + dataset.map { |ds| ds.map { |number| number.nil? ? '_' : convert_to_simple_value(number) }.join }.join(',')
-    # else
-    #   "s:" + dataset.map { |ds| ds.map { |number| number.nil? ? '_' : convert_to_simple_value( (Gchart.simple_chars.size - 1) * number / max_value) }.join }.join(',')
-    # end
-    
-    "s:" + encode_scaled_dataset(Gchart.simple_chars, '_')
+    "s" + number_visible + ":" + encode_scaled_dataset(Gchart.simple_chars, '_')
   end
-  
+
   # http://code.google.com/apis/chart/#text
   # Text encoding with data scaling lets you specify arbitrary positive or
   # negative floating point numbers, in combination with a scaling parameter
@@ -439,64 +613,23 @@ DYNCLASSMETH
   # This encoding is not available for maps.
   #
   def text_encoding
-    "t:" + dataset.map{ |ds| ds.join(',') }.join('|') + "&chds=#{min},#{max}"
-  end
-  
-  def convert_to_extended_value(number)
-    if number.nil?
-      '__'
-    else
-      value = Gchart.ext_pairs[number.to_i]
-      value.nil? ? "__" : value
-    end
+    chds = dataset.map{|ds| "#{ds[:min_value]},#{ds[:max_value]}" }.join(",")
+    "t" + number_visible + ":" + datasets.map{ |ds| ds.join(',') }.join('|') + "&chds=" + chds
   end
 
-  
   # http://code.google.com/apis/chart/#extended
   # Extended encoding has a resolution of 4,096 different values 
   # and is best used for large charts where a large data range is required.
   def extended_encoding
-    @max_value = dataset.compact.map{|ds| ds.compact.max}.max if max_value == 'auto'
-    
-    if max_value == false || max_value == 'false' || max_value == :false || max_value == 0
-      "e:" +  dataset.map { |ds| ds.map { |number| number.nil? ? '__' : convert_to_extended_value(number)}.join }.join(',')
-    else
-      "e:" + dataset.map { |ds| ds.map { |number| number.nil? ? '__' : convert_to_extended_value( (Gchart.ext_pairs.size - 1) * number / max_value) }.join }.join(',')
-    end
-    
+    "e" + number_visible + ":" + encode_scaled_dataset(Gchart.ext_pairs, '__')
   end
-  
-  def encode_scaled_dataset(chars, nil_char)    
-    @max_value = dataset.compact.map{|ds| ds.compact.max}.max if (max_value == 'auto' || max_value == nil)
-    @min_value = dataset.compact.map{|ds| ds.compact.min}.min if (min_value == 'auto' || min_value == nil)
 
-    if not (max_value == false || max_value == 'false' || max_value == :false)
-      range = max_value - min_value
-      last_char = chars.size - 1
-    end
-
-    dataset.map do |ds|
-      ds.map do |number|
-        if number.nil?
-          nil_char
-        else
-          unless range.nil? || range.zero?
-            number = (last_char * (number - min_value) / range).round
-          end
-          chars[number.to_i]
-        end
-      end.join
-    end.join(',')
-  end
-  
-  
   def query_builder(options="")
-    dataset
     query_params = instance_variables.sort.map do |var|
       case var
       when '@data'
         set_data unless data == []  
-      # Set the graph size  
+        # Set the graph size  
       when '@width'
         set_size unless width.nil? || height.nil?
       when '@type'
@@ -529,16 +662,16 @@ DYNCLASSMETH
         custom
       end
     end.compact
-    
+
     # Use ampersand as default delimiter
     unless options == :html
       delimiter = '&'
-    # Escape ampersand for html image tags
+      # Escape ampersand for html image tags
     else
       delimiter = '&amp;'
     end
-    
+
     jstize(Gchart.url + query_params.join(delimiter))
   end
-  
+
 end

@@ -25,7 +25,7 @@ describe "generating a default Gchart" do
   end
 
   it "should have query parameters in predictable order" do
-    Gchart.line(:axis_with_labels => 'x,y,r', :size => '400x600').should match(/chxr=.+chxt=.+cht=.+chs=/)
+    Gchart.line(:axis_with_labels => 'x,y,r', :size => '400x600').should match(/chxt=.+cht=.+chs=/)
   end
 
   it "should have a type" do
@@ -39,13 +39,13 @@ describe "generating a default Gchart" do
 
   it "should use the simple encoding by default with auto max value" do
     # 9 is the max value in simple encoding, 26 being our max value the 2nd encoded value should be 9
-    Gchart.line(:data => [0, 26]).include?('chd=s:A9').should be_true
+    Gchart.line(:data => [0, 26]).should include('chd=s:A9')
     Gchart.line(:data => [0, 26], :max_value => 26).should == Gchart.line(:data => [0, 26])
   end
 
   it "should support simple encoding with and without max_value" do
-    Gchart.line(:data => [0, 26], :max_value => 26).include?('chd=s:A9').should be_true
-    Gchart.line(:data => [0, 26], :max_value => false).include?('chd=s:Aa').should be_true
+    Gchart.line(:data => [0, 26], :max_value => 26).should include('chd=s:A9')
+    Gchart.line(:data => [0, 26], :max_value => false).should include('chd=s:Aa')
   end
 
   it "should support the extended encoding and encode properly" do
@@ -71,7 +71,7 @@ describe "generating a default Gchart" do
   end
 
   it "should automatically handle negative values with proper max/min limits when using text encoding" do
-    Gchart.line(:data => [-10, 5.2, 4, 45, 78], :encoding => 'text').include?('chds=-10,78').should be_true
+    Gchart.line(:data => [-10, 5.2, 4, 45, 78], :encoding => 'text').should include('chds=-10,78')
   end
 
   it "should handle negative values with manual max/min limits when using text encoding" do
