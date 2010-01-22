@@ -33,8 +33,8 @@ describe "generating a default Gchart" do
   end
 
   it 'should use theme defaults if theme is set' do
-    Gchart.line(:theme=>:test).include?('chco=6886B4,FDD84E').should be_true
-    Gchart.line(:theme=>:test).include?(Gchart.jstize('chf=c,s,FFFFFF|bg,s,FFFFFF')).should be_true
+    Gchart.line(:theme=>:test).should include('chco=6886B4,FDD84E')
+    Gchart.line(:theme=>:test).should include(Gchart.jstize('chf=c,s,FFFFFF|bg,s,FFFFFF'))
   end
 
   it "should use the simple encoding by default with auto max value" do
@@ -57,17 +57,17 @@ describe "generating a default Gchart" do
   end
 
   it "should auto set the max value for extended encoding" do
-    Gchart.line(:data => [0, 25], :encoding => 'extended', :max_value => false).include?('chd=e:AAAZ').should be_true
+    Gchart.line(:data => [0, 25], :encoding => 'extended', :max_value => false).should include('chd=e:AAAZ')
     # Extended encoding max value is '..'
     Gchart.line(:data => [0, 25], :encoding => 'extended').include?('chd=e:AA..').should be_true
   end
 
   it "should be able to have data with text encoding" do
-    Gchart.line(:data => [10, 5.2, 4, 45, 78], :encoding => 'text').include?('chd=t:10,5.2,4,45,78').should be_true
+    Gchart.line(:data => [10, 5.2, 4, 45, 78], :encoding => 'text').should include('chd=t:10,5.2,4,45,78')
   end
 
   it "should handle max and min values with text encoding" do
-    Gchart.line(:data => [10, 5.2, 4, 45, 78], :encoding => 'text').include?('chds=0,78').should be_true
+    Gchart.line(:data => [10, 5.2, 4, 45, 78], :encoding => 'text').should include('chds=0,78')
   end
 
   it "should automatically handle negative values with proper max/min limits when using text encoding" do
@@ -159,7 +159,8 @@ describe "generating different type of charts" do
   end
 
   it "should not support other types" do
-    Gchart.sexy.should == "sexy is not a supported chart format, please use one of the following: #{Gchart.supported_types}."
+    lambda{Gchart.sexy}.should raise_error
+    # msg => "sexy is not a supported chart format, please use one of the following: #{Gchart.supported_types}."
   end
 
 end
@@ -319,18 +320,18 @@ describe "a line chart" do
   end
 
   it "should be able to set the background fill" do
-    Gchart.line(:bg => 'efefef').include?("chf=bg,s,efefef").should be_true
-    Gchart.line(:bg => {:color => 'efefef', :type => 'solid'}).include?("chf=bg,s,efefef").should be_true
+    Gchart.line(:bg => 'efefef').should include("chf=bg,s,efefef")
+    Gchart.line(:bg => {:color => 'efefef', :type => 'solid'}).should include("chf=bg,s,efefef")
 
-    Gchart.line(:bg => {:color => 'efefef', :type => 'gradient'}).include?("chf=bg,lg,0,efefef,0,ffffff,1").should be_true
-    Gchart.line(:bg => {:color => 'efefef,0,ffffff,1', :type => 'gradient'}).include?("chf=bg,lg,0,efefef,0,ffffff,1").should be_true
-    Gchart.line(:bg => {:color => 'efefef', :type => 'gradient', :angle => 90}).include?("chf=bg,lg,90,efefef,0,ffffff,1").should be_true
+    Gchart.line(:bg => {:color => 'efefef', :type => 'gradient'}).should include("chf=bg,lg,0,efefef,0,ffffff,1")
+    Gchart.line(:bg => {:color => 'efefef,0,ffffff,1', :type => 'gradient'}).should include("chf=bg,lg,0,efefef,0,ffffff,1")
+    Gchart.line(:bg => {:color => 'efefef', :type => 'gradient', :angle => 90}).should include("chf=bg,lg,90,efefef,0,ffffff,1")
 
-    Gchart.line(:bg => {:color => 'efefef', :type => 'stripes'}).include?("chf=bg,ls,90,efefef,0.2,ffffff,0.2").should be_true
+    Gchart.line(:bg => {:color => 'efefef', :type => 'stripes'}).should include("chf=bg,ls,90,efefef,0.2,ffffff,0.2")
   end
 
   it "should be able to set a graph fill" do
-    Gchart.line(:graph_bg => 'efefef').include?("chf=c,s,efefef").should be_true
+    Gchart.line(:graph_bg => 'efefef').should include("chf=c,s,efefef")
     Gchart.line(:graph_bg => {:color => 'efefef', :type => 'solid'}).include?("chf=c,s,efefef").should be_true
     Gchart.line(:graph_bg => {:color => 'efefef', :type => 'gradient'}).include?("chf=c,lg,0,efefef,0,ffffff,1").should be_true
     Gchart.line(:graph_bg => {:color => 'efefef,0,ffffff,1', :type => 'gradient'}).include?("chf=c,lg,0,efefef,0,ffffff,1").should be_true
@@ -437,8 +438,8 @@ describe "a 3d pie chart" do
   end
 
   it "should be able to set labels by using the legend or labesl accessor" do
-    Gchart.pie_3d(:title => @title, :legend => @legend, :data => @data).include?("chl=#{@jstized_legend}").should be_true
-    Gchart.pie_3d(:title => @title, :labels => @legend, :data => @data).include?("chl=#{@jstized_legend}").should be_true
+    Gchart.pie_3d(:title => @title, :legend => @legend, :data => @data).should include("chl=#{@jstized_legend}")
+    Gchart.pie_3d(:title => @title, :labels => @legend, :data => @data).should include("chl=#{@jstized_legend}")
     Gchart.pie_3d(:title => @title, :labels => @legend, :data => @data).should == Gchart.pie_3d(:title => @title, :legend => @legend, :data => @data)
   end
 
