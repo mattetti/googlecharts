@@ -192,7 +192,7 @@ class Gchart
           mds[:min_value] = all.min
         else
           min = all.min
-          mds[:min_value] ||=  (min < 0 ? min : 0)
+          mds[:min_value] ||=  (min && min < 0 ? min : 0)
         end
         mds[:max_value] ||= all.max
       end
@@ -228,8 +228,21 @@ class Gchart
     end
   end
   
+  # Sets of data to handle multiple sets
+  def datasets
+    datasets = []
+    dataset.each do |d|
+      if d[:data].first.is_a?(Array)
+        datasets += d[:data]
+      else
+        datasets << d[:data]
+      end
+    end
+    datasets
+  end
+  
   def self.jstize(string)
-    string.gsub(' ', '+').gsub(/\[|\{|\}|\||\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s.upcase}"}
+    string.gsub(' ', '+').gsub(/\[|\{|\}|\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s.upcase}"}
   end    
   # load all the custom aliases
   require 'gchart/aliases'
@@ -418,8 +431,8 @@ class Gchart
     # a passed axis_range should look like:
     # [[10,100]] or [[10,100,4]] or [[10,100], [20,300]]
     # in the second example, 4 is the interval 
-    if dataset && dataset.respond_to?(:each) && dataset.first.respond_to?(:each)
-      'chxr=' + dataset.enum_for(:each_with_index).map{|range, index| [index+1, range[0], range[1], range[2]].compact.join(',')}.join("|")
+    if datasets && datasets.respond_to?(:each) && datasets.first.respond_to?(:each)
+      'chxr=' + datasets.enum_for(:each_with_index).map{|range, index| [index, (min_value || range[0]), range[1], (max_value || range[2])].compact.uniq.join(',')}.join("|")
     else
       nil
     end
@@ -502,27 +515,6 @@ class Gchart
   def axis_set
     dataset
   end
-  
-  # Sets of data to handle multiple sets
-  def datasets
-    datasets = []
-    dataset.each do |d|
-      if d[:data].first.is_a?(Array)
-        datasets += d[:data]
-      else
-        datasets << d[:data]
-      end
-    end
-    datasets
-  end
-  
-  # 
-  # # Wraps a single dataset inside another array to support more datasets
-  # def prepare_dataset(ds)
-  #   @prepared_ds ||= full_data_range convert_dataset(data || [])
-  #   # ds = [ds] unless ds.first.is_a?(Array)
-  #   # ds
-  # end
 
   def convert_to_simple_value(number)
     if number.nil?
@@ -569,27 +561,6 @@ class Gchart
       end
     end
     dsets.join(',')
-    
-    # @max_value = dataset.compact.map{|ds| ds.compact.max}.max if (max_value == 'auto' || max_value == nil)
-    # @min_value = dataset.compact.map{|ds| ds.compact.min}.min if (min_value == 'auto' || min_value == nil)
-    # 
-    # unless (max_value == false || max_value.to_s == 'false')
-    #   range = max_value - min_value
-    #   last_char = chars.size - 1
-    # end
-    # 
-    # dataset.map do |ds|
-    #   ds.map do |number|
-    #     if number.nil?
-    #       nil_char
-    #     else
-    #       unless range.nil? || range.zero?
-    #         number = (last_char * (number - min_value) / range).round
-    #       end
-    #       chars[number.to_i]
-    #     end
-    #   end.join
-    # end.join(',')
   end
 
   # http://code.google.com/apis/chart/#simple
@@ -648,8 +619,6 @@ class Gchart
         set_bar_width_and_spacing
       when '@axis_with_labels'
         set_axis_with_labels
-      when '@axis_range'
-        set_axis_range if dataset
       when '@axis_labels'
         set_axis_labels
       when '@range_markers'
@@ -662,6 +631,8 @@ class Gchart
         custom
       end
     end.compact
+
+    query_params << set_axis_range
 
     # Use ampersand as default delimiter
     unless options == :html

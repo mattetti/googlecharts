@@ -560,7 +560,7 @@ describe 'exporting a chart' do
     File.delete('foo.png') if File.exist?('foo.png')
     Gchart.line(:size => '400x200',
                 :data => [1,2,3,4,5],
-                :axis_labels => [[1,2,3,4, 5], %w[foo bar]],
+                # :axis_labels => [[1,2,3,4, 5], %w[foo bar]],
                 :axis_with_labels => 'x,r',
                 :format => "file",
                 :filename => "foo.png"
