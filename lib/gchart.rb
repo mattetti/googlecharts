@@ -256,7 +256,7 @@ class Gchart
   def write
     io_or_file = filename || Gchart.default_filename
     return io_or_file.write(fetch) if io_or_file.respond_to?(:write)
-    open(io_or_file, "w+") { |io| io.write(fetch) }
+    open(io_or_file, "wb+") { |io| io.write(fetch) }
   end
 
   # Format
