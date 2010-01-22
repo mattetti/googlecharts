@@ -59,7 +59,7 @@ class Gchart
     DYNCLASSMETH
   end
 
-  def version
+  def self.version
     Gchart::VERSION::STRING
   end
 
