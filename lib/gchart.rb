@@ -435,8 +435,13 @@ class Gchart
     # a passed axis_range should look like:
     # [[10,100]] or [[10,100,4]] or [[10,100], [20,300]]
     # in the second example, 4 is the interval 
-    if datasets && datasets.respond_to?(:each) && datasets.first.respond_to?(:each)
-      'chxr=' + datasets.enum_for(:each_with_index).map{|range, index| [index, (min_value || range[0]), range[1], (max_value || range[2])].compact.uniq.join(',')}.join("|")
+    set = axis_range || datasets
+    # in the case of a line graph, the first axis range should 1
+    index_increase = type.to_s == 'line' ? 1 : 0
+    if set && set.respond_to?(:each) && set.first.respond_to?(:each)
+      'chxr=' + datasets.enum_for(:each_with_index).map do |range, index|
+        [(index + index_increase), (min_value || range.first), (max_value || range.last)].compact.uniq.join(',')
+       end.join("|")
     else
       nil
     end
