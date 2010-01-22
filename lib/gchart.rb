@@ -411,7 +411,11 @@ class Gchart
 
   def set_axis_labels
     if axis_labels.is_a?(Array)
-      labels_arr = axis_labels.enum_with_index.map{|labels,index| [index,labels]}
+      if RUBY_VERSION.to_f < 1.9
+        labels_arr = axis_labels.enum_with_index.map{|labels,index| [index,labels]}
+      else
+        labels_arr = axis_labels.map.with_index.map{|labels,index| [index,labels]}
+      end
     elsif axis_labels.is_a?(Hash)
       labels_arr = axis_labels.to_a
     end
@@ -597,7 +601,7 @@ class Gchart
 
   def query_builder(options="")
     query_params = instance_variables.sort.map do |var|
-      case var
+      case var.to_s
       when '@data'
         set_data unless data == []  
         # Set the graph size  

@@ -16,7 +16,7 @@ describe "generating a default Gchart" do
   end
 
   it "should have a default size" do
-    @chart.include?('chs=300x200').should be_true
+    @chart.should include('chs=300x200')
   end
 
   it "should be able to have a custom size" do
@@ -34,7 +34,11 @@ describe "generating a default Gchart" do
 
   it 'should use theme defaults if theme is set' do
     Gchart.line(:theme=>:test).should include('chco=6886B4,FDD84E')
-    Gchart.line(:theme=>:test).should include(Gchart.jstize('chf=c,s,FFFFFF|bg,s,FFFFFF'))
+    if RUBY_VERSION.to_f < 1.9
+      Gchart.line(:theme=>:test).should include(Gchart.jstize('chf=c,s,FFFFFF|bg,s,FFFFFF')) 
+    else
+       Gchart.line(:theme=>:test).should include(Gchart.jstize('chf=bg,s,FFFFFF|c,s,FFFFFF'))
+    end
   end
 
   it "should use the simple encoding by default with auto max value" do
@@ -341,7 +345,11 @@ describe "a line chart" do
   it "should be able to set both a graph and a background fill" do
     Gchart.line(:bg => 'efefef', :graph_bg => '76A4FB').include?("bg,s,efefef").should be_true
     Gchart.line(:bg => 'efefef', :graph_bg => '76A4FB').include?("c,s,76A4FB").should be_true
-    Gchart.line(:bg => 'efefef', :graph_bg => '76A4FB').include?(Gchart.jstize("chf=c,s,76A4FB|bg,s,efefef")).should be_true
+    if RUBY_VERSION.to_f < 1.9
+      Gchart.line(:bg => 'efefef', :graph_bg => '76A4FB').include?(Gchart.jstize("chf=c,s,76A4FB|bg,s,efefef")).should be_true      
+    else
+      Gchart.line(:bg => 'efefef', :graph_bg => '76A4FB').include?(Gchart.jstize("chf=bg,s,efefef|c,s,76A4FB")).should be_true
+    end
   end
 
   it "should be able to have different line colors" do
@@ -409,7 +417,11 @@ describe "a sparkline chart" do
   it "should be able to set both a graph and a background fill" do
     Gchart.sparkline(:bg => 'efefef', :graph_bg => '76A4FB').include?("bg,s,efefef").should be_true
     Gchart.sparkline(:bg => 'efefef', :graph_bg => '76A4FB').include?("c,s,76A4FB").should be_true
-    Gchart.sparkline(:bg => 'efefef', :graph_bg => '76A4FB').include?(Gchart.jstize("chf=c,s,76A4FB|bg,s,efefef")).should be_true
+    if RUBY_VERSION.to_f < 1.9
+      Gchart.sparkline(:bg => 'efefef', :graph_bg => '76A4FB').include?(Gchart.jstize("chf=c,s,76A4FB|bg,s,efefef")).should be_true
+    else
+      Gchart.sparkline(:bg => 'efefef', :graph_bg => '76A4FB').include?(Gchart.jstize("chf=bg,s,efefef|c,s,76A4FB")).should be_true
+    end
   end
 
   it "should be able to have different line colors" do
