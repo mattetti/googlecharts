@@ -37,7 +37,7 @@ class Gchart
   :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :klass,
   :range_markers, :geographical_area, :map_colors, :country_codes, :axis_range, :filename, :min, :max, :colors
 
-  attr_accessor :bg_type, :bg_color, :bg_angle, :chart_type, :chart_color, :chart_angle, :axis_range
+  attr_accessor :bg_type, :bg_color, :bg_angle, :chart_type, :chart_color, :chart_angle, :axis_range, :thickness, :new_markers, :grid_lines 
 
   attr_accessor :min_value, :max_value
   
@@ -90,6 +90,7 @@ class Gchart
     end
   end
 
+  
   def self.supported_types
     Gchart.types.join(' ')
   end
@@ -99,6 +100,14 @@ class Gchart
   def size=(size='300x200')
     @width, @height = size.split("x").map { |dimension| dimension.to_i }
   end
+  
+  def size=(size='300x200')
+    @width, @height = size.split("x").map { |dimension| dimension.to_i }
+  end
+  
+
+  
+
 
   def size
     "#{width}x#{height}"
@@ -396,6 +405,18 @@ class Gchart
 
   end
 
+  def set_line_thickness
+      "chls=#{thickness}"
+  end
+  
+  def set_line_markers
+      "chm=#{new_markers}"
+  end
+  
+  def set_grid_lines
+      "chg=#{grid_lines}"
+  end
+  
   def set_labels
     if legend.is_a?(Array)
       "chl=#{@legend.map{|label| "#{CGI::escape(label.to_s)}"}.join('|')}"
@@ -426,6 +447,8 @@ class Gchart
         "#{index}:|#{labels}"
       end
     end
+    count = labels_arr.length
+    
     "chxl=#{labels_arr.join('|')}"
   end
 
@@ -446,6 +469,10 @@ class Gchart
       nil
     end
   end
+  
+
+
+  
 
   def set_geographical_area
     "chtm=#{geographical_area}"
@@ -618,6 +645,10 @@ class Gchart
         set_title unless title.nil?
       when '@legend'
         set_legend unless legend.nil?
+      when '@thickness'
+        set_line_thickness
+      when '@new_markers'
+          set_line_markers
       when '@bg_color'
         set_colors
       when '@chart_color'
@@ -632,6 +663,8 @@ class Gchart
         set_axis_labels
       when '@range_markers'
         set_range_markers
+      when '@grid_lines'
+        set_grid_lines
       when '@geographical_area'
         set_geographical_area
       when '@country_codes'
