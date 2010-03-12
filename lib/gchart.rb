@@ -252,8 +252,8 @@ class Gchart
   
   def self.jstize(string)
     # See discussion: http://github.com/mattetti/googlecharts/commit/9b5cfb93aa51aae06611057668e631cd515ec4f3#comment_51347
-    # string.gsub(' ', '+').gsub(/\[|\{|\}|\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s.upcase}"}
-    string.gsub(' ', '+').gsub(/\[|\{|\}|\||\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s.upcase}"}
+    string.gsub(' ', '+').gsub(/\[|\{|\}|\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s.upcase}"}
+    # string.gsub(' ', '+').gsub(/\[|\{|\}|\||\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s.upcase}"}
   end    
   # load all the custom aliases
   require 'gchart/aliases'
