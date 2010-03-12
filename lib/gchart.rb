@@ -33,7 +33,7 @@ class Gchart
     'chart.png'
   end
 
-  attr_accessor :title, :type, :width, :height, :curved, :horizontal, :grouped, :legend, :labels, :data, :encoding, :bar_colors,
+  attr_accessor :title, :type, :width, :height, :curved, :horizontal, :grouped, :legend, :legend_position, :labels, :data, :encoding, :bar_colors,
   :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :klass,
   :range_markers, :geographical_area, :map_colors, :country_codes, :axis_range, :filename, :min, :max, :colors, :usemap
 
@@ -409,6 +409,23 @@ class Gchart
 
   end
 
+  def set_legend_position
+    case @legend_position
+    when :bottom
+      "chdlp=b"
+    when :bottom_vertical
+      "chdlp=bv"
+    when :top
+      "chdlp=t"
+    when :top_vertical
+      "chdlp=tv"
+    when :right
+      "chdlp=r"
+    when :left
+      "chdlp=l"
+    end
+  end
+
   def set_line_thickness
       "chls=#{thickness}"
   end
@@ -642,6 +659,8 @@ class Gchart
         set_legend unless legend.nil?
       when '@labels'
         set_labels unless labels.nil?
+      when '@legend_position'
+        set_legend_position unless legend_position.nil?
       when '@thickness'
         set_line_thickness
       when '@new_markers'
