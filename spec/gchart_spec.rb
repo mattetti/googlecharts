@@ -44,7 +44,7 @@ describe "generating a default Gchart" do
   it "should use the simple encoding by default with auto max value" do
     # 9 is the max value in simple encoding, 26 being our max value the 2nd encoded value should be 9
     Gchart.line(:data => [0, 26]).should include('chd=s:A9')
-    Gchart.line(:data => [0, 26], :max_value => 26).should == Gchart.line(:data => [0, 26])
+    Gchart.line(:data => [0, 26], :max_value => 26).should include('chxr=1,0,26')
   end
 
   it "should support simple encoding with and without max_value" do
@@ -116,6 +116,18 @@ describe "generating a default Gchart" do
     data = [85,107,123,131,155,172,173,189,203,222,217,233,250,239,256,267,247,261,275,295,288,305,322,307,325,347,331,346,363,382,343,359,383,352,374,393,358,379,396,416,377,398,419,380,409,426,453,432,452,465,436,460,480,440,457,474,501,457,489,507,347,373,413,402,424,448,475,488,513,475,507,530,440,476,500,518,481,512,531,367,396,423,387,415,446,478,442,469,492,463,489,508,463,491,518,549,503,526,547,493,530,549,493,520,541,564,510,535,564,492,512,537,502,530,548,491,514,538,568,524,548,568,512,533,552,577,520,545,570,516,536,555,514,536,566,521,553,579,604,541,569,595,551,581,602,549,576,606,631,589,615,650,597,624,646,672,605,626,654,584,608,631,574,597,622,559,591,614,644,580,603,629,584,615,631,558,591,618,641,314,356,395,397,429,450,421,454,477,507,458,490,560,593]
     url = Gchart.line(:data => data, :axis_with_labels => 'x,y', :axis_labels => [(1.upto(24).to_a << 1)])
     url.should include('chxr=1,85,593')
+  end
+  
+  it "should force the y range properly" do
+    url = Gchart.bar(:data => [1,1,1,1,1,1,1,1,6,2,1,1],
+            :axis_with_labels => 'x,y',
+            :min_value => 0,
+            :max_value => 16,
+            :axis_labels => [1.upto(12).to_a],
+            :axis_range => [[0,0],[0,16]],
+            :encoding => "text"
+            )
+    url.should include('chxr=0,0,16|1,0,16')
   end
   
   it "should take in consideration the max value when creating a range" do

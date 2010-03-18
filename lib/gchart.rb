@@ -104,10 +104,6 @@ class Gchart
   def size=(size='300x200')
     @width, @height = size.split("x").map { |dimension| dimension.to_i }
   end
-  
-
-  
-
 
   def size
     "#{width}x#{height}"
@@ -208,6 +204,7 @@ class Gchart
     end
 
     unless axis_range
+      @calculated_axis_range = true
       @axis_range = ds.map{|mds| [mds[:min_value], mds[:max_value]]}
       if dimensions == 1 && (type.to_s != 'bar' || horizontal)
         tmp = axis_range.fetch(0, [])
@@ -460,21 +457,21 @@ class Gchart
     # a passed axis_range should look like:
     # [[10,100]] or [[10,100,4]] or [[10,100], [20,300]]
     # in the second example, 4 is the interval 
-    set = axis_range || datasets
+    if @calculated_axis_range
+      set = datasets
+    else
+      set = axis_range || datasets
+    end
     # in the case of a line graph, the first axis range should 1
     index_increase = type.to_s == 'line' ? 1 : 0
     if set && set.respond_to?(:each) && set.first.respond_to?(:each)
-      'chxr=' + datasets.enum_for(:each_with_index).map do |range, index|
-        [(index + index_increase), (min_value || range.first), (max_value || range.last)].compact.uniq.join(',')
+      'chxr=' + set.enum_for(:each_with_index).map do |range, index|
+        [(index + index_increase), (min_value || range.first), (max_value || range.last)].compact.join(',')
        end.join("|")
     else
       nil
     end
   end
-  
-
-
-  
 
   def set_geographical_area
     "chtm=#{geographical_area}"
