@@ -49,7 +49,7 @@ class Gchart
       options = theme ? Chart::Theme.load(theme).to_options.merge(options) : options 
       # # Extract the format and optional filename, then clean the hash
       format = options[:format] || 'url'
-      options[:filename] ||= Gchart.default_filename
+      options[:filename] ||= default_filename
       options.delete(:format)
       #update map_colors to become bar_colors
       options.update(:bar_colors => options[:map_colors]) if options.has_key?(:map_colors)
@@ -60,7 +60,7 @@ class Gchart
   end
 
   def self.version
-    Gchart::VERSION::STRING
+    VERSION::STRING
   end
 
   def self.method_missing(m, options={})
@@ -92,7 +92,7 @@ class Gchart
 
   
   def self.supported_types
-    Gchart.types.join(' ')
+    self.class.types.join(' ')
   end
 
   # Defines the Graph size using the following format:
@@ -266,7 +266,7 @@ class Gchart
 
   # Writes the chart's generated PNG to a file. (borrowed from John's gchart.rubyforge.org)
   def write
-    io_or_file = filename || Gchart.default_filename
+    io_or_file = filename || self.class.default_filename
     return io_or_file.write(fetch) if io_or_file.respond_to?(:write)
     open(io_or_file, "wb+") { |io| io.write(fetch) }
   end
@@ -297,8 +297,8 @@ class Gchart
 
   #
   def jstize(string)
-    Gchart.jstize(string)
-  end 
+    self.class.jstize(string)
+  end
 
   private
 
@@ -559,7 +559,7 @@ class Gchart
     if number.nil?
       "_"
     else
-      value = Gchart.simple_chars[number.to_i]
+      value = self.class.simple_chars[number.to_i]
       value.nil? ? "_" : value
     end
   end
@@ -568,7 +568,7 @@ class Gchart
     if number.nil?
       '__'
     else
-      value = Gchart.ext_pairs[number.to_i]
+      value = self.class.ext_pairs[number.to_i]
       value.nil? ? "__" : value
     end
   end
@@ -607,7 +607,7 @@ class Gchart
   # Allowing five pixels per data point, this is sufficient for line and bar charts up
   # to about 300 pixels. Simple encoding is suitable for all other types of chart regardless of size.
   def simple_encoding
-    "s" + number_visible + ":" + encode_scaled_dataset(Gchart.simple_chars, '_')
+    "s" + number_visible + ":" + encode_scaled_dataset(self.class.simple_chars, '_')
   end
 
   # http://code.google.com/apis/chart/#text
@@ -631,7 +631,7 @@ class Gchart
   # Extended encoding has a resolution of 4,096 different values 
   # and is best used for large charts where a large data range is required.
   def extended_encoding
-    "e" + number_visible + ":" + encode_scaled_dataset(Gchart.ext_pairs, '__')
+    "e" + number_visible + ":" + encode_scaled_dataset(self.class.ext_pairs, '__')
   end
 
   def url_builder(options="")
