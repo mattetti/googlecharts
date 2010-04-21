@@ -1,7 +1,7 @@
 $:.unshift File.dirname(__FILE__)
 require 'gchart/version'
 require 'gchart/theme'
-require "open-uri"
+require "net/http"
 require "uri"
 require "cgi"
 require 'enumerator'
@@ -257,7 +257,11 @@ class Gchart
 
   # Returns the chart's generated PNG as a blob. (borrowed from John's gchart.rubyforge.org)
   def fetch
-    open(query_builder) { |io| io.read }
+    url = URI.parse(self.class.url)
+    req = Net::HTTP::Post.new(url.path)
+    req.body = query_builder
+    req.content_type = 'application/x-www-form-urlencoded'
+    Net::HTTP.new(url.host, url.port).start {|http| http.request(req) }.body
   end
 
   # Writes the chart's generated PNG to a file. (borrowed from John's gchart.rubyforge.org)
@@ -273,7 +277,7 @@ class Gchart
     image = "<img"
     image += " id=\"#{id}\"" if id  
     image += " class=\"#{klass}\"" if klass      
-    image += " src=\"#{query_builder(:html)}\""
+    image += " src=\"#{url_builder(:html)}\""
     image += " width=\"#{width}\""
     image += " height=\"#{height}\""
     image += " alt=\"#{alt}\""
@@ -284,7 +288,7 @@ class Gchart
   alias_method :img_tag, :image_tag
 
   def url
-    query_builder
+    url_builder
   end
 
   def file
@@ -630,6 +634,10 @@ class Gchart
     "e" + number_visible + ":" + encode_scaled_dataset(Gchart.ext_pairs, '__')
   end
 
+  def url_builder(options="")
+    self.class.url + query_builder(options)
+  end
+
   def query_builder(options="")
     query_params = instance_variables.sort.map do |var|
       case var.to_s
@@ -683,7 +691,7 @@ class Gchart
       delimiter = '&amp;'
     end
 
-    jstize(Gchart.url + query_params.join(delimiter))
+    jstize(query_params.join(delimiter))
   end
 
 end
