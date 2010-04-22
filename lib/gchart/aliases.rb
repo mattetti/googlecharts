@@ -10,5 +10,6 @@ class Gchart
   alias_method :labels=, :legend=
   alias_method :horizontal?, :horizontal
   alias_method :grouped?, :grouped
+  alias_method :curved?, :curved
 
 end

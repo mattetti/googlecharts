@@ -14,7 +14,7 @@ class Gchart
   end
 
   def self.types
-    @types ||= ['line', 'line_xy', 'scatter', 'bar', 'venn', 'pie', 'pie_3d', 'jstize', 'sparkline', 'meter', 'map']
+    @types ||= ['line', 'line_xy', 'scatter', 'bar', 'venn', 'pie', 'pie_3d', 'jstize', 'sparkline', 'meter', 'map', 'radar']
   end
 
   def self.simple_chars
@@ -33,7 +33,7 @@ class Gchart
     'chart.png'
   end
 
-  attr_accessor :title, :type, :width, :height, :horizontal, :grouped, :legend, :data, :encoding, :bar_colors,
+  attr_accessor :title, :type, :width, :height, :curved, :horizontal, :grouped, :legend, :data, :encoding, :bar_colors,
   :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :klass,
   :range_markers, :geographical_area, :map_colors, :country_codes, :axis_range, :filename, :min, :max, :colors
 
@@ -72,6 +72,7 @@ class Gchart
     @data = []
     @width = 300
     @height = 200
+    @curved = false
     @horizontal = false
     @grouped = false
     @encoding = 'simple'
@@ -482,38 +483,28 @@ class Gchart
   end
 
   def set_type
-    case type.to_s
-    when 'line'
-      "cht=lc"
-    when 'line_xy'
-      "cht=lxy"
+    'cht=' + case type.to_s
+    when 'line'      then "lc"
+    when 'line_xy'   then "lxy"
+    when 'pie_3d'    then "p3"
+    when 'pie'       then "p"
+    when 'venn'      then "v"
+    when 'scatter'   then "s"
+    when 'sparkline' then "ls"
+    when 'meter'     then "gom"
+    when 'map'       then "t"
+    when 'radar'
+      "r" + (curved? ? 's' : '')
     when 'bar'
-      "cht=b" + (horizontal? ? "h" : "v") + (grouped? ? "g" : "s")
-    when 'pie_3d'
-      "cht=p3"
-    when 'pie'
-      "cht=p"
-    when 'venn'
-      "cht=v"
-    when 'scatter'
-      "cht=s"
-    when 'sparkline'
-      "cht=ls"
-    when 'meter'
-      "cht=gom"
-    when 'map'
-      "cht=t"
+      "b" + (horizontal? ? "h" : "v") + (grouped? ? "g" : "s")
     end
   end
 
   def fill_type(type)
     case type
-    when 'solid'
-      's'
-    when 'gradient'
-      'lg'
-    when 'stripes'
-      'ls'
+    when 'solid'    then 's'
+    when 'gradient' then 'lg'
+    when 'stripes'  then 'ls'
     end
   end
   
