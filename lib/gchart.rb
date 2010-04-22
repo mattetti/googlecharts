@@ -462,20 +462,21 @@ class Gchart
     # a passed axis_range should look like:
     # [[10,100]] or [[10,100,4]] or [[10,100], [20,300]]
     # in the second example, 4 is the interval 
-    if @calculated_axis_range
-      set = datasets
-    else
-      set = axis_range || datasets
-    end
+    set = @calculated_axis_range ? datasets : axis_range || datasets
+
+    return unless set && set.respond_to?(:each) && set.find {|o| o}.respond_to?(:each)
+
     # in the case of a line graph, the first axis range should 1
     index_increase = type.to_s == 'line' ? 1 : 0
-    if set && set.respond_to?(:each) && set.first.respond_to?(:each)
-      'chxr=' + set.enum_for(:each_with_index).map do |range, index|
-        [(index + index_increase), (min_value || range.first), (max_value || range.last)].compact.join(',')
-       end.join("|")
-    else
-      nil
-    end
+    'chxr=' + set.enum_for(:each_with_index).map do |axis_range, index|
+      next nil if axis_range.nil? # ignore this axis
+      min, max, step = axis_range
+      if axis_range.size > 3 or step && max && step > max # this is a full series
+        max = axis_range.last
+        step = nil
+      end
+      [(index + index_increase), (min_value || min || 0), (max_value || max), step].compact.join(',')
+    end.compact.join("|")
   end
 
   def set_geographical_area
