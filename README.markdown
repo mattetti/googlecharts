@@ -238,6 +238,11 @@ The hash lets you set these values directly, with the Google default values set 
     Gchart.bar(:data => @data, :bar_width_and_spacing => {:width => 19})
     Gchart.bar(:data => @data, :bar_width_and_spacing => {:spacing => 10, :group_spacing => 12})
 
+Radar:
+-------------
+    In a Radar graph, the x-axis is circular. The points can be connected by straight lines or curved lines.
+    Gchart.radar(:data => @data, :curved => true)
+
 Sparklines:
 -------------
 
