@@ -5,6 +5,16 @@ Chart::Theme.add_theme_file("#{File.dirname(__FILE__)}/fixtures/test_theme.yml")
 
 # Time to add your specs!
 # http://rspec.rubyforge.org/
+describe "The Gchart class" do
+  it "should show supported_types on error" do
+    Gchart.supported_types.should match(/line/)
+  end
+
+  it "should return supported types" do
+    Gchart.types.include?('line').should be_true
+  end
+end
+
 describe "generating a default Gchart" do
 
   before(:each) do
@@ -215,8 +225,8 @@ describe "generating different type of charts" do
   end
 
   it "should not support other types" do
-    lambda{Gchart.sexy}.should raise_error
-    # msg => "sexy is not a supported chart format, please use one of the following: #{Gchart.supported_types}."
+    msg = "sexy is not a supported chart format. Please use one of the following: #{Gchart.supported_types}."
+    lambda{Gchart.sexy}.should raise_error(NoMethodError)
   end
 
 end
