@@ -101,10 +101,6 @@ class Gchart
     @width, @height = size.split("x").map { |dimension| dimension.to_i }
   end
   
-  def size=(size='300x200')
-    @width, @height = size.split("x").map { |dimension| dimension.to_i }
-  end
-
   def size
     "#{width}x#{height}"
   end
