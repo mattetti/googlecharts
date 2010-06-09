@@ -64,7 +64,7 @@ class Gchart
   end
 
   def self.method_missing(m, options={})
-    raise NoMethodError, "#{m} is not a supported chart format, please use one of the following: #{supported_types}."
+    raise NoMethodError, "#{m} is not a supported chart format. Please use one of the following: #{supported_types}."
   end
 
   def initialize(options={})
@@ -91,9 +91,8 @@ class Gchart
     end
   end
 
-  
   def self.supported_types
-    self.class.types.join(' ')
+    self.types.join(' ')
   end
 
   # Defines the Graph size using the following format:
