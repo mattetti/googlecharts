@@ -452,7 +452,6 @@ class Gchart
         "#{index}:|#{labels}"
       end
     end
-    count = labels_arr.length
     
     "chxl=#{labels_arr.join('|')}"
   end
