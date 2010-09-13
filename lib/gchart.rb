@@ -35,7 +35,7 @@ class Gchart
 
   attr_accessor :title, :type, :width, :height, :curved, :horizontal, :grouped, :legend, :data, :encoding, :bar_colors,
   :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :klass,
-  :range_markers, :geographical_area, :map_colors, :country_codes, :axis_range, :filename, :min, :max, :colors
+  :range_markers, :geographical_area, :map_colors, :country_codes, :axis_range, :filename, :min, :max, :colors, :usemap
 
   attr_accessor :bg_type, :bg_color, :bg_angle, :chart_type, :chart_color, :chart_angle, :axis_range, :thickness, :new_markers, :grid_lines 
 
@@ -280,6 +280,7 @@ class Gchart
     image += " height=\"#{height}\""
     image += " alt=\"#{alt}\""
     image += " title=\"#{title}\"" if title
+    image += " usemap=\"#{usemap}\"" if usemap
     image += " />"
   end
 
