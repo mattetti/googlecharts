@@ -70,6 +70,10 @@ describe "generating a default Gchart" do
     Gchart.line(:data => [10, 5.2, 4, 45, 78], :encoding => 'text').should include('chd=t:10,5.2,4,45,78')
   end
 
+  it "should be able to have missing data points with text encoding" do
+    Gchart.line(:data => [10, 5.2, nil, 45, 78], :encoding => 'text').should include('chd=t:10,5.2,_,45,78')
+  end
+
   it "should handle max and min values with text encoding" do
     Gchart.line(:data => [10, 5.2, 4, 45, 78], :encoding => 'text').should include('chds=0,78')
   end
@@ -113,19 +117,19 @@ describe "generating a default Gchart" do
   end
   
   def labeled_line(options = {})
-    Gchart.line({:data => @data, :axis_with_labels => 'x,y'}.merge options)
+    Gchart.line({:data => @data, :axis_with_labels => 'x,y'}.merge(options))
   end
 
   it "should display ranges properly" do
     @data = [85,107,123,131,155,172,173,189,203,222,217,233,250,239,256,267,247,261,275,295,288,305,322,307,325,347,331,346,363,382,343,359,383,352,374,393,358,379,396,416,377,398,419,380,409,426,453,432,452,465,436,460,480,440,457,474,501,457,489,507,347,373,413,402,424,448,475,488,513,475,507,530,440,476,500,518,481,512,531,367,396,423,387,415,446,478,442,469,492,463,489,508,463,491,518,549,503,526,547,493,530,549,493,520,541,564,510,535,564,492,512,537,502,530,548,491,514,538,568,524,548,568,512,533,552,577,520,545,570,516,536,555,514,536,566,521,553,579,604,541,569,595,551,581,602,549,576,606,631,589,615,650,597,624,646,672,605,626,654,584,608,631,574,597,622,559,591,614,644,580,603,629,584,615,631,558,591,618,641,314,356,395,397,429,450,421,454,477,507,458,490,560,593]
-    labeled_line(:axis_labels => [(1.upto(24).to_a << 1)]).
+    labeled_line(:axis_labels => [((1..24).to_a << 1)]).
       should include('chxr=1,85,593')
   end
   
   def labeled_bar(options = {})
     Gchart.bar({:data => @data,
             :axis_with_labels => 'x,y',
-            :axis_labels => [1.upto(12).to_a],
+            :axis_labels => [(1..12).to_a],
             :encoding => "text"
     }.merge(options))
   end
@@ -157,7 +161,7 @@ describe "generating a default Gchart" do
   
   it "should take in consideration the max value when creating a range" do
     data = [85,107,123,131,155,172,173,189,203,222,217,233,250,239,256,267,247,261,275,295,288,305,322,307,325,347,331,346,363,382,343,359,383,352,374,393,358,379,396,416,377,398,419,380,409,426,453,432,452,465,436,460,480,440,457,474,501,457,489,507,347,373,413,402,424,448,475,488,513,475,507,530,440,476,500,518,481,512,531,367,396,423,387,415,446,478,442,469,492,463,489,508,463,491,518,549,503,526,547,493,530,549,493,520,541,564,510,535,564,492,512,537,502,530,548,491,514,538,568,524,548,568,512,533,552,577,520,545,570,516,536,555,514,536,566,521,553,579,604,541,569,595,551,581,602,549,576,606,631,589,615,650,597,624,646,672,605,626,654,584,608,631,574,597,622,559,591,614,644,580,603,629,584,615,631,558,591,618,641,314,356,395,397,429,450,421,454,477,507,458,490,560,593]
-    url = Gchart.line(:data => data, :axis_with_labels => 'x,y', :axis_labels => [(1.upto(24).to_a << 1)], :max_value => 700)
+    url = Gchart.line(:data => data, :axis_with_labels => 'x,y', :axis_labels => [((1..24).to_a << 1)], :max_value => 700)
     url.should include('chxr=1,85,700')
   end
 
@@ -239,25 +243,25 @@ describe "range markers" do
 
   describe "when setting the orientation option" do
     before(:each) do
-      options = {:start_position => 0.59, :stop_position => 0.61, :color => 'ff0000'}
+      @options = {:start_position => 0.59, :stop_position => 0.61, :color => 'ff0000'}
     end
 
     it "to vertical (R) if given a valid option" do
-      Gchart.line(:range_markers => options.merge(:orientation => 'v')).include?('chm=R').should be_true
-      Gchart.line(:range_markers => options.merge(:orientation => 'V')).include?('chm=R').should be_true
-      Gchart.line(:range_markers => options.merge(:orientation => 'R')).include?('chm=R').should be_true
-      Gchart.line(:range_markers => options.merge(:orientation => 'vertical')).include?('chm=R').should be_true
-      Gchart.line(:range_markers => options.merge(:orientation => 'Vertical')).include?('chm=R').should be_true
+      Gchart.line(:range_markers => @options.merge(:orientation => 'v')).include?('chm=R').should be_true
+      Gchart.line(:range_markers => @options.merge(:orientation => 'V')).include?('chm=R').should be_true
+      Gchart.line(:range_markers => @options.merge(:orientation => 'R')).include?('chm=R').should be_true
+      Gchart.line(:range_markers => @options.merge(:orientation => 'vertical')).include?('chm=R').should be_true
+      Gchart.line(:range_markers => @options.merge(:orientation => 'Vertical')).include?('chm=R').should be_true
     end
 
     it "to horizontal (r) if given a valid option (actually anything other than the vertical options)" do
-      Gchart.line(:range_markers => options.merge(:orientation => 'horizontal')).include?('chm=r').should be_true
-      Gchart.line(:range_markers => options.merge(:orientation => 'h')).include?('chm=r').should be_true
-      Gchart.line(:range_markers => options.merge(:orientation => 'etc')).include?('chm=r').should be_true
+      Gchart.line(:range_markers => @options.merge(:orientation => 'horizontal')).include?('chm=r').should be_true
+      Gchart.line(:range_markers => @options.merge(:orientation => 'h')).include?('chm=r').should be_true
+      Gchart.line(:range_markers => @options.merge(:orientation => 'etc')).include?('chm=r').should be_true
     end
 
     it "if left blank defaults to horizontal (r)" do
-      Gchart.line(:range_markers => options).include?('chm=r').should be_true
+      Gchart.line(:range_markers => @options).include?('chm=r').should be_true
     end
   end
 
