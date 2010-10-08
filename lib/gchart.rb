@@ -616,7 +616,7 @@ class Gchart
   #
   def text_encoding
     chds = dataset.map{|ds| "#{ds[:min_value]},#{ds[:max_value]}" }.join(",")
-    "t" + number_visible + ":" + datasets.map{ |ds| ds.join(',') }.join('|') + "&chds=" + chds
+    "t" + number_visible + ":" + datasets.map{ |ds| ds.map{|e|e||'_'}.join(',') }.join('|') + "&chds=" + chds
   end
 
   # http://code.google.com/apis/chart/#extended
