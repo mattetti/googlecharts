@@ -1,11 +1,11 @@
 The goal of this Gem is to make the creation of Google Charts a simple and easy task.
 
-    Gchart.line(  :size => '200x300', 
+    Gchart.line(  :size => '200x300',
                   :title => "example title",
                   :bg => 'efefef',
                   :legend => ['first data set label', 'second data set label'],
                   :data => [10, 30, 120, 45, 72])
-              
+
 
 Check out the [full documentation over there](http://googlecharts.rubyforge.org/)
 
@@ -17,8 +17,8 @@ Chart Type
 -------------
 
 This gem supports the following types of charts:
-  
-  * line, 
+
+  * line,
   * line_xy
   * sparkline
   * scatter
@@ -27,24 +27,24 @@ This gem supports the following types of charts:
   * pie
   * pie_3d
   * google meter
-  
+
 Googlecharts also supports graphical themes and you can easily load your own.
 
 To create a chart, simply require Gchart and call any of the existing type:
 
     require 'gchart'
     Gchart.pie
-  
-  
+
+
 Chart Title
 -------------
 
   To add a title to a chart pass the title to your chart:
-  
+
     Gchart.line(:title => 'Sexy Charts!')
-    
+
 You can also specify the color and/or size
-    
+
     Gchart.line(:title => 'Sexy Charts!', :title_color => 'FF0000', :title_size => '20')
 
 Colors
@@ -83,31 +83,31 @@ By default, if you set a background color, the fill will be solid:
     Gchart.bar(:bg => 'efefef')
 
 However you can specify another fill type such as:
-            
+
     Gchart.line(:bg => {:color => 'efefef', :type => 'gradient'})
-  
+
 In the above code, we decided to have a gradient background, however since we only passed one color, the chart will start by the specified color and transition to white. By the default, the gradient angle is 0. Change it as follows:
 
     Gchart.line(:title =>'bg example', :bg => {:color => 'efefef', :type => 'gradient', :angle => 90})
-    
+
 For a more advance use of colors, refer to http://code.google.com/apis/chart/#linear_gradient
 
     Gchart.line(:bg => {:color => '76A4FB,1,ffffff,0', :type => 'gradient'})
-    
-    
+
+
 The same way you set the background color, you can also set the graph background:
 
     Gchart.line(:graph_bg => 'cccccc')
-    
+
 or both
 
     Gchart.line(:bg => {:color => '76A4FB,1,ffffff,0', :type => 'gradient'}, :graph_bg => 'cccccc', :title => 'Sexy Chart')
-    
-    
+
+
 Another type of fill is stripes http://code.google.com/apis/chart/#linear_stripes
 
     Gchart.line(:bg => {:color => 'efefef', :type => 'stripes'})
-    
+
 You can customize the amount of stripes, colors and width by changing the color value.
 
 
@@ -118,8 +118,8 @@ Themes
 
 
     Gchart.line(
-                :theme => :keynote, 
-                :data => [[0,40,10,70,20],[41,10,80,50,40],[20,60,30,60,80],[5,23,35,10,56],[80,90,5,30,60]], 
+                :theme => :keynote,
+                :data => [[0,40,10,70,20],[41,10,80,50,40],[20,60,30,60,80],[5,23,35,10,56],[80,90,5,30,60]],
                 :title => 'keynote'
                 )
 
@@ -150,8 +150,8 @@ And use the standard method signature to use your own theme:
 
       Gchart.line(:theme => :custom_theme, :data => [[0, 40, 10, 70, 20],[41, 10, 80, 50]], :title => 'greyscale')
 
-    
-    
+
+
 Legend & Labels
 -------------
 
@@ -160,12 +160,12 @@ You probably will want to use a legend or labels for your graph.
     Gchart.line(:legend => 'legend label')
 or
     Gchart.line(:legend => ['legend label 1', 'legend label 2'])
-    
+
 Will do the trick. You can also use the labels alias (makes more sense when using the pie charts)
 
     chart = Gchart.pie(:labels => ['label 1', 'label 2'])
 
-Multiple axis labels 
+Multiple axis labels
 -------------
 
 Multiple axis labels are available for line charts, bar charts and scatter plots.
@@ -176,52 +176,52 @@ Multiple axis labels are available for line charts, bar charts and scatter plots
 * r = right y-axis
 
     Gchart.line(:axis_with_label => 'x,y,r,t')
-  
+
 To add labels on these axis:
 
     Gchart.line(:axis_with_label => 'x,y,r,t',
                 :axis_labels => ['Jan|July|Jan|July|Jan', '0|100', 'A|B|C', '2005|2006|2007'])
 
-    
+
 Data options
 -------------
 
-Data are passed using an array or a nested array.    
+Data are passed using an array or a nested array.
 
-    Gchart.bar(:data => [1,2,4,67,100,41,234])  
-  
+    Gchart.bar(:data => [1,2,4,67,100,41,234])
+
     Gchart.bar(:data => [[1,2,4,67,100,41,234],[45,23,67,12,67,300, 250]])
-  
+
 By default, the graph is drawn with your max value representing 100% of the height or width of the graph. You can change that my passing the max value.
 
     Gchart.bar(:data => [1,2,4,67,100,41,234], :max_value => 300)
     Gchart.bar(:data => [1,2,4,67,100,41,234], :max_value => 'auto')
-  
+
 or if you want to use the real values from your dataset:
 
     Gchart.bar(:data => [1,2,4,67,100,41,234], :max_value => false)
-  
-  
+
+
 You can also define a different encoding to add more granularity:
 
-    Gchart.bar(:data => [1,2,4,67,100,41,234], :encoding => 'simple') 
-    Gchart.bar(:data => [1,2,4,67,100,41,234], :encoding => 'extended') 
-    Gchart.bar(:data => [1,2,4,67,100,41,234], :encoding => 'text') 
-  
+    Gchart.bar(:data => [1,2,4,67,100,41,234], :encoding => 'simple')
+    Gchart.bar(:data => [1,2,4,67,100,41,234], :encoding => 'extended')
+    Gchart.bar(:data => [1,2,4,67,100,41,234], :encoding => 'text')
+
 
 Pies:
 -------------
-  
+
 you have 2 type of pies:
   - Gchart.pie() the standard 2D pie
   _ Gchart.pie_3d() the fancy 3D pie
-  
+
 To set labels, you can use one of these two options:
 
     @legend = ['Matt_fu', 'Rob_fu']
     Gchart.pie_3d(:title => @title, :labels => @legend, :data => @data, :size => '400x200')
     Gchart.pie_3d(:title => @title, :legend => @legend, :data => @data, :size => '400x200')
-  
+
 Bars:
 -------------
 
@@ -233,7 +233,7 @@ The Google API sets these options in the order of width, spacing, and group spac
     Gchart.bar(:data => @data, :bar_width_and_spacing => '25,6,12') # width of 25, spacing of 6, group spacing of 12
     Gchart.bar(:data => @data, :bar_width_and_spacing => [25,6]) # width of 25, spacing of 6
     Gchart.bar(:data => @data, :bar_width_and_spacing => 25) # width of 25
-  
+
 The hash lets you set these values directly, with the Google default values set for any options you don't include:
 
     Gchart.bar(:data => @data, :bar_width_and_spacing => {:width => 19})
@@ -248,7 +248,7 @@ Sparklines:
 -------------
 
 A sparkline chart has exactly the same parameters as a line chart. The only difference is that the axes lines are not drawn for sparklines by default.
-  
+
 
 Google-o-meter
 -------------
@@ -258,14 +258,14 @@ A Google-o-meter has a few restrictions. It may only use a solid filled backgrou
 try yourself
 -------------
 
-    Gchart.bar( :data => [[1,2,4,67,100,41,234],[45,23,67,12,67,300, 250]], 
-                :title => 'SD Ruby Fu level', 
-                :legend => ['matt','patrick'], 
-                :bg => {:color => '76A4FB', :type => 'gradient'}, 
+    Gchart.bar( :data => [[1,2,4,67,100,41,234],[45,23,67,12,67,300, 250]],
+                :title => 'SD Ruby Fu level',
+                :legend => ['matt','patrick'],
+                :bg => {:color => '76A4FB', :type => 'gradient'},
                 :bar_colors => 'ff0000,00ff00')
 
- "http://chart.apis.google.com/chart?chs=300x200&chdl=matt|patrick&chd=s:AAANUIv,JENCN9y&chtt=SDRuby+Fu+level&chf=bg,lg,0,76A4FB,0,ffffff,1&cht=bvs&chco=ff0000,00ff00"  
- 
+ "http://chart.apis.google.com/chart?chs=300x200&chdl=matt|patrick&chd=s:AAANUIv,JENCN9y&chtt=SDRuby+Fu+level&chf=bg,lg,0,76A4FB,0,ffffff,1&cht=bvs&chco=ff0000,00ff00"
+
     Gchart.pie(:data => [20,10,15,5,50], :title => 'SDRuby Fu level', :size => '400x200', :labels => ['matt', 'rob', 'patrick', 'ryan', 'jordan'])
 http://chart.apis.google.com/chart?cht=p&chs=400x200&chd=s:YMSG9&chtt=SDRuby+Fu+level&chl=matt|rob|patrick|ryan|jordan
 
@@ -275,13 +275,13 @@ People reported using this gem:
 
 ![github](http://img.skitch.com/20080627-r14subqdx2ye3w13qefbx974gc.png)
 
-* [http://github.com](http://github.com) 
+* [http://github.com](http://github.com)
 
 ![stafftool.com](http://stafftool.com/images/masthead_screen.gif)
 
 * [http://stafftool.com/](http://stafftool.com/) Takeo (contributor)
 
-![graffletopia.com](http://img.skitch.com/20080627-g2pp89h7gdbh15m1rr8hx48jep.jpg) 
+![graffletopia.com](http://img.skitch.com/20080627-g2pp89h7gdbh15m1rr8hx48jep.jpg)
 
 * [graffleropia.com](http://graffletopia.com) Mokolabs (contributor)
 
@@ -289,7 +289,7 @@ People reported using this gem:
 
 * [http://gumgum.com](http://gumgum.com) Mattetti (Author)
 
-![http://img.skitch.com/20080627-n48j8pb2r7irsewfeh4yp3da12.jpg]
+![feedflix](http://img.skitch.com/20080627-n48j8pb2r7irsewfeh4yp3da12.jpg)
 
 * [http://feedflix.com/](http://feedflix.com/) [lifehacker article](http://lifehacker.com/395610/feedflix-creates-detailed-charts-from-your-netflix-use)
 
