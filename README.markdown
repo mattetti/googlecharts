@@ -175,11 +175,12 @@ Multiple axis labels are available for line charts, bar charts and scatter plots
 * y = left y-axis
 * r = right y-axis
 
-    Gchart.line(:label_axis => 'x,y,r')
+    Gchart.line(:axis_with_label => 'x,y,r,t')
   
 To add labels on these axis:
 
-    Gchart.line(:axis_labels => ['Jan|July|Jan|July|Jan', '0|100', 'A|B|C', '2005|2006|2007'])
+    Gchart.line(:axis_with_label => 'x,y,r,t',
+                :axis_labels => ['Jan|July|Jan|July|Jan', '0|100', 'A|B|C', '2005|2006|2007'])
 
     
 Data options
