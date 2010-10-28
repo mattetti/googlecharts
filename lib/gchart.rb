@@ -466,8 +466,6 @@ class Gchart
 
     return unless set && set.respond_to?(:each) && set.find {|o| o}.respond_to?(:each)
 
-    # in the case of a line graph, the first axis range should 1
-    index_increase = type.to_s == 'line' ? 1 : 0
     'chxr=' + set.enum_for(:each_with_index).map do |axis_range, index|
       next nil if axis_range.nil? # ignore this axis
       min, max, step = axis_range
@@ -475,7 +473,7 @@ class Gchart
         max = axis_range.last
         step = nil
       end
-      [(index + index_increase), (min_value || min || 0), (max_value || max), step].compact.join(',')
+      [index, (min_value || min || 0), (max_value || max), step].compact.join(',')
     end.compact.join("|")
   end
 
