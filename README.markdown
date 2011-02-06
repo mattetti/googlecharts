@@ -1,5 +1,6 @@
 The goal of this Gem is to make the creation of Google Charts a simple and easy task.
-
+    
+    require 'googlecharts'
     Gchart.line(  :size => '200x300', 
                   :title => "example title",
                   :bg => 'efefef',
@@ -182,7 +183,35 @@ To add labels on these axis:
     Gchart.line(:axis_with_label => 'x,y,r,t',
                 :axis_labels => ['Jan|July|Jan|July|Jan', '0|100', 'A|B|C', '2005|2006|2007'])
 
+Note that each array entry could also be an array but represent the
+labels for the corresponding axis.
+
+A question which comes back often is how do I only display the y axis
+label? Solution:
+
+    Gchart.line(
+            :data => [0,20, 40, 60, 140, 230, 60],
+            :axis_with_labels => 'y')
+
+Custom axis ranges
+---------------
+
+If you want to display a custom range for an axis, you need to set the
+range as described in the Google charts documentation: min, max, step:
+
+     Gchart.line( :data => [17, 17, 11, 8, 2], 
+                  :axis_with_labels => ['x', 'y'], 
+                  :axis_labels => [['J', 'F', 'M', 'A', 'M']], 
+                  :axis_range => [nil, [2,17,5]])
+
+
+In this case, the custom axis range is only defined for y (second
+entry) with a minimum value of 2, max 17 and a step of 5.
+
+This is also valid if you want to set a x axis and automatically define
+the y labels.
     
+
 Data options
 -------------
 

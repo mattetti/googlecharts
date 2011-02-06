@@ -245,10 +245,10 @@ class Gchart
   
   def self.jstize(string)
     # See http://github.com/mattetti/googlecharts/issues#issue/27
-    URI.escape( string )
+    #URI.escape( string ).gsub("%7C", "|")
     # See discussion: http://github.com/mattetti/googlecharts/commit/9b5cfb93aa51aae06611057668e631cd515ec4f3#comment_51347
-    # string.gsub(' ', '+').gsub(/\[|\{|\}|\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s.upcase}"}
-    # string.gsub(' ', '+').gsub(/\[|\{|\}|\||\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s.upcase}"}
+    string.gsub(' ', '+').gsub(/\[|\{|\}|\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s.upcase}"}
+    #string.gsub(' ', '+').gsub(/\[|\{|\}|\||\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s.upcase}"}
   end    
   # load all the custom aliases
   require 'gchart/aliases'
@@ -449,7 +449,6 @@ class Gchart
         "#{index}:|#{labels}"
       end
     end
-    
     "chxl=#{labels_arr.join('|')}"
   end
 
@@ -463,16 +462,14 @@ class Gchart
 
     return unless set && set.respond_to?(:each) && set.find {|o| o}.respond_to?(:each)
 
-    # in the case of a line graph, the first axis range should 1
-    index_increase = type.to_s == 'line' ? 1 : 0
     'chxr=' + set.enum_for(:each_with_index).map do |axis_range, index|
       next nil if axis_range.nil? # ignore this axis
       min, max, step = axis_range
-      if axis_range.size > 3 or step && max && step > max # this is a full series
-        max = axis_range.last
+      if axis_range.size > 3 || step && max && step > max # this is a full series
+        max = axis_range.compact.max
         step = nil
       end
-      [(index + index_increase), (min_value || min || 0), (max_value || max), step].compact.join(',')
+      [index, (min_value || min || 0), (max_value || max), step].compact.join(',')
     end.compact.join("|")
   end
 
