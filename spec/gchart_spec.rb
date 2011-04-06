@@ -178,7 +178,12 @@ describe "generating a default Gchart" do
     url = Gchart.line(:data => data, :axis_with_labels => 'x,y', :axis_labels => [((1..24).to_a << 1)], :max_value => 700)
     url.should include('chxr=0,85,700')
   end
-
+  
+  it 'should generate different labels and legend' do
+    Gchart.line(:legend => %w(1 2 3), :labels=>%w(one two three)).should(include('chdl=1|2|3'))
+    Gchart.line(:legend => %w(1 2 3), :labels=>%w(one two three)).should(include('chl=one|two|three'))
+  end
+  
 end
 
 describe "generating different type of charts" do
