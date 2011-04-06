@@ -33,7 +33,7 @@ class Gchart
     'chart.png'
   end
 
-  attr_accessor :title, :type, :width, :height, :curved, :horizontal, :grouped, :legend, :data, :encoding, :bar_colors,
+  attr_accessor :title, :type, :width, :height, :curved, :horizontal, :grouped, :legend, :labels, :data, :encoding, :bar_colors,
   :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :klass,
   :range_markers, :geographical_area, :map_colors, :country_codes, :axis_range, :filename, :min, :max, :colors, :usemap
 
@@ -397,8 +397,10 @@ class Gchart
   # or
   # Gchart.line(:legend => ['first label', 'last label'])
   def set_legend
-    return set_labels if type.to_s =~ /pie|pie_3d|meter/
-
+    if type.to_s =~ /pie|pie_3d|meter/
+      @labels = legend
+      return set_labels
+    end
     if legend.is_a?(Array)
       "chdl=#{@legend.map{|label| "#{CGI::escape(label.to_s)}"}.join('|')}"
     else
@@ -420,10 +422,10 @@ class Gchart
   end
   
   def set_labels
-    if legend.is_a?(Array)
-      "chl=#{@legend.map{|label| "#{CGI::escape(label.to_s)}"}.join('|')}"
+    if labels.is_a?(Array)
+      "chl=#{@labels.map{|label| "#{CGI::escape(label.to_s)}"}.join('|')}"
     else
-      "chl=#{@legend}"
+      "chl=#{@labels}"
     end
   end
 
@@ -638,6 +640,8 @@ class Gchart
         set_title unless title.nil?
       when '@legend'
         set_legend unless legend.nil?
+      when '@labels'
+        set_labels unless labels.nil?
       when '@thickness'
         set_line_thickness
       when '@new_markers'
