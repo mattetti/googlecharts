@@ -544,8 +544,6 @@ describe "a google-o-meter" do
     Gchart.meter(:title => @title, :labels => @legend, :data => @data).should == Gchart.meter(:title => @title, :legend => @legend, :data => @data)
   end
 
-
-
 end
 
 describe "a map chart" do
