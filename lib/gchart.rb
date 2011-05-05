@@ -397,7 +397,7 @@ class Gchart
   # or
   # Gchart.line(:legend => ['first label', 'last label'])
   def set_legend
-    if type.to_s =~ /pie|pie_3d|meter/
+    if type.to_s =~ /meter/
       @labels = legend
       return set_labels
     end
