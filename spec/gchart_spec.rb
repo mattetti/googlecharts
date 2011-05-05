@@ -180,10 +180,9 @@ describe "generating a default Gchart" do
   end
   
   it 'should generate different labels and legend' do
-    Gchart.line(:legend => %w(1 2 3), :labels=>%w(one two three)).should(include('chdl=1|2|3'))
-    Gchart.line(:legend => %w(1 2 3), :labels=>%w(one two three)).should(include('chl=one|two|three'))
+    Gchart.pie(:legend => %w(1 2 3), :labels=>%w(one two three)).should(include('chdl=1|2|3') && include('chl=one|two|three'))
   end
-  
+
 end
 
 describe "generating different type of charts" do
@@ -520,12 +519,6 @@ describe "a 3d pie chart" do
     Gchart.pie_3d(:title => @title, :legend => @legend, :data => @data).include?('cht=p3').should be_true
   end
 
-  it "should be able to set labels by using the legend or labesl accessor" do
-    Gchart.pie_3d(:title => @title, :legend => @legend, :data => @data).should include("chl=#{@jstized_legend}")
-    Gchart.pie_3d(:title => @title, :labels => @legend, :data => @data).should include("chl=#{@jstized_legend}")
-    Gchart.pie_3d(:title => @title, :labels => @legend, :data => @data).should == Gchart.pie_3d(:title => @title, :legend => @legend, :data => @data)
-  end
-
 end
 
 describe "a google-o-meter" do
@@ -545,6 +538,13 @@ describe "a google-o-meter" do
     Gchart.meter(:bg => 'efefef').include?("chf=bg,s,efefef").should be_true
     Gchart.meter(:bg => {:color => 'efefef', :type => 'solid'}).include?("chf=bg,s,efefef").should be_true
   end
+
+  it "should be able to set labels by using the legend or labesl accessor" do
+    Gchart.meter(:title => @title, :labels => @legend, :data => @data).should include("chl=#{@jstized_legend}")
+    Gchart.meter(:title => @title, :labels => @legend, :data => @data).should == Gchart.meter(:title => @title, :legend => @legend, :data => @data)
+  end
+
+
 
 end
 
