@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{googlecharts}
-  s.version = "1.6.3"
+  s.version = "1.6.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Matt Aimonetti"]
-  s.date = %q{2011-05-05}
+  s.date = %q{2011-05-15}
   s.description = %q{Generate charts using Google API & Ruby}
   s.email = %q{mattaimonetti@gmail.com}
   s.extra_rdoc_files = [
