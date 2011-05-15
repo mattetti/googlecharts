@@ -396,8 +396,13 @@ describe "a line chart" do
   it "should be able to set the position of the legend" do
     title = 'Chart & Title'
     legend = ['first data & set label', 'n data set label']
+    
     chart = Gchart.line(:title => title, :legend => legend, :legend_position => :bottom_vertical)
-    chart.include?("chdlp=bv")
+    puts chart.inspect
+    chart.include?("chdlp=bv").should be_true
+    
+    chart = Gchart.line(:title => title, :legend => legend, :legend_position => 'r')
+    chart.include?("chdlp=r").should be_true
   end
 
   it "should be able to set the background fill" do

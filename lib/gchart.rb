@@ -410,34 +410,34 @@ class Gchart
   end
 
   def set_legend_position
-    case @legend_position
-    when :bottom
+    case @legend_position.to_s
+    when /(bottom|b)$/
       "chdlp=b"
-    when :bottom_vertical
+    when /(bottom_vertical|bv)$/
       "chdlp=bv"
-    when :top
+    when /(top|t)$/
       "chdlp=t"
-    when :top_vertical
+    when /(top_vertical|tv)$/
       "chdlp=tv"
-    when :right
+    when /(right|r)$/
       "chdlp=r"
-    when :left
+    when /(left|l)$/
       "chdlp=l"
     end
   end
 
   def set_line_thickness
-      "chls=#{thickness}"
+    "chls=#{thickness}"
   end
-  
+
   def set_line_markers
-      "chm=#{new_markers}"
+    "chm=#{new_markers}"
   end
-  
+
   def set_grid_lines
-      "chg=#{grid_lines}"
+    "chg=#{grid_lines}"
   end
-  
+
   def set_labels
     if labels.is_a?(Array)
       "chl=#{@labels.map{|label| "#{CGI::escape(label.to_s)}"}.join('|')}"
