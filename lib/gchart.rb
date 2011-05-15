@@ -2,6 +2,7 @@ $:.unshift File.dirname(__FILE__)
 require 'gchart/version'
 require 'gchart/theme'
 require "net/http"
+require "net/https"
 require "uri"
 require "cgi"
 require 'enumerator'
@@ -9,8 +10,12 @@ require 'enumerator'
 class Gchart
   include GchartInfo
 
-  def self.url
-    "http://chart.apis.google.com/chart?" 
+  def self.url(use_ssl = false)
+    if use_ssl
+      'https://www.google.com/chart?'
+    else
+      'http://chart.apis.google.com/chart?'
+    end
   end
 
   def self.types
@@ -37,7 +42,7 @@ class Gchart
   :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :klass,
   :range_markers, :geographical_area, :map_colors, :country_codes, :axis_range, :filename, :min, :max, :colors, :usemap
 
-  attr_accessor :bg_type, :bg_color, :bg_angle, :chart_type, :chart_color, :chart_angle, :axis_range, :thickness, :new_markers, :grid_lines 
+  attr_accessor :bg_type, :bg_color, :bg_angle, :chart_type, :chart_color, :chart_angle, :axis_range, :thickness, :new_markers, :grid_lines, :use_ssl
 
   attr_accessor :min_value, :max_value
   
@@ -75,6 +80,7 @@ class Gchart
     @curved = false
     @horizontal = false
     @grouped = false
+    @use_ssl = false
     @encoding = 'simple'
     # @max_value = 'auto'
     # @min_value defaults to nil meaning zero
@@ -255,11 +261,13 @@ class Gchart
 
   # Returns the chart's generated PNG as a blob. (borrowed from John's gchart.rubyforge.org)
   def fetch
-    url = URI.parse(self.class.url)
+    url = URI.parse(self.class.url(use_ssl))
     req = Net::HTTP::Post.new(url.path)
     req.body = query_builder
     req.content_type = 'application/x-www-form-urlencoded'
-    Net::HTTP.new(url.host, url.port).start {|http| http.request(req) }.body
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = use_ssl
+    http.start {|resp| resp.request(req) }.body
   end
 
   # Writes the chart's generated PNG to a file. (borrowed from John's gchart.rubyforge.org)
@@ -640,7 +648,7 @@ class Gchart
   end
 
   def url_builder(options="")
-    self.class.url + query_builder(options)
+    self.class.url(use_ssl) + query_builder(options)
   end
 
   def query_builder(options="")

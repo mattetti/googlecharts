@@ -663,3 +663,16 @@ describe 'exporting a chart' do
   end
 
 end
+
+describe 'SSL support' do
+  it 'should change url if is presented' do
+    Gchart.line(:use_ssl => true).should include('https://www.google.com/chart?')
+  end
+  
+  it "should be available as a file" do
+    File.delete('chart.png') if File.exist?('chart.png')
+    Gchart.line(:data => [0, 26], :format => 'file', :use_ssl => true)
+    File.exist?('chart.png').should be_true
+    File.delete('chart.png') if File.exist?('chart.png')
+  end
+end
