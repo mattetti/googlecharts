@@ -1,3 +1,10 @@
+== 1.6.6
+* added ssl support
+* refactored code
+* аdded ability to set the legend position
+* fixed legend position value
+* separated labels and legends for pies
+
 == 1.3.6
 * support nil values. The Google Charts API specifies that a single underscore (_) can be used to omit a value from a line chart with 'simple' data encoding, and a double underscore (__) can do the same for a chart with 'extended' data encoding. (Matt Moyer)
 * allow a label to appear on a google-o-meter via the :legend option. (hallettj)

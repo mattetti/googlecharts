@@ -297,29 +297,3 @@ try yourself
  
     Gchart.pie(:data => [20,10,15,5,50], :title => 'SDRuby Fu level', :size => '400x200', :labels => ['matt', 'rob', 'patrick', 'ryan', 'jordan'])
 http://chart.apis.google.com/chart?cht=p&chs=400x200&chd=s:YMSG9&chtt=SDRuby+Fu+level&chl=matt|rob|patrick|ryan|jordan
-
-
-People reported using this gem:
----------------------
-
-![github](http://img.skitch.com/20080627-r14subqdx2ye3w13qefbx974gc.png)
-
-* [http://github.com](http://github.com) 
-
-![stafftool.com](http://stafftool.com/images/masthead_screen.gif)
-
-* [http://stafftool.com/](http://stafftool.com/) Takeo (contributor)
-
-![graffletopia.com](http://img.skitch.com/20080627-g2pp89h7gdbh15m1rr8hx48jep.jpg) 
-
-* [graffleropia.com](http://graffletopia.com) Mokolabs (contributor)
-
-![gumgum](http://img.skitch.com/20080627-kc1weqsbkmxeqhwiyriq3n6g8k.jpg)
-
-* [http://gumgum.com](http://gumgum.com) Mattetti (Author)
-
-![http://img.skitch.com/20080627-n48j8pb2r7irsewfeh4yp3da12.jpg]
-
-* [http://feedflix.com/](http://feedflix.com/) [lifehacker article](http://lifehacker.com/395610/feedflix-creates-detailed-charts-from-your-netflix-use)
-
-* [California State University, Chico](http://www.csuchico.edu/)
