@@ -12,7 +12,7 @@ class Gchart
 
   def self.url(use_ssl = false)
     if use_ssl
-      'https://www.google.com/chart?'
+      'https://chart.googleapis.com/chart?'
     else
       'http://chart.apis.google.com/chart?'
     end
@@ -266,6 +266,7 @@ class Gchart
     req.body = query_builder
     req.content_type = 'application/x-www-form-urlencoded'
     http = Net::HTTP.new(url.host, url.port)
+    http.verify_mode = OpenSSL::SSL::VERIFY_PEER if use_ssl
     http.use_ssl = use_ssl
     http.start {|resp| resp.request(req) }.body
   end

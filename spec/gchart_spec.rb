@@ -398,7 +398,6 @@ describe "a line chart" do
     legend = ['first data & set label', 'n data set label']
     
     chart = Gchart.line(:title => title, :legend => legend, :legend_position => :bottom_vertical)
-    puts chart.inspect
     chart.include?("chdlp=bv").should be_true
     
     chart = Gchart.line(:title => title, :legend => legend, :legend_position => 'r')
@@ -666,7 +665,7 @@ end
 
 describe 'SSL support' do
   it 'should change url if is presented' do
-    Gchart.line(:use_ssl => true).should include('https://www.google.com/chart?')
+    Gchart.line(:use_ssl => true).should include('https://chart.googleapis.com/chart?')
   end
   
   it "should be available as a file" do
