@@ -39,7 +39,7 @@ class Gchart
   end
 
   attr_accessor :title, :type, :width, :height, :curved, :horizontal, :grouped, :legend, :legend_position, :labels, :data, :encoding, :bar_colors,
-  :title_color, :title_size, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :klass,
+  :title_color, :title_size, :title_alignment, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :klass,
   :range_markers, :geographical_area, :map_colors, :country_codes, :axis_range, :filename, :min, :max, :colors, :usemap
 
   attr_accessor :bg_type, :bg_color, :bg_angle, :chart_type, :chart_color, :chart_angle, :axis_range, :thickness, :new_markers, :grid_lines, :use_ssl
@@ -314,8 +314,8 @@ class Gchart
   # A dark key will be used for the title color if no color is specified 
   def set_title
     title_params = "chtt=#{title}"
-    unless (title_color.nil? && title_size.nil? )
-      title_params << "&chts=" + (color, size = (title_color || '454545'), title_size).compact.join(',')
+    unless (title_color.nil? && title_size.nil? && title_alignment.nil?)
+      title_params << "&chts=" + (color, size, alignment = (title_color || '454545'), title_size, (title_alignment || 'c')).compact.join(',')
     end
     title_params
   end
