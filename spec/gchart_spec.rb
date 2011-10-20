@@ -372,9 +372,10 @@ describe "a line chart" do
     @chart.include?("chtt=Chart+Title").should be_true
   end
 
-  it "should be able to a custom color and size title" do
+  it "should be able to a custom color, size and alignment for title" do
      Gchart.line(:title => @title, :title_color => 'FF0000').include?('chts=FF0000').should be_true
      Gchart.line(:title => @title, :title_size => '20').include?('chts=454545,20').should be_true
+     Gchart.line(:title => @title, :title_size => '20', :title_alignment => :left).include?('chts=454545,20,l').should be_true
   end
 
   it "should be able to have multiple legends" do
