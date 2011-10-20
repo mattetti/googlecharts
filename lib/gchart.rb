@@ -73,6 +73,10 @@ class Gchart
   end
 
   def initialize(options={})
+    # Start with theme defaults if a theme is set
+    theme = options[:theme]
+    options = theme ? Chart::Theme.load(theme).to_options.merge(options) : options
+    options.delete(:theme)
     @type = options[:type] || 'line'
     @data = []
     @width = 300
