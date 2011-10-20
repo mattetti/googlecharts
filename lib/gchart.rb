@@ -315,7 +315,7 @@ class Gchart
   def set_title
     title_params = "chtt=#{title}"
     unless (title_color.nil? && title_size.nil? && title_alignment.nil?)
-      title_params << "&chts=" + (color, size, alignment = (title_color || '454545'), title_size, (title_alignment || 'c')).compact.join(',')
+      title_params << "&chts=" + (color, size, alignment = (title_color || '454545'), title_size, (title_alignment.to_s[0,1] || 'c')).compact.join(',')
     end
     title_params
   end
