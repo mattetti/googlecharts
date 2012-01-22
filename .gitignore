@@ -2,3 +2,7 @@
 log/*
 .manifest
 pkg
+.rspec
+.rvmrc
+Gemfile
+Gemfile.lock
