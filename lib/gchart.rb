@@ -73,6 +73,11 @@ class Gchart
   end
 
   def initialize(options={})
+    # Allow Gchart to take a theme too
+    @theme = options[:theme] 
+    options = @theme ? Chart::Theme.load(@theme).to_options.merge(options) : options
+    options.delete(:theme)
+    
     @type = options[:type] || 'line'
     @data = []
     @width = 300
@@ -655,6 +660,7 @@ class Gchart
   def query_builder(options="")
     query_params = instance_variables.sort.map do |var|
       case var.to_s
+        
       when '@data'
         set_data unless data == []  
         # Set the graph size  

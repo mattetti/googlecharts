@@ -13,6 +13,11 @@ describe "The Gchart class" do
   it "should return supported types" do
     Gchart.types.include?('line').should be_true
   end
+  
+  it "should support theme option" do
+    chart = Gchart.new(:type => 'line',:theme => :test)
+    chart.send('url').should include('chco=6886B4,FDD84E')
+  end
 end
 
 describe "generating a default Gchart" do
@@ -676,3 +681,4 @@ describe 'SSL support' do
     File.delete('chart.png') if File.exist?('chart.png')
   end
 end
+
