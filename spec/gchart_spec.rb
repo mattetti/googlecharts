@@ -130,7 +130,11 @@ describe "generating a default Gchart" do
    Gchart.line(:axis_labels => [['Jan','July','Jan','July','Jan']]).include?(Gchart.jstize('chxl=0:|Jan|July|Jan|July|Jan')).should be_true
    Gchart.line(:axis_labels => [['Jan','July','Jan','July','Jan'], ['0','100'], ['A','B','C'], ['2005','2006','2007']]).include?(Gchart.jstize('chxl=0:|Jan|July|Jan|July|Jan|1:|0|100|2:|A|B|C|3:|2005|2006|2007')).should be_true
   end
-  
+
+  it "should have evenly spaced labels by default" do
+    Gchart.line(:data => [[nil, 500, 425], [425, 600, nil]], :axis_with_labels => ['x'], :axis_labels => [[1, 2, 3]]).should include('chxr=0,0,500|1,425,600')
+  end
+
   def labeled_line(options = {})
     Gchart.line({:data => @data, :axis_with_labels => 'x,y'}.merge(options))
   end

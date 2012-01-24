@@ -498,7 +498,7 @@ class Gchart
     'chxr=' + set.enum_for(:each_with_index).map do |axis_range, index|
       next nil if axis_range.nil? # ignore this axis
       min, max, step = axis_range
-      if axis_range.size > 3 || step && max && step > max # this is a full series
+      if axis_range.size >= 3 || step && max && step > max # this is a full series
         max = axis_range.compact.max
         step = nil
       end
