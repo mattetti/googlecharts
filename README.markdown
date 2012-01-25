@@ -291,6 +291,7 @@ Multi Lines Chart Sample :
 
 	chart = Gchart.new(	:type => 'line',
 						:title => "example title",
+						:theme => :keynote,
 						:data => [[17, 17, 11, 8, 2],[10, 20, 15, 5, 7],[2, 3, 7, 9, 12]], 
 						:line_colors => 'e0440e,e62ae5,287eec',
 						:legend => ['courbe 1','courbe 2','courbe 3'],
