@@ -25,6 +25,11 @@ describe "generating a default Gchart" do
   before(:each) do
     @chart = Gchart.line
   end
+  
+  it "should create a line break when a pipe character is encountered" do
+    @chart = Gchart.line(:title => "title|subtitle")
+    @chart.include?("chtt=title\nsubtitle").should be_true
+  end
 
   it "should include the Google URL" do
     @chart.include?("http://chart.apis.google.com/chart?").should be_true
