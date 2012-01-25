@@ -318,7 +318,7 @@ class Gchart
   # The title size cannot be set without specifying a color.
   # A dark key will be used for the title color if no color is specified 
   def set_title
-    title_params = "chtt=#{title}".tr("|","\n")
+    title_params = "chtt=#{title}".gsub(/\|/,"\n")
     unless (title_color.nil? && title_size.nil? && title_alignment.nil?)
       title_params << "&chts=" + (color, size, alignment = (title_color || '454545'), title_size, (title_alignment.to_s[0,1] || 'c')).compact.join(',')
     end
