@@ -11,9 +11,9 @@ describe "The Gchart class" do
   end
 
   it "should return supported types" do
-    Gchart.types.include?('line').should be_true
+    Gchart.types.should include('line')
   end
-  
+
   it "should support theme option" do
     chart = Gchart.new(:type => 'line',:theme => :test)
     chart.send('url').should include('chco=6886B4,FDD84E')
@@ -28,11 +28,11 @@ describe "generating a default Gchart" do
 
   it "should create a line break when a pipe character is encountered" do
     @chart = Gchart.line(:title => "title|subtitle")	
-    @chart.include?("chtt=title\nsubtitle").should be_true	
+    @chart.should include("chtt=title\nsubtitle")
   end
-  
+
   it "should include the Google URL" do
-    @chart.include?("http://chart.apis.google.com/chart?").should be_true
+    @chart.should include("http://chart.apis.google.com/chart?")
   end
 
   it "should have a default size" do
@@ -40,8 +40,8 @@ describe "generating a default Gchart" do
   end
 
   it "should be able to have a custom size" do
-    Gchart.line(:size => '400x600').include?('chs=400x600').should be_true
-    Gchart.line(:width => 400, :height => 600).include?('chs=400x600').should be_true
+    Gchart.line(:size => '400x600').should include('chs=400x600')
+    Gchart.line(:width => 400, :height => 600).should include('chs=400x600')
   end
 
   it "should have query parameters in predictable order" do
@@ -49,16 +49,12 @@ describe "generating a default Gchart" do
   end
 
   it "should have a type" do
-    @chart.include?('cht=lc').should be_true
+    @chart.should include('cht=lc')
   end
 
   it 'should use theme defaults if theme is set' do
     Gchart.line(:theme=>:test).should include('chco=6886B4,FDD84E')
-    if RUBY_VERSION.to_f < 1.9
-      Gchart.line(:theme=>:test).should include(Gchart.jstize('chf=c,s,FFFFFF|bg,s,FFFFFF')) 
-    else
-       Gchart.line(:theme=>:test).should include(Gchart.jstize('chf=bg,s,FFFFFF|c,s,FFFFFF'))
-    end
+    Gchart.line(:theme=>:test).should match(/chf=(c,s,FFFFFF\|bg,s,FFFFFF|bg,s,FFFFFF\|c,s,FFFFFF)/)
   end
 
   it "should use the simple encoding by default with auto max value" do
@@ -73,17 +69,17 @@ describe "generating a default Gchart" do
   end
 
   it "should support the extended encoding and encode properly" do
-    Gchart.line(:data => [0, 10], :encoding => 'extended', :max_value => false).include?('chd=e:AA').should be_true
+    Gchart.line(:data => [0, 10], :encoding => 'extended', :max_value => false).should include('chd=e:AA')
     Gchart.line(:encoding => 'extended',
                 :max_value => false,
                 :data => [[0,25,26,51,52,61,62,63], [64,89,90,115,4084]]
-                ).include?('chd=e:AAAZAaAzA0A9A-A.,BABZBaBz.0').should be_true
+                ).should include('chd=e:AAAZAaAzA0A9A-A.,BABZBaBz.0')
   end
 
   it "should auto set the max value for extended encoding" do
     Gchart.line(:data => [0, 25], :encoding => 'extended', :max_value => false).should include('chd=e:AAAZ')
     # Extended encoding max value is '..'
-    Gchart.line(:data => [0, 25], :encoding => 'extended').include?('chd=e:AA..').should be_true
+    Gchart.line(:data => [0, 25], :encoding => 'extended').should include('chd=e:AA..')
   end
 
   it "should be able to have data with text encoding" do
@@ -103,7 +99,7 @@ describe "generating a default Gchart" do
   end
 
   it "should handle negative values with manual max/min limits when using text encoding" do
-   Gchart.line(:data => [-10, 5.2, 4, 45, 78], :encoding => 'text', :min_value => -20, :max_value => 100).include?('chds=-20,100').should be_true
+   Gchart.line(:data => [-10, 5.2, 4, 45, 78], :encoding => 'text', :min_value => -20, :max_value => 100).should include('chds=-20,100')
   end
 
   it "should set the proper axis values when using text encoding and negative values" do
@@ -117,25 +113,25 @@ describe "generating a default Gchart" do
   end
 
   it "should be able to have multiple set of data with text encoding" do
-    Gchart.line(:data => [[10, 5.2, 4, 45, 78], [20, 40, 70, 15, 99]], :encoding => 'text').include?(Gchart.jstize('chd=t:10,5.2,4,45,78|20,40,70,15,99')).should be_true
+    Gchart.line(:data => [[10, 5.2, 4, 45, 78], [20, 40, 70, 15, 99]], :encoding => 'text').should include(Gchart.jstize('chd=t:10,5.2,4,45,78|20,40,70,15,99'))
   end
 
   it "should be able to receive a custom param" do
-    Gchart.line(:custom => 'ceci_est_une_pipe').include?('ceci_est_une_pipe').should be_true
+    Gchart.line(:custom => 'ceci_est_une_pipe').should include('ceci_est_une_pipe')
   end
 
   it "should be able to set label axis" do
-    Gchart.line(:axis_with_labels => 'x,y,r').include?('chxt=x,y,r').should be_true
-    Gchart.line(:axis_with_labels => ['x','y','r']).include?('chxt=x,y,r').should be_true
+    Gchart.line(:axis_with_labels => 'x,y,r').should include('chxt=x,y,r')
+    Gchart.line(:axis_with_labels => ['x','y','r']).should include('chxt=x,y,r')
   end
 
   it "should be able to have axis labels" do
-   Gchart.line(:axis_labels => ['Jan|July|Jan|July|Jan', '0|100', 'A|B|C', '2005|2006|2007']).include?(Gchart.jstize('chxl=0:|Jan|July|Jan|July|Jan|1:|0|100|2:|A|B|C|3:|2005|2006|2007')).should be_true
-   Gchart.line(:axis_labels => ['Jan|July|Jan|July|Jan']).include?(Gchart.jstize('chxl=0:|Jan|July|Jan|July|Jan')).should be_true
-   Gchart.line(:axis_labels => [['Jan','July','Jan','July','Jan']]).include?(Gchart.jstize('chxl=0:|Jan|July|Jan|July|Jan')).should be_true
-   Gchart.line(:axis_labels => [['Jan','July','Jan','July','Jan'], ['0','100'], ['A','B','C'], ['2005','2006','2007']]).include?(Gchart.jstize('chxl=0:|Jan|July|Jan|July|Jan|1:|0|100|2:|A|B|C|3:|2005|2006|2007')).should be_true
+   Gchart.line(:axis_labels => ['Jan|July|Jan|July|Jan', '0|100', 'A|B|C', '2005|2006|2007']).should include(Gchart.jstize('chxl=0:|Jan|July|Jan|July|Jan|1:|0|100|2:|A|B|C|3:|2005|2006|2007'))
+   Gchart.line(:axis_labels => ['Jan|July|Jan|July|Jan']).should include(Gchart.jstize('chxl=0:|Jan|July|Jan|July|Jan'))
+   Gchart.line(:axis_labels => [['Jan','July','Jan','July','Jan']]).should include(Gchart.jstize('chxl=0:|Jan|July|Jan|July|Jan'))
+   Gchart.line(:axis_labels => [['Jan','July','Jan','July','Jan'], ['0','100'], ['A','B','C'], ['2005','2006','2007']]).should include(Gchart.jstize('chxl=0:|Jan|July|Jan|July|Jan|1:|0|100|2:|A|B|C|3:|2005|2006|2007'))
   end
-  
+
   def labeled_line(options = {})
     Gchart.line({:data => @data, :axis_with_labels => 'x,y'}.merge(options))
   end
@@ -145,7 +141,7 @@ describe "generating a default Gchart" do
     labeled_line(:axis_labels => [((1..24).to_a << 1)]).
       should include('chxr=0,85,672')
   end
-  
+
   def labeled_bar(options = {})
     Gchart.bar({:data => @data,
             :axis_with_labels => 'x,y',
@@ -182,78 +178,76 @@ describe "generating a default Gchart" do
             :data => [0,20, 40, 60, 140, 230, 60],
             :axis_with_labels => 'y').should include("chxr=0,0,230")
   end
-  
+
   it "should take in consideration the max value when creating a range" do
     data = [85,107,123,131,155,172,173,189,203,222,217,233,250,239,256,267,247,261,275,295,288,305,322,307,325,347,331,346,363,382,343,359,383,352,374,393,358,379,396,416,377,398,419,380,409,426,453,432,452,465,436,460,480,440,457,474,501,457,489,507,347,373,413,402,424,448,475,488,513,475,507,530,440,476,500,518,481,512,531,367,396,423,387,415,446,478,442,469,492,463,489,508,463,491,518,549,503,526,547,493,530,549,493,520,541,564,510,535,564,492,512,537,502,530,548,491,514,538,568,524,548,568,512,533,552,577,520,545,570,516,536,555,514,536,566,521,553,579,604,541,569,595,551,581,602,549,576,606,631,589,615,650,597,624,646,672,605,626,654,584,608,631,574,597,622,559,591,614,644,580,603,629,584,615,631,558,591,618,641,314,356,395,397,429,450,421,454,477,507,458,490,560,593]
     url = Gchart.line(:data => data, :axis_with_labels => 'x,y', :axis_labels => [((1..24).to_a << 1)], :max_value => 700)
     url.should include('chxr=0,85,700')
   end
-  
+
   it 'should generate different labels and legend' do
     Gchart.pie(:legend => %w(1 2 3), :labels=>%w(one two three)).should(include('chdl=1|2|3') && include('chl=one|two|three'))
   end
-
 end
 
 describe "generating different type of charts" do
 
   it "should be able to generate a line chart" do
     Gchart.line.should be_an_instance_of(String)
-    Gchart.line.include?('cht=lc').should be_true
+    Gchart.line.should include('cht=lc')
   end
 
   it "should be able to generate a sparkline chart" do
     Gchart.sparkline.should be_an_instance_of(String)
-    Gchart.sparkline.include?('cht=ls').should be_true
+    Gchart.sparkline.should include('cht=ls')
   end
 
   it "should be able to generate a line xy chart" do
     Gchart.line_xy.should be_an_instance_of(String)
-    Gchart.line_xy.include?('cht=lxy').should be_true
+    Gchart.line_xy.should include('cht=lxy')
   end
 
   it "should be able to generate a scatter chart" do
     Gchart.scatter.should be_an_instance_of(String)
-    Gchart.scatter.include?('cht=s').should be_true
+    Gchart.scatter.should include('cht=s')
   end
 
   it "should be able to generate a bar chart" do
     Gchart.bar.should be_an_instance_of(String)
-    Gchart.bar.include?('cht=bvs').should be_true
+    Gchart.bar.should include('cht=bvs')
   end
 
   it "should be able to generate a Venn diagram" do
     Gchart.venn.should be_an_instance_of(String)
-    Gchart.venn.include?('cht=v').should be_true
+    Gchart.venn.should include('cht=v')
   end
 
   it "should be able to generate a Pie Chart" do
     Gchart.pie.should be_an_instance_of(String)
-    Gchart.pie.include?('cht=p').should be_true
+    Gchart.pie.should include('cht=p')
   end
 
   it "should be able to generate a Google-O-Meter" do
     Gchart.meter.should be_an_instance_of(String)
-    Gchart.meter.include?('cht=gom').should be_true
+    Gchart.meter.should include('cht=gom')
   end
 
   it "should be able to generate a map chart" do
     Gchart.map.should be_an_instance_of(String)
-    Gchart.map.include?('cht=t').should be_true
+    Gchart.map.should include('cht=t')
   end
 
   it "should not support other types" do
     msg = "sexy is not a supported chart format. Please use one of the following: #{Gchart.supported_types}."
     lambda{Gchart.sexy}.should raise_error(NoMethodError)
   end
-
 end
 
 
 describe "range markers" do
 
   it "should be able to generate given a hash of range-marker options" do
-    Gchart.line(:range_markers => {:start_position => 0.59, :stop_position => 0.61, :color => 'ff0000'}).include?('chm=r,ff0000,0,0.59,0.61').should be_true
+    Gchart.line(:range_markers => {:start_position => 0.59, :stop_position => 0.61, :color => 'ff0000'}).should include('chm=r,ff0000,0,0.59,0.61')
   end
 
   it "should be able to generate given an array of range-marker hash options" do
@@ -261,12 +255,12 @@ describe "range markers" do
           {:start_position => 0.59, :stop_position => 0.61, :color => 'ff0000'},
           {:start_position => 0, :stop_position => 0.6, :color => '666666'},
           {:color => 'cccccc', :start_position => 0.6, :stop_position => 1}
-        ]).include?(Gchart.jstize('r,ff0000,0,0.59,0.61|r,666666,0,0,0.6|r,cccccc,0,0.6,1')).should be_true
+        ]).should include(Gchart.jstize('r,ff0000,0,0.59,0.61|r,666666,0,0,0.6|r,cccccc,0,0.6,1'))
   end
 
   it "should allow a :overlaid? to be set" do
-    Gchart.line(:range_markers => {:start_position => 0.59, :stop_position => 0.61, :color => 'ffffff', :overlaid? => true}).include?('chm=r,ffffff,0,0.59,0.61,1').should be_true
-    Gchart.line(:range_markers => {:start_position => 0.59, :stop_position => 0.61, :color => 'ffffff', :overlaid? => false}).include?('chm=r,ffffff,0,0.59,0.61').should be_true
+    Gchart.line(:range_markers => {:start_position => 0.59, :stop_position => 0.61, :color => 'ffffff', :overlaid? => true}).should include('chm=r,ffffff,0,0.59,0.61,1')
+    Gchart.line(:range_markers => {:start_position => 0.59, :stop_position => 0.61, :color => 'ffffff', :overlaid? => false}).should include('chm=r,ffffff,0,0.59,0.61')
   end
 
   describe "when setting the orientation option" do
@@ -275,75 +269,74 @@ describe "range markers" do
     end
 
     it "to vertical (R) if given a valid option" do
-      Gchart.line(:range_markers => @options.merge(:orientation => 'v')).include?('chm=R').should be_true
-      Gchart.line(:range_markers => @options.merge(:orientation => 'V')).include?('chm=R').should be_true
-      Gchart.line(:range_markers => @options.merge(:orientation => 'R')).include?('chm=R').should be_true
-      Gchart.line(:range_markers => @options.merge(:orientation => 'vertical')).include?('chm=R').should be_true
-      Gchart.line(:range_markers => @options.merge(:orientation => 'Vertical')).include?('chm=R').should be_true
+      Gchart.line(:range_markers => @options.merge(:orientation => 'v')).should include('chm=R')
+      Gchart.line(:range_markers => @options.merge(:orientation => 'V')).should include('chm=R')
+      Gchart.line(:range_markers => @options.merge(:orientation => 'R')).should include('chm=R')
+      Gchart.line(:range_markers => @options.merge(:orientation => 'vertical')).should include('chm=R')
+      Gchart.line(:range_markers => @options.merge(:orientation => 'Vertical')).should include('chm=R')
     end
 
     it "to horizontal (r) if given a valid option (actually anything other than the vertical options)" do
-      Gchart.line(:range_markers => @options.merge(:orientation => 'horizontal')).include?('chm=r').should be_true
-      Gchart.line(:range_markers => @options.merge(:orientation => 'h')).include?('chm=r').should be_true
-      Gchart.line(:range_markers => @options.merge(:orientation => 'etc')).include?('chm=r').should be_true
+      Gchart.line(:range_markers => @options.merge(:orientation => 'horizontal')).should include('chm=r')
+      Gchart.line(:range_markers => @options.merge(:orientation => 'h')).should include('chm=r')
+      Gchart.line(:range_markers => @options.merge(:orientation => 'etc')).should include('chm=r')
     end
 
     it "if left blank defaults to horizontal (r)" do
-      Gchart.line(:range_markers => @options).include?('chm=r').should be_true
+      Gchart.line(:range_markers => @options).should include('chm=r')
     end
   end
-
 end
 
 
 describe "a bar graph" do
 
   it "should have a default vertical orientation" do
-    Gchart.bar.include?('cht=bvs').should be_true
+    Gchart.bar.should include('cht=bvs')
   end
 
   it "should be able to have a different orientation" do
-    Gchart.bar(:orientation => 'vertical').include?('cht=bvs').should be_true
-    Gchart.bar(:orientation => 'v').include?('cht=bvs').should be_true
-    Gchart.bar(:orientation => 'h').include?('cht=bhs').should be_true
-    Gchart.bar(:orientation => 'horizontal').include?('cht=bhs').should be_true
-    Gchart.bar(:horizontal => false).include?('cht=bvs').should be_true
+    Gchart.bar(:orientation => 'vertical').should include('cht=bvs')
+    Gchart.bar(:orientation => 'v').should include('cht=bvs')
+    Gchart.bar(:orientation => 'h').should include('cht=bhs')
+    Gchart.bar(:orientation => 'horizontal').should include('cht=bhs')
+    Gchart.bar(:horizontal => false).should include('cht=bvs')
   end
 
   it "should be set to be stacked by default" do
-    Gchart.bar.include?('cht=bvs').should be_true
+    Gchart.bar.should include('cht=bvs')
   end
 
   it "should be able to stacked or grouped" do
-    Gchart.bar(:stacked => true).include?('cht=bvs').should be_true
-    Gchart.bar(:stacked => false).include?('cht=bvg').should be_true
-    Gchart.bar(:grouped => true).include?('cht=bvg').should be_true
-    Gchart.bar(:grouped => false).include?('cht=bvs').should be_true
+    Gchart.bar(:stacked => true).should include('cht=bvs')
+    Gchart.bar(:stacked => false).should include('cht=bvg')
+    Gchart.bar(:grouped => true).should include('cht=bvg')
+    Gchart.bar(:grouped => false).should include('cht=bvs')
   end
 
   it "should be able to have different bar colors" do
-    Gchart.bar(:bar_colors => 'efefef,00ffff').include?('chco=').should be_true
-    Gchart.bar(:bar_colors => 'efefef,00ffff').include?('chco=efefef,00ffff').should be_true
+    Gchart.bar(:bar_colors => 'efefef,00ffff').should include('chco=')
+    Gchart.bar(:bar_colors => 'efefef,00ffff').should include('chco=efefef,00ffff')
     # alias
-    Gchart.bar(:bar_color => 'efefef').include?('chco=efefef').should be_true
+    Gchart.bar(:bar_color => 'efefef').should include('chco=efefef')
   end
 
   it "should be able to have different bar colors when using an array of colors" do
-    Gchart.bar(:bar_colors => ['efefef','00ffff']).include?('chco=efefef,00ffff').should be_true
+    Gchart.bar(:bar_colors => ['efefef','00ffff']).should include('chco=efefef,00ffff')
   end
 
   it 'should be able to accept a string of width and spacing options' do
-    Gchart.bar(:bar_width_and_spacing => '25,6').include?('chbh=25,6').should be_true
+    Gchart.bar(:bar_width_and_spacing => '25,6').should include('chbh=25,6')
   end
 
   it 'should be able to accept a single fixnum width and spacing option to set the bar width' do
-    Gchart.bar(:bar_width_and_spacing => 25).include?('chbh=25').should be_true
+    Gchart.bar(:bar_width_and_spacing => 25).should include('chbh=25')
   end
 
   it 'should be able to accept an array of width and spacing options' do
-    Gchart.bar(:bar_width_and_spacing => [25,6,12]).include?('chbh=25,6,12').should be_true
-    Gchart.bar(:bar_width_and_spacing => [25,6]).include?('chbh=25,6').should be_true
-    Gchart.bar(:bar_width_and_spacing => [25]).include?('chbh=25').should be_true
+    Gchart.bar(:bar_width_and_spacing => [25,6,12]).should include('chbh=25,6,12')
+    Gchart.bar(:bar_width_and_spacing => [25,6]).should include('chbh=25,6')
+    Gchart.bar(:bar_width_and_spacing => [25]).should include('chbh=25')
   end
 
   describe "with a hash of width and spacing options" do
@@ -355,19 +348,17 @@ describe "a bar graph" do
     end
 
     it 'should be able to have a custom bar width' do
-      Gchart.bar(:bar_width_and_spacing => {:width => 19}).include?("chbh=19,#{@default_spacing},#{@default_group_spacing}").should be_true
+      Gchart.bar(:bar_width_and_spacing => {:width => 19}).should include("chbh=19,#{@default_spacing},#{@default_group_spacing}")
     end
 
     it 'should be able to have custom spacing' do
-      Gchart.bar(:bar_width_and_spacing => {:spacing => 19}).include?("chbh=#{@default_width},19,#{@default_group_spacing}").should be_true
+      Gchart.bar(:bar_width_and_spacing => {:spacing => 19}).should include("chbh=#{@default_width},19,#{@default_group_spacing}")
     end
 
     it 'should be able to have custom group spacing' do
-      Gchart.bar(:bar_width_and_spacing => {:group_spacing => 19}).include?("chbh=#{@default_width},#{@default_spacing},19").should be_true
+      Gchart.bar(:bar_width_and_spacing => {:group_spacing => 19}).should include("chbh=#{@default_width},#{@default_spacing},19")
     end
-
   end
-
 end
 
 describe "a line chart" do
@@ -379,40 +370,40 @@ describe "a line chart" do
   end
 
   it 'should be able have a chart title' do
-    @chart.include?("chtt=Chart+Title").should be_true
+    @chart.should include("chtt=Chart+Title")
   end
 
   it "should be able to a custom color, size and alignment for title" do
-     Gchart.line(:title => @title, :title_color => 'FF0000').include?('chts=FF0000').should be_true
-     Gchart.line(:title => @title, :title_size => '20').include?('chts=454545,20').should be_true
-     Gchart.line(:title => @title, :title_size => '20', :title_alignment => :left).include?('chts=454545,20,l').should be_true
+     Gchart.line(:title => @title, :title_color => 'FF0000').should include('chts=FF0000')
+     Gchart.line(:title => @title, :title_size => '20').should include('chts=454545,20')
+     Gchart.line(:title => @title, :title_size => '20', :title_alignment => :left).should include('chts=454545,20,l')
   end
 
   it "should be able to have multiple legends" do
-    @chart.include?(Gchart.jstize("chdl=first+data+set+label|n+data+set+label")).should be_true
+    @chart.should include(Gchart.jstize("chdl=first+data+set+label|n+data+set+label"))
   end
 
   it "should escape text values in url" do
     title = 'Chart & Title'
     legend = ['first data & set label', 'n data set label']
     chart = Gchart.line(:title => title, :legend => legend)
-    chart.include?(Gchart.jstize("chdl=first+data+%26+set+label|n+data+set+label")).should be_true
+    chart.should include(Gchart.jstize("chdl=first+data+%26+set+label|n+data+set+label"))
   end
 
   it "should be able to have one legend" do
     chart = Gchart.line(:legend => 'legend label')
-    chart.include?("chdl=legend+label").should be_true
+    chart.should include("chdl=legend+label")
   end
-  
+
   it "should be able to set the position of the legend" do
     title = 'Chart & Title'
     legend = ['first data & set label', 'n data set label']
-    
+
     chart = Gchart.line(:title => title, :legend => legend, :legend_position => :bottom_vertical)
-    chart.include?("chdlp=bv").should be_true
-    
+    chart.should include("chdlp=bv")
+
     chart = Gchart.line(:title => title, :legend => legend, :legend_position => 'r')
-    chart.include?("chdlp=r").should be_true
+    chart.should include("chdlp=r")
   end
 
   it "should be able to set the background fill" do
@@ -428,31 +419,24 @@ describe "a line chart" do
 
   it "should be able to set a graph fill" do
     Gchart.line(:graph_bg => 'efefef').should include("chf=c,s,efefef")
-    Gchart.line(:graph_bg => {:color => 'efefef', :type => 'solid'}).include?("chf=c,s,efefef").should be_true
-    Gchart.line(:graph_bg => {:color => 'efefef', :type => 'gradient'}).include?("chf=c,lg,0,efefef,0,ffffff,1").should be_true
-    Gchart.line(:graph_bg => {:color => 'efefef,0,ffffff,1', :type => 'gradient'}).include?("chf=c,lg,0,efefef,0,ffffff,1").should be_true
-    Gchart.line(:graph_bg => {:color => 'efefef', :type => 'gradient', :angle => 90}).include?("chf=c,lg,90,efefef,0,ffffff,1").should be_true
+    Gchart.line(:graph_bg => {:color => 'efefef', :type => 'solid'}).should include("chf=c,s,efefef")
+    Gchart.line(:graph_bg => {:color => 'efefef', :type => 'gradient'}).should include("chf=c,lg,0,efefef,0,ffffff,1")
+    Gchart.line(:graph_bg => {:color => 'efefef,0,ffffff,1', :type => 'gradient'}).should include("chf=c,lg,0,efefef,0,ffffff,1")
+    Gchart.line(:graph_bg => {:color => 'efefef', :type => 'gradient', :angle => 90}).should include("chf=c,lg,90,efefef,0,ffffff,1")
   end
 
   it "should be able to set both a graph and a background fill" do
-    Gchart.line(:bg => 'efefef', :graph_bg => '76A4FB').include?("bg,s,efefef").should be_true
-    Gchart.line(:bg => 'efefef', :graph_bg => '76A4FB').include?("c,s,76A4FB").should be_true
-    if RUBY_VERSION.to_f < 1.9
-      Gchart.line(:bg => 'efefef', :graph_bg => '76A4FB').include?(Gchart.jstize("chf=c,s,76A4FB|bg,s,efefef")).should be_true      
-    else
-      Gchart.line(:bg => 'efefef', :graph_bg => '76A4FB').include?(Gchart.jstize("chf=bg,s,efefef|c,s,76A4FB")).should be_true
-    end
+    Gchart.line(:bg => 'efefef', :graph_bg => '76A4FB').should match /chf=(bg,s,efefef\|c,s,76A4FB|c,s,76A4FB\|bg,s,efefef)/
   end
 
   it "should be able to have different line colors" do
-    Gchart.line(:line_colors => 'efefef|00ffff').include?(Gchart.jstize('chco=efefef|00ffff')).should be_true
-    Gchart.line(:line_color => 'efefef|00ffff').include?(Gchart.jstize('chco=efefef|00ffff')).should be_true
+    Gchart.line(:line_colors => 'efefef|00ffff').should include(Gchart.jstize('chco=efefef|00ffff'))
+    Gchart.line(:line_color => 'efefef|00ffff').should include(Gchart.jstize('chco=efefef|00ffff'))
   end
 
   it "should be able to render a graph where all the data values are 0" do
     Gchart.line(:data => [0, 0, 0]).should include("chd=s:AAA")
   end
-
 end
 
 describe "a sparkline chart" do
@@ -466,61 +450,54 @@ describe "a sparkline chart" do
   end
 
   it "should create a sparkline" do
-    @chart.include?('cht=ls').should be_true
+    @chart.should include('cht=ls')
   end
 
   it 'should be able have a chart title' do
-    @chart.include?("chtt=Chart+Title").should be_true
+    @chart.should include("chtt=Chart+Title")
   end
 
   it "should be able to a custom color and size title" do
-     Gchart.sparkline(:title => @title, :title_color => 'FF0000').include?('chts=FF0000').should be_true
-     Gchart.sparkline(:title => @title, :title_size => '20').include?('chts=454545,20').should be_true
+     Gchart.sparkline(:title => @title, :title_color => 'FF0000').should include('chts=FF0000')
+     Gchart.sparkline(:title => @title, :title_size => '20').should include('chts=454545,20')
   end
 
   it "should be able to have multiple legends" do
-    @chart.include?(Gchart.jstize("chdl=first+data+set+label|n+data+set+label")).should be_true
+    @chart.should include(Gchart.jstize("chdl=first+data+set+label|n+data+set+label"))
   end
 
   it "should be able to have one legend" do
     chart = Gchart.sparkline(:legend => 'legend label')
-    chart.include?("chdl=legend+label").should be_true
+    chart.should include("chdl=legend+label")
   end
 
   it "should be able to set the background fill" do
-    Gchart.sparkline(:bg => 'efefef').include?("chf=bg,s,efefef").should be_true
-    Gchart.sparkline(:bg => {:color => 'efefef', :type => 'solid'}).include?("chf=bg,s,efefef").should be_true
+    Gchart.sparkline(:bg => 'efefef').should include("chf=bg,s,efefef")
+    Gchart.sparkline(:bg => {:color => 'efefef', :type => 'solid'}).should include("chf=bg,s,efefef")
 
-    Gchart.sparkline(:bg => {:color => 'efefef', :type => 'gradient'}).include?("chf=bg,lg,0,efefef,0,ffffff,1").should be_true
-    Gchart.sparkline(:bg => {:color => 'efefef,0,ffffff,1', :type => 'gradient'}).include?("chf=bg,lg,0,efefef,0,ffffff,1").should be_true
-    Gchart.sparkline(:bg => {:color => 'efefef', :type => 'gradient', :angle => 90}).include?("chf=bg,lg,90,efefef,0,ffffff,1").should be_true
+    Gchart.sparkline(:bg => {:color => 'efefef', :type => 'gradient'}).should include("chf=bg,lg,0,efefef,0,ffffff,1")
+    Gchart.sparkline(:bg => {:color => 'efefef,0,ffffff,1', :type => 'gradient'}).should include("chf=bg,lg,0,efefef,0,ffffff,1")
+    Gchart.sparkline(:bg => {:color => 'efefef', :type => 'gradient', :angle => 90}).should include("chf=bg,lg,90,efefef,0,ffffff,1")
 
-    Gchart.sparkline(:bg => {:color => 'efefef', :type => 'stripes'}).include?("chf=bg,ls,90,efefef,0.2,ffffff,0.2").should be_true
+    Gchart.sparkline(:bg => {:color => 'efefef', :type => 'stripes'}).should include("chf=bg,ls,90,efefef,0.2,ffffff,0.2")
   end
 
   it "should be able to set a graph fill" do
-    Gchart.sparkline(:graph_bg => 'efefef').include?("chf=c,s,efefef").should be_true
-    Gchart.sparkline(:graph_bg => {:color => 'efefef', :type => 'solid'}).include?("chf=c,s,efefef").should be_true
-    Gchart.sparkline(:graph_bg => {:color => 'efefef', :type => 'gradient'}).include?("chf=c,lg,0,efefef,0,ffffff,1").should be_true
-    Gchart.sparkline(:graph_bg => {:color => 'efefef,0,ffffff,1', :type => 'gradient'}).include?("chf=c,lg,0,efefef,0,ffffff,1").should be_true
-    Gchart.sparkline(:graph_bg => {:color => 'efefef', :type => 'gradient', :angle => 90}).include?("chf=c,lg,90,efefef,0,ffffff,1").should be_true
+    Gchart.sparkline(:graph_bg => 'efefef').should include("chf=c,s,efefef")
+    Gchart.sparkline(:graph_bg => {:color => 'efefef', :type => 'solid'}).should include("chf=c,s,efefef")
+    Gchart.sparkline(:graph_bg => {:color => 'efefef', :type => 'gradient'}).should include("chf=c,lg,0,efefef,0,ffffff,1")
+    Gchart.sparkline(:graph_bg => {:color => 'efefef,0,ffffff,1', :type => 'gradient'}).should include("chf=c,lg,0,efefef,0,ffffff,1")
+    Gchart.sparkline(:graph_bg => {:color => 'efefef', :type => 'gradient', :angle => 90}).should include("chf=c,lg,90,efefef,0,ffffff,1")
   end
 
   it "should be able to set both a graph and a background fill" do
-    Gchart.sparkline(:bg => 'efefef', :graph_bg => '76A4FB').include?("bg,s,efefef").should be_true
-    Gchart.sparkline(:bg => 'efefef', :graph_bg => '76A4FB').include?("c,s,76A4FB").should be_true
-    if RUBY_VERSION.to_f < 1.9
-      Gchart.sparkline(:bg => 'efefef', :graph_bg => '76A4FB').include?(Gchart.jstize("chf=c,s,76A4FB|bg,s,efefef")).should be_true
-    else
-      Gchart.sparkline(:bg => 'efefef', :graph_bg => '76A4FB').include?(Gchart.jstize("chf=bg,s,efefef|c,s,76A4FB")).should be_true
-    end
+    Gchart.sparkline(:bg => 'efefef', :graph_bg => '76A4FB').should match(/chf=(bg,s,efefef\|c,s,76A4FB|c,s,76A4FB\|bg,s,efefef)/)
   end
 
   it "should be able to have different line colors" do
-    Gchart.sparkline(:line_colors => 'efefef|00ffff').include?(Gchart.jstize('chco=efefef|00ffff')).should be_true
-    Gchart.sparkline(:line_color => 'efefef|00ffff').include?(Gchart.jstize('chco=efefef|00ffff')).should be_true
+    Gchart.sparkline(:line_colors => 'efefef|00ffff').should include(Gchart.jstize('chco=efefef|00ffff'))
+    Gchart.sparkline(:line_color => 'efefef|00ffff').should include(Gchart.jstize('chco=efefef|00ffff'))
   end
-
 end
 
 describe "a 3d pie chart" do
@@ -534,13 +511,12 @@ describe "a 3d pie chart" do
   end
 
   it "should create a pie" do
-    @chart.include?('cht=p').should be_true
+    @chart.should include('cht=p')
   end
 
   it "should be able to be in 3d" do
-    Gchart.pie_3d(:title => @title, :legend => @legend, :data => @data).include?('cht=p3').should be_true
+    Gchart.pie_3d(:title => @title, :legend => @legend, :data => @data).should include('cht=p3')
   end
-
 end
 
 describe "a google-o-meter" do
@@ -553,19 +529,18 @@ describe "a google-o-meter" do
   end
 
   it "should create a meter" do
-    @chart.include?('cht=gom').should be_true
+    @chart.should include('cht=gom')
   end
 
   it "should be able to set a solid background fill" do
-    Gchart.meter(:bg => 'efefef').include?("chf=bg,s,efefef").should be_true
-    Gchart.meter(:bg => {:color => 'efefef', :type => 'solid'}).include?("chf=bg,s,efefef").should be_true
+    Gchart.meter(:bg => 'efefef').should include("chf=bg,s,efefef")
+    Gchart.meter(:bg => {:color => 'efefef', :type => 'solid'}).should include("chf=bg,s,efefef")
   end
 
   it "should be able to set labels by using the legend or labesl accessor" do
     Gchart.meter(:title => @title, :labels => @legend, :data => @data).should include("chl=#{@jstized_legend}")
     Gchart.meter(:title => @title, :labels => @legend, :data => @data).should == Gchart.meter(:title => @title, :legend => @legend, :data => @data)
   end
-
 end
 
 describe "a map chart" do
@@ -581,25 +556,24 @@ describe "a map chart" do
   end
 
   it "should create a map" do
-    @chart.include?('cht=t').should be_true
+    @chart.should include('cht=t')
   end
 
   it "should set the geographical area" do
-    @chart.include?('chtm=usa').should be_true
+    @chart.should include('chtm=usa')
   end
 
   it "should set the map colors" do
-    @chart.include?('chco=FFFFFF,FF0000,FFFF00,00FF00').should be_true
+    @chart.should include('chco=FFFFFF,FF0000,FFFF00,00FF00')
   end
 
   it "should set the country/state codes" do
-    @chart.include?('chld=MTWYIDSD').should be_true
+    @chart.should include('chld=MTWYIDSD')
   end
 
   it "should set the chart data" do
-    @chart.include?('chd=t:0,100,50,32').should be_true
+    @chart.should include('chd=t:0,100,50,32')
   end
-
 end
 
 describe 'exporting a chart' do
@@ -637,12 +611,12 @@ describe 'exporting a chart' do
   end
 
   it "should use ampersands to separate key/value pairs in URLs by default" do
-    Gchart.line(:data => [0, 26]).should satisfy {|chart| chart.include? "&" }
-    Gchart.line(:data => [0, 26]).should_not satisfy {|chart| chart.include? "&amp;" }
+    Gchart.line(:data => [0, 26]).should include "&"
+    Gchart.line(:data => [0, 26]).should_not include "&amp;"
   end
 
   it "should escape ampersands in URLs when used as an image tag" do
-    Gchart.line(:data => [0, 26], :format => 'image_tag', :class => 'chart').should satisfy {|chart| chart.include? "&amp;" }
+    Gchart.line(:data => [0, 26], :format => 'image_tag', :class => 'chart').should satisfy {|chart| chart.should include "&amp;" }
   end
 
   it "should be available as a file" do
@@ -671,14 +645,13 @@ describe 'exporting a chart' do
     File.exist?('foo.png').should be_true
     File.delete('foo.png') if File.exist?('foo.png')
   end
-
 end
 
 describe 'SSL support' do
   it 'should change url if is presented' do
     Gchart.line(:use_ssl => true).should include('https://chart.googleapis.com/chart?')
   end
-  
+
   it "should be available as a file" do
     File.delete('chart.png') if File.exist?('chart.png')
     Gchart.line(:data => [0, 26], :format => 'file', :use_ssl => true)
