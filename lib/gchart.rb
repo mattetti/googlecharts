@@ -38,7 +38,7 @@ class Gchart
     'chart.png'
   end
 
-  attr_accessor :title, :type, :width, :height, :curved, :horizontal, :grouped, :legend, :legend_position, :labels, :data, :encoding, :bar_colors,
+  attr_accessor :title, :type, :width, :height, :curved, :horizontal, :grouped, :overlapping, :legend, :legend_position, :labels, :data, :encoding, :bar_colors,
   :title_color, :title_size, :title_alignment, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :klass,
   :range_markers, :geographical_area, :map_colors, :country_codes, :axis_range, :filename, :min, :max, :colors, :usemap
 
@@ -85,6 +85,7 @@ class Gchart
     @curved = false
     @horizontal = false
     @grouped = false
+    @overlapping = false
     @use_ssl = false
     @encoding = 'simple'
     # @max_value = 'auto'
@@ -132,6 +133,13 @@ class Gchart
 
   # Sets the bar graph presentation (stacked or grouped)
   def stacked=(option=true)
+    @overlapping = false
+    @grouped = option ? false : true
+  end
+  
+  # Sets the bar graph presentation (overlapping or grouped)
+  def overlapping=(option=true)
+    @overlapping = option
     @grouped = option ? false : true
   end
 
@@ -524,7 +532,7 @@ class Gchart
     when 'radar'
       "r" + (curved? ? 's' : '')
     when 'bar'
-      "b" + (horizontal? ? "h" : "v") + (grouped? ? "g" : "s")
+      "b" + (horizontal? ? "h" : "v") + (grouped? ? "g" : (overlapping? ? "o" : "s"))
     end
   end
 

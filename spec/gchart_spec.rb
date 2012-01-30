@@ -307,11 +307,13 @@ describe "a bar graph" do
     Gchart.bar.should include('cht=bvs')
   end
 
-  it "should be able to stacked or grouped" do
+  it "should be able to stacked, grouped or overlapping" do
     Gchart.bar(:stacked => true).should include('cht=bvs')
     Gchart.bar(:stacked => false).should include('cht=bvg')
     Gchart.bar(:grouped => true).should include('cht=bvg')
     Gchart.bar(:grouped => false).should include('cht=bvs')
+    Gchart.bar(:overlapping => true).should include('cht=bvo')
+    Gchart.bar(:overlapping => false).should include('cht=bvg')
   end
 
   it "should be able to have different bar colors" do
