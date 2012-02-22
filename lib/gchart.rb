@@ -674,48 +674,73 @@ class Gchart
         set_legend unless legend.nil?
       when '@labels'
         set_labels unless labels.nil?
-      when '@legend_position'
-        set_legend_position unless legend_position.nil?
-      when '@thickness'
-        set_line_thickness
-      when '@new_markers'
-          set_line_markers
-      when '@bg_color'
+ def query_builder(options="")
+    query_params = instance_variables.map do |var|
+      case var
+      # Set the graph size
+      when '@width', :@width
+        set_size unless @width.nil? || @height.nil?
+      when '@type', :@type
+        set_type
+      when '@title', :@title
+        set_title unless @title.nil?
+      when '@legend', :@legend
+        set_legend unless @legend.nil?
+      when '@bg_color', :@bg_color
         set_colors
-      when '@chart_color'
-        set_colors if bg_color.nil?
-      when '@bar_colors'
+      when '@chart_color', :@chart_color
+        set_colors if @bg_color.nil?
+      when '@data', :@data
+        set_data unless @data == []
+      when '@bar_colors', :@bar_colors
         set_bar_colors
-      when '@bar_width_and_spacing'
+      when '@bar_width_and_spacing', :@bar_width_and_spacing
         set_bar_width_and_spacing
-      when '@axis_with_labels'
+      when '@axis_with_labels', :@axis_with_labels
         set_axis_with_labels
-      when '@axis_labels'
+      when '@axis_labels', :@axis_labels
         set_axis_labels
-      when '@range_markers'
-        set_range_markers
-      when '@grid_lines'
-        set_grid_lines
-      when '@geographical_area'
-        set_geographical_area
-      when '@country_codes'
-        set_country_codes
-      when '@custom'
-        custom
+      when '@custom', :@custom
+        @custom
       end
     end.compact
-
-    query_params << set_axis_range
 
     # Use ampersand as default delimiter
     unless options == :html
       delimiter = '&'
-      # Escape ampersand for html image tags
+    # Escape ampersand for html image tags
     else
       delimiter = '&amp;'
     end
 
-    jstize(query_params.join(delimiter))
+    @@url + url_encode(query_params, delimiter)
+  end
+
+
+  def url_encode(data, delimiter = '&')
+    if data.is_a?(Hash)
+      encoded = {}
+      data.each{|key,val| encoded[escape(key)] = escape(val)}
+      encoded
+    elsif data.is_a?(Array)
+      data.map do |i|
+        i.split('&').map do |str|
+          str.split('=').map{|val| escape(val)}.join('=')
+        end.join(delimiter)
+      end.join(delimiter)
+    elsif data
+      if  data.index(delimiter) || data.index('=')
+        data.split('&').map do |str|
+          str.split('=').map{|val| escape(val)}.join('=')
+        end.join(delimiter)
+      else
+        escape(data)
+      end
+    end
+  end
+
+  def escape(val)
+    (val.blank?)? val : CGI.escape(val)
   end
 
 end
