@@ -4,5 +4,4 @@ log/*
 pkg
 .rspec
 .rvmrc
-Gemfile
 Gemfile.lock
