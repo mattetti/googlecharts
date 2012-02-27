@@ -9,8 +9,6 @@ class Gchart
   alias_method :line_color=, :bar_colors=
   alias_method :slice_colors=, :bar_colors=
   alias_method :horizontal?, :horizontal
-  alias_method :grouped?, :grouped
-  alias_method :overlapping?, :overlapping
   alias_method :curved?, :curved
 
 end

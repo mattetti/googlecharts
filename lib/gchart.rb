@@ -38,14 +38,14 @@ class Gchart
     'chart.png'
   end
 
-  attr_accessor :title, :type, :width, :height, :curved, :horizontal, :grouped, :overlapping, :legend, :legend_position, :labels, :data, :encoding, :bar_colors,
+  attr_accessor :title, :type, :width, :height, :curved, :horizontal, :grouped, :overlapped, :legend, :legend_position, :labels, :data, :encoding, :bar_colors,
   :title_color, :title_size, :title_alignment, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :klass,
   :range_markers, :geographical_area, :map_colors, :country_codes, :axis_range, :filename, :min, :max, :colors, :usemap
 
   attr_accessor :bg_type, :bg_color, :bg_angle, :chart_type, :chart_color, :chart_angle, :axis_range, :thickness, :new_markers, :grid_lines, :use_ssl
 
   attr_accessor :min_value, :max_value
-  
+
   types.each do |type|
     instance_eval <<-DYNCLASSMETH
     def #{type}(options = {})
@@ -77,15 +77,17 @@ class Gchart
     @theme = options[:theme] 
     options = @theme ? Chart::Theme.load(@theme).to_options.merge(options) : options
     options.delete(:theme)
-    
+
     @type = options[:type] || 'line'
     @data = []
     @width = 300
     @height = 200
     @curved = false
     @horizontal = false
+
     @grouped = false
-    @overlapping = false
+    @overlapped = false
+
     @use_ssl = false
     @encoding = 'simple'
     # @max_value = 'auto'
@@ -112,11 +114,11 @@ class Gchart
   def size=(size='300x200')
     @width, @height = size.split("x").map { |dimension| dimension.to_i }
   end
-  
+
   def size
     "#{width}x#{height}"
   end
-  
+
   def dimensions
     # TODO: maybe others?
     [:line_xy, :scatter].include?(type) ? 2 : 1
@@ -131,16 +133,14 @@ class Gchart
     end
   end
 
-  # Sets the bar graph presentation (stacked or grouped)
-  def stacked=(option=true)
-    @overlapping = false
-    @grouped = option ? false : true
-  end
-  
-  # Sets the bar graph presentation (overlapping or grouped)
-  def overlapping=(option=true)
-    @overlapping = option
-    @grouped = option ? false : true
+  def bar_presentation
+    if @overlapped
+      'o'
+    elsif @grouped
+      'g'
+    else
+      's'
+    end
   end
 
   def bg=(options)
@@ -162,7 +162,7 @@ class Gchart
       @chart_angle = options[:angle]
     end
   end
-  
+
   def max_value=(max_v)
     if max_v =~ /false/
       @max_value = false
@@ -187,7 +187,7 @@ class Gchart
     ds.each_with_index do |mds, mds_index|
       mds[:min_value] ||= min_value
       mds[:max_value] ||= max_value
-      
+
       if mds_index == 0 && type.to_s == 'bar'
         # TODO: unless you specify a zero line (using chp or chds),
         #       the min_value of a bar chart is always 0.
@@ -248,7 +248,7 @@ class Gchart
       @dataset
     end
   end
-  
+
   # Sets of data to handle multiple sets
   def datasets
     datasets = []
@@ -261,7 +261,7 @@ class Gchart
     end
     datasets
   end
-  
+
   def self.jstize(string)
     # See http://github.com/mattetti/googlecharts/issues#issue/27
     #URI.escape( string ).gsub("%7C", "|")
@@ -532,7 +532,7 @@ class Gchart
     when 'radar'
       "r" + (curved? ? 's' : '')
     when 'bar'
-      "b" + (horizontal? ? "h" : "v") + (grouped? ? "g" : (overlapping? ? "o" : "s"))
+      "b" + (horizontal? ? "h" : "v") + bar_presentation
     end
   end
 
@@ -543,7 +543,7 @@ class Gchart
     when 'stripes'  then 'ls'
     end
   end
-  
+
   def number_visible
     n = 0
     dataset.each do |mds|
@@ -556,7 +556,7 @@ class Gchart
     end
     ""
   end
-  
+
   # Turns input into an array of axis hashes, dependent on the chart type
   def convert_dataset(ds)
     if dimensions == 2
@@ -576,7 +576,7 @@ class Gchart
     end
     ds
   end
-  
+
   # just an alias
   def axis_set
     dataset
@@ -590,7 +590,7 @@ class Gchart
       value.nil? ? "_" : value
     end
   end
-  
+
   def convert_to_extended_value(number)
     if number.nil?
       '__'
@@ -599,7 +599,7 @@ class Gchart
       value.nil? ? "__" : value
     end
   end
-  
+
   def encode_scaled_dataset(chars, nil_char)
     dsets = []
     dataset.each do |ds|
@@ -668,7 +668,7 @@ class Gchart
   def query_builder(options="")
     query_params = instance_variables.sort.map do |var|
       case var.to_s
-        
+
       when '@data'
         set_data unless data == []  
         # Set the graph size  
@@ -687,7 +687,7 @@ class Gchart
       when '@thickness'
         set_line_thickness
       when '@new_markers'
-          set_line_markers
+        set_line_markers
       when '@bg_color'
         set_colors
       when '@chart_color'
