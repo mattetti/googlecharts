@@ -32,7 +32,7 @@ describe "generating a default Gchart" do
   end
 
   it "should include the Google URL" do
-    @chart.should include("http://chart.apis.google.com/chart?")
+    @chart.should include("http://chart.googleapis.com/chart?")
   end
 
   it "should have a default size" do
