@@ -351,7 +351,7 @@ class Gchart
 
   # set bar, line colors
   def set_bar_colors
-    @bar_colors = bar_colors.join(',') if bar_colors.is_a?(Array)
+    @bar_colors = bar_colors.join('|') if bar_colors.is_a?(Array)
     "chco=#{bar_colors}"
   end
 
