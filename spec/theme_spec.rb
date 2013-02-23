@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper.rb'
-require File.dirname(__FILE__) + '/../lib/gchart'
+require 'spec_helper.rb'
 
 describe "generating a default Gchart" do
   it 'should be able to add additional theme files' do

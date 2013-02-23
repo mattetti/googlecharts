@@ -1,12 +1,3 @@
-$:.unshift File.dirname(__FILE__)
-require 'gchart/version'
-require 'gchart/theme'
-require "net/http"
-require "net/https"
-require "uri"
-require "cgi"
-require 'enumerator'
-
 class Gchart
   include GchartInfo
 

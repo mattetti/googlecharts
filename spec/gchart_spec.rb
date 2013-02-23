@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper.rb'
-require File.dirname(__FILE__) + '/../lib/gchart'
+require 'spec_helper.rb'
 
 Chart::Theme.add_theme_file("#{File.dirname(__FILE__)}/fixtures/test_theme.yml")
 
