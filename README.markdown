@@ -1,18 +1,17 @@
 ## Googlecharts
 
+# I am in the process of a big refactoring of this gem.  The [original gem](https://github.com/mattetti/googlecharts) hasn't been updated for a while.
+
 [![Build Status](https://secure.travis-ci.org/aderyabin/googlecharts.png?branch=master)](http://travis-ci.org/aderyabin/googlecharts)
 
 The goal of this Gem is to make the creation of Google Charts a simple and easy task.
-    
+
     require 'googlecharts'
-    Gchart.line(  :size => '200x300', 
+    Gchart.line(  :size => '200x300',
                   :title => "example title",
                   :bg => 'efefef',
                   :legend => ['first data set label', 'second data set label'],
                   :data => [10, 30, 120, 45, 72])
-              
-
-Check out the [full documentation over there](http://googlecharts.rubyforge.org/)
 
 This gem is fully tested using Rspec, check the rspec folder for more examples.
 
@@ -281,7 +280,7 @@ Sparklines:
 -------------
 
 A sparkline chart has exactly the same parameters as a line chart. The only difference is that the axes lines are not drawn for sparklines by default.
-  
+
 
 Google-o-meter
 -------------
@@ -316,6 +315,6 @@ try yourself
                 :bar_colors => 'ff0000,00ff00')
 
  "http://chart.apis.google.com/chart?chs=300x200&chdl=matt|patrick&chd=s:AAANUIv,JENCN9y&chtt=SDRuby+Fu+level&chf=bg,lg,0,76A4FB,0,ffffff,1&cht=bvs&chco=ff0000,00ff00"  
- 
+
     Gchart.pie(:data => [20,10,15,5,50], :title => 'SDRuby Fu level', :size => '400x200', :labels => ['matt', 'rob', 'patrick', 'ryan', 'jordan'])
 http://chart.apis.google.com/chart?cht=p&chs=400x200&chd=s:YMSG9&chtt=SDRuby+Fu+level&chl=matt|rob|patrick|ryan|jordan
