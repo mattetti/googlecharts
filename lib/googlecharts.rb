@@ -1,5 +1,8 @@
 require 'gchart/version'
 require 'gchart/gchart'
+require 'gchart/chart'
+require 'gchart/line'
+require 'gchart/bar'
 require 'gchart/theme'
 require "net/http"
 require "net/https"

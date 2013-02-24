@@ -1,6 +1,6 @@
 require 'googlecharts'
 
-Dir["#{File.dirname(__FILE__)}/../spec/support/*.rb"].sort.each { |ext| require ext }
+Dir["spec/support/*.rb"].sort.each { |ext| require ext }
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

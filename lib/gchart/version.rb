@@ -1,3 +1,3 @@
 module GchartInfo #:nodoc:
-  VERSION = "1.6.8"
+  VERSION = "0.1.0"
 end
