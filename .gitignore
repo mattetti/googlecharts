@@ -3,5 +3,5 @@ log/*
 .manifest
 pkg
 .rspec
-.rvmrc
 Gemfile.lock
+tmp/*
