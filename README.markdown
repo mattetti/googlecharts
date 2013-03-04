@@ -1,6 +1,6 @@
 ## Googlecharts
 
-[![Build Status](https://secure.travis-ci.org/aderyabin/googlecharts.png?branch=master)](http://travis-ci.org/aderyabin/googlecharts)
+[![Build Status](https://travis-ci.org/mattetti/googlecharts.png?branch=master)](https://travis-ci.org/mattetti/googlecharts)
 
 The goal of this Gem is to make the creation of Google Charts a simple and easy task.
     
