@@ -624,14 +624,14 @@ describe 'exporting a chart' do
   it "should be available as a file" do
     File.delete('chart.png') if File.exist?('chart.png')
     Gchart.line(:data => [0, 26], :format => 'file')
-    expect(File.exist?('chart.png')).to be_true
+    expect(File.exist?('chart.png')).to be
     File.delete('chart.png') if File.exist?('chart.png')
   end
 
   it "should be available as a file using a custom file name" do
     File.delete('custom_file_name.png') if File.exist?('custom_file_name.png')
     Gchart.line(:data => [0, 26], :format => 'file', :filename => 'custom_file_name.png')
-    expect(File.exist?('custom_file_name.png')).to be_true
+    expect(File.exist?('custom_file_name.png')).to be
     File.delete('custom_file_name.png') if File.exist?('custom_file_name.png')
   end
 
@@ -644,7 +644,7 @@ describe 'exporting a chart' do
                 :format => "file",
                 :filename => "foo.png"
                 )
-    expect(File.exist?('foo.png')).to be_true
+    expect(File.exist?('foo.png')).to be
     File.delete('foo.png') if File.exist?('foo.png')
   end
 end
