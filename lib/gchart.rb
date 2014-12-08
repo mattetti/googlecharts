@@ -39,7 +39,7 @@ class Gchart
   end
 
   attr_accessor :title, :type, :width, :height, :curved, :horizontal, :grouped, :overlapped, :legend, :legend_position, :labels, :data, :encoding, :bar_colors,
-  :title_color, :title_size, :title_alignment, :custom, :axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :klass,
+  :title_color, :title_size, :title_alignment, :custom, :axis_with_labels, :custom_axis_with_labels, :axis_labels, :bar_width_and_spacing, :id, :alt, :klass,
   :range_markers, :geographical_area, :map_colors, :country_codes, :axis_range, :filename, :min, :max, :colors, :usemap
 
   attr_accessor :bg_type, :bg_color, :bg_angle, :chart_type, :chart_color, :chart_angle, :axis_range, :thickness, :new_markers, :grid_lines, :use_ssl
@@ -473,6 +473,11 @@ class Gchart
     "chxt=#{axis_with_labels}"
   end
 
+  def set_custom_axis_with_labels
+    @custom_axis_with_labels = custom_axis_with_labels.join(',') if @custom_axis_with_labels.is_a?(Array)
+    "chxp=#{custom_axis_with_labels}"
+  end
+
   def set_axis_labels
     if axis_labels.is_a?(Array)
       if RUBY_VERSION.to_f < 1.9
@@ -704,6 +709,8 @@ class Gchart
         set_range_markers
       when '@grid_lines'
         set_grid_lines
+      when '@custom_axis_with_labels'
+        set_custom_axis_with_labels
       when '@geographical_area'
         set_geographical_area
       when '@country_codes'
