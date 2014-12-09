@@ -363,6 +363,25 @@ describe "a bar graph" do
   end
 end
 
+describe "a radar chart" do
+
+  before(:each) do
+    @chart = Gchart.radar(:title => 'Chart Title')
+  end
+
+  it "should be able have a chart title" do
+    expect(@chart).to include("chtt=Chart+Title")
+  end
+
+  it "should allow axis labels positions to be used" do
+    expect(Gchart.radar(:custom_axis_with_labels => '0,0,50,100')).to include('chxp=0,0,50,100')
+  end
+  
+  it "should allow array of axis labels positions to be used " do
+    expect(Gchart.radar(:custom_axis_with_labels => ['0', '0', '50', '100'])).to include('chxp=0,0,50,100')
+  end
+end
+
 describe "a line chart" do
 
   before(:each) do
