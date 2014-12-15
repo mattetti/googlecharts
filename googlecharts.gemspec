@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name = %q{googlecharts}
   s.version = GchartInfo::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors = ["Matt Aimonetti", "Andrey Deryabin"]
-  s.date = %q{2011-05-21}
+  s.authors = ["Matt Aimonetti", "Andrey Deryabin", "Pedro Pimentel"]
+  s.date = %q{2014-12-15}
   s.summary = %q{Generate charts using Google API & Ruby}
   s.description = %q{Generate charts using Google API & Ruby}
-  s.email = %q{mattaimonetti@gmail.com deriabin@gmail.com}
+  s.email = %q{mattaimonetti@gmail.com deriabin@gmail.com zukunft@gmail.com}
   s.homepage = %q{http://googlecharts.rubyforge.org/}
 
   s.files         = `git ls-files`.split("\n")

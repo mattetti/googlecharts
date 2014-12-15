@@ -1,4 +1,4 @@
-== 1.6.9
+== 1.6.10
 * added support for custom position on axis with label (parameter chxp)
 * refactored bar chart
 * fixed issue #44
