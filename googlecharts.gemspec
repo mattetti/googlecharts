@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.description = %q{Generate charts using Google API & Ruby}
   s.email = %q{mattaimonetti@gmail.com deriabin@gmail.com zukunft@gmail.com}
   s.homepage = %q{http://googlecharts.rubyforge.org/}
+  s.license = 'MIT'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
