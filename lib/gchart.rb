@@ -19,7 +19,7 @@ class Gchart
   end
 
   def self.types
-    @types ||= ['line', 'line_xy', 'scatter', 'bar', 'venn', 'pie', 'pie_3d', 'jstize', 'sparkline', 'meter', 'map', 'radar']
+    @types ||= ['line', 'line_xy', 'scatter', 'bar', 'venn', 'pie', 'pie_3d', 'pie_c', 'jstize', 'sparkline', 'meter', 'map', 'radar']
   end
 
   def self.simple_chars
@@ -528,6 +528,7 @@ class Gchart
     when 'line'      then "lc"
     when 'line_xy'   then "lxy"
     when 'pie_3d'    then "p3"
+    when 'pie_c'     then "pc"
     when 'pie'       then "p"
     when 'venn'      then "v"
     when 'scatter'   then "s"
