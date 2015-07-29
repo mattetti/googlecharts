@@ -227,6 +227,12 @@ describe "generating different type of charts" do
     expect(Gchart.pie).to include('cht=p')
   end
 
+  it "should be able to generate a Concentric Pie Chart" do
+    expect(Gchart.pie_c).to be_an_instance_of(String)
+    expect(Gchart.pie_c).to include('cht=pc')
+    expect(Gchart.pie_c(size: '240x240', data: [[-1], [2,3]])).to include('-1|1,2,3')
+  end
+
   it "should be able to generate a Google-O-Meter" do
     expect(Gchart.meter).to be_an_instance_of(String)
     expect(Gchart.meter).to include('cht=gom')
