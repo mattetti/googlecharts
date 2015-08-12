@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version = GchartInfo::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors = ["Matt Aimonetti", "Andrey Deryabin", "Pedro Pimentel"]
-  s.date = %q{2014-12-15}
+  s.date = %q{2015-08-12}
   s.summary = %q{Generate charts using Google API & Ruby}
   s.description = %q{Generate charts using Google API & Ruby}
   s.email = %q{mattaimonetti@gmail.com deriabin@gmail.com zukunft@gmail.com}

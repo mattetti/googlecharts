@@ -1,4 +1,4 @@
-== 1.6.11
+== 1.6.12
 * added license to gemspec
 * added pie_c type for concentric pie charts
 
