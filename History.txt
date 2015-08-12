@@ -1,3 +1,7 @@
+== 1.6.11
+* added license to gemspec
+* added pie_c type for concentric pie charts
+
 == 1.6.10
 * added support for custom position on axis with label (parameter chxp)
 * refactored bar chart
