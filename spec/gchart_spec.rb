@@ -112,6 +112,18 @@ describe "generating a default Gchart" do
                 :bar_colors => ['FD9A3B', '4BC7DC'])).to include("chxr=0,-20,100")
   end
 
+  it "with scaled values should provide the chxr good  values" do
+    x_min, x_max, x_step = 0, 3, 1
+    y_min, y_max, y_step = 0, 80, 10
+    scale = [0,100]
+    data = [[0,25,10,15],[50,60,80,30]]
+    Gchart.line( :data => data,
+      :encoding => 'text',
+      :axis_range => [[x_min,x_max,x_step],[y_min,y_max,y_step]],
+      :min_value => scale[0],
+      :max_value => scale[1]).include?("chxr=0,#{x_min},#{x_max},#{x_step}|1,#{y_min},#{y_max},#{y_step}").should be_true
+  end
+  
   it "should be able to have multiple set of data with text encoding" do
     expect(Gchart.line(:data => [[10, 5.2, 4, 45, 78], [20, 40, 70, 15, 99]], :encoding => 'text')).to include(Gchart.jstize('chd=t:10,5.2,4,45,78|20,40,70,15,99'))
   end
