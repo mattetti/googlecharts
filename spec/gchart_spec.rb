@@ -90,6 +90,10 @@ describe "generating a default Gchart" do
     expect(Gchart.line(:data => [10, 5.2, nil, 45, 78], :encoding => 'text')).to include('chd=t:10,5.2,_,45,78')
   end
 
+  it "should set automatic min and max values with text encoding when both min_value and max_value are falsy" do
+    Gchart.line(:data => [10, 5.2, 4, 45, 78], :encoding => 'text', :min_value => false, :max_value => false).should include('chds=a')
+  end
+
   it "should handle max and min values with text encoding" do
     expect(Gchart.line(:data => [10, 5.2, 4, 45, 78], :encoding => 'text')).to include('chds=0,78')
   end

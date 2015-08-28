@@ -656,7 +656,11 @@ class Gchart
   # This encoding is not available for maps.
   #
   def text_encoding
-    chds = dataset.map{|ds| "#{ds[:min_value]},#{ds[:max_value]}" }.join(",")
+    if min_value === false && max_value === false
+      chds = 'a'
+    else
+      chds = dataset.map{|ds| "#{ds[:min_value]},#{ds[:max_value]}" }.join(",")
+    end
     "t" + number_visible + ":" + datasets.map{ |ds| ds.map{|e|e||'_'}.join(',') }.join('|') + "&chds=" + chds
   end
 
