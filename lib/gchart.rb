@@ -504,7 +504,7 @@ class Gchart
     # a passed axis_range should look like:
     # [[10,100]] or [[10,100,4]] or [[10,100], [20,300]]
     # in the second example, 4 is the interval 
-    set = @calculated_axis_range ? datasets : axis_range || datasets
+    set = @calculated_axis_range ? axis_range : datasets || datasets
 
     return unless set && set.respond_to?(:each) && set.find {|o| o}.respond_to?(:each)
 
