@@ -31,8 +31,8 @@ describe "generating a default Gchart" do
     expect(@chart).to include("chtt=title\nsubtitle")
   end
 
-  it "should include the Google URL" do
-    expect(@chart).to include("http://chart.apis.google.com/chart?")
+  it "should include the HTTPS Google URL" do
+    expect(@chart).to include("https://chart.googleapis.com/chart?")
   end
 
   it "should have a default size" do

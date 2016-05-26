@@ -10,7 +10,7 @@ require 'enumerator'
 class Gchart
   include GchartInfo
 
-  def self.url(use_ssl = false)
+  def self.url(use_ssl = true)
     if use_ssl
       'https://chart.googleapis.com/chart?'
     else
@@ -88,7 +88,7 @@ class Gchart
     @grouped = false
     @overlapped = false
 
-    @use_ssl = false
+    @use_ssl = true
     @encoding = 'simple'
     # @max_value = 'auto'
     # @min_value defaults to nil meaning zero
