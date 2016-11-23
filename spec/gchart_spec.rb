@@ -287,6 +287,12 @@ describe "range markers" do
       expect(Gchart.line(:range_markers => @options.merge(:orientation => 'h'))).to include('chm=r')
       expect(Gchart.line(:range_markers => @options.merge(:orientation => 'etc'))).to include('chm=r')
     end
+    
+    it "to fill the area underneath line (B)" do
+      Gchart.line(:range_markers => @options.merge(:orientation => 'area')).should include('chm=B')
+      Gchart.line(:range_markers => @options.merge(:orientation => 'Area')).should include('chm=B')
+      Gchart.line(:range_markers => @options.merge(:orientation => 'B')).should include('chm=B')
+    end
 
     it "if left blank defaults to horizontal (r)" do
       expect(Gchart.line(:range_markers => @options)).to include('chm=r')

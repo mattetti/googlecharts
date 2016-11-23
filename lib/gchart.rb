@@ -393,8 +393,13 @@ class Gchart
   end
 
   def set_range_marker(options)
-    orientation = ['vertical', 'Vertical', 'V', 'v', 'R'].include?(options[:orientation]) ? 'R' : 'r'
-    "#{orientation},#{options[:color]},0,#{options[:start_position]},#{options[:stop_position]}#{',1' if options[:overlaid?]}"  
+    area_options = ['area', 'Area', 'B']
+    if area_options.include?(options[:orientation])
+      orientation = 'B'
+    else 
+      orientation = ['vertical', 'Vertical', 'V', 'v', 'R'].include?(options[:orientation]) ? 'R' : 'r'
+    end
+    "#{orientation},#{options[:color]},0,#{options[:start_position]},#{options[:stop_position]}#{',1' if options[:overlaid?]}"
   end
 
   def fill_for(type=nil, color='', angle=nil)
